@@ -58,9 +58,9 @@ public class PlayerMovement : MonoBehaviour {
 	void Update(){
 		// a minor bit of trickery here. FixedUpdate sets _up to false so to ensure we never miss any jump presses we leave _up
 		// set to true if it was true the previous frame
-		_up = _up || Input.GetKeyDown( KeyCode.UpArrow );
-		_right = Input.GetKey( KeyCode.RightArrow );
-		_left = Input.GetKey( KeyCode.LeftArrow );
+		_up = _up || (Input.GetAxis ( "P1_Vertical" ) > 0);
+		_right = (Input.GetAxis ( "P1_Horizontal" ) > 0);
+		_left = (Input.GetAxis ( "P1_Horizontal" ) < 0);
 	}
 	
 	
