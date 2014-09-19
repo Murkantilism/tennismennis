@@ -22,8 +22,11 @@ public class PlayerMovement : MonoBehaviour {
 	private bool _right;
 	private bool _left;
 	private bool _up;
+
+	public bool _input = true; // True = keyboard, false = controller
 	
-	
+	public bool _player1 = false; // Is this player 1?
+	public bool _player2 = false; // Is this player 2?
 	
 	void Awake(){
 		//_animator = GetComponent<Animator>();
@@ -33,6 +36,13 @@ public class PlayerMovement : MonoBehaviour {
 		_controller.onControllerCollidedEvent += onControllerCollider;
 		_controller.onTriggerEnterEvent += onTriggerEnterEvent;
 		_controller.onTriggerExitEvent += onTriggerExitEvent;
+
+		// Check if any controllers are connected, if not set boolean to keyboard
+		if(Input.GetJoystickNames().Length == 0){
+			_input = true; // Keyboard connected
+		}else{
+			_input = false; // Controller connected
+		}
 	}
 	
 	
@@ -56,11 +66,30 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// the Update loop only gathers input. Actual movement is handled in FixedUpdate because we are using the Physics system for movement
 	void Update(){
+		// Check if any controllers are connected, if not set boolean to keyboard
+		if(Input.GetJoystickNames().Length == 0){
+			_input = true; // Keyboard connected
+		}else{
+			_input = false; // Controller connected
+		}
+
 		// a minor bit of trickery here. FixedUpdate sets _up to false so to ensure we never miss any jump presses we leave _up
 		// set to true if it was true the previous frame
-		_up = _up || (Input.GetAxis ( "P1_Vertical" ) > 0);
-		_right = (Input.GetAxis ( "P1_Horizontal" ) > 0);
-		_left = (Input.GetAxis ( "P1_Horizontal" ) < 0);
+		if (_input == true) {
+			if(_player1 == true){
+				_up = _up || Input.GetKeyDown( KeyCode.UpArrow );
+				_right = Input.GetKey( KeyCode.RightArrow );
+				_left = Input.GetKey( KeyCode.LeftArrow );
+			}else if (_player2 == true){
+				_up = _up || Input.GetKeyDown( KeyCode.W );
+				_right = Input.GetKey( KeyCode.D );
+				_left = Input.GetKey( KeyCode.A );
+			}
+		} else {
+			_up = _up || (Input.GetAxis ("P1_Vertical") > 0);
+			_right = (Input.GetAxis ("P1_Horizontal") > 0);
+			_left = (Input.GetAxis ("P1_Horizontal") < 0);
+		}
 	}
 	
 	
