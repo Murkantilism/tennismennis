@@ -31,8 +31,6 @@ public class RacketToss : MonoBehaviour {
 		path[0] = endMarker.transform.position;
 		// Set the second member of the array to the original racket's position
 		path[1] = originalRacketPosMarker.transform.position;
-
-
 	}
 
 	// Update is called once per frame
@@ -44,10 +42,14 @@ public class RacketToss : MonoBehaviour {
 
 		// If player 1 throws racket, throw it
 		if(_player1 && Input.GetKeyUp(KeyCode.R)){
-			// Update the path array
+			// Update the path array //NOTE: These are commented out in order to allow player
+									 //movement during racket toss (not perfect). Uncomment
+									 //this and below p2 path array update, comment out above
+									 //in order to reverse this effect.
 			//path[0] = endMarker.transform.position;
 			//path[1] = originalRacketPosMarker.transform.position;
 
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
 				StartCoroutine (ThrowRacket (false));
@@ -59,7 +61,8 @@ public class RacketToss : MonoBehaviour {
 			// Update the path array
 			//path[0] = endMarker.transform.position;
 			//path[1] = originalRacketPosMarker.transform.position;
-			
+
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
 				StartCoroutine (ThrowRacket (false));
