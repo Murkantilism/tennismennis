@@ -18,15 +18,15 @@ public class PlayerMovement : MonoBehaviour {
 	private RaycastHit2D _lastControllerColliderHit;
 	private Vector3 _velocity;
 	
-	// input
+	// input bools
 	private bool _right;
 	private bool _left;
 	private bool _up;
 
 	public bool _input = true; // True = keyboard, false = controller
 	
-	public bool _player1 = false; // Is this player 1?
-	public bool _player2 = false; // Is this player 2?
+	public bool _player1 = false; // Is this player 1? Set via inspector
+	public bool _player2 = false; // Is this player 2? Set via inspector
 	
 	void Awake(){
 		//_animator = GetComponent<Animator>();
@@ -77,13 +77,13 @@ public class PlayerMovement : MonoBehaviour {
 		// set to true if it was true the previous frame
 		if (_input == true) {
 			if(_player1 == true){
-				_up = _up || Input.GetKeyDown( KeyCode.UpArrow );
-				_right = Input.GetKey( KeyCode.RightArrow );
-				_left = Input.GetKey( KeyCode.LeftArrow );
-			}else if (_player2 == true){
 				_up = _up || Input.GetKeyDown( KeyCode.W );
 				_right = Input.GetKey( KeyCode.D );
 				_left = Input.GetKey( KeyCode.A );
+			}else if (_player2 == true){
+				_up = _up || Input.GetKeyDown( KeyCode.UpArrow );
+				_right = Input.GetKey( KeyCode.RightArrow );
+				_left = Input.GetKey( KeyCode.LeftArrow );
 			}
 		} else {
 			_up = _up || (Input.GetAxis ("P1_Vertical") > 0);
