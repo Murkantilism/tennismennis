@@ -52,6 +52,7 @@ public class RacketToss : MonoBehaviour {
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
+				// TODO: Some call to freeze position
 				StartCoroutine (ThrowRacket (false));
 			}
 		}
@@ -65,6 +66,7 @@ public class RacketToss : MonoBehaviour {
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
+				// TODO: Some call to freeze position
 				StartCoroutine (ThrowRacket (false));
 			}
 		}
@@ -72,6 +74,9 @@ public class RacketToss : MonoBehaviour {
 
 	// Walk through the array of targets (only two positions) and move the racket
 	IEnumerator ThrowRacket(bool loop){
+		//endMarker.transform.position = path[0];
+		//Debug.Log ("Path[0] " + path [0]);
+		//Debug.Log ("End Marker " + endMarker.transform.position);
 		do {
 				foreach (Vector3 point in path) {
 						yield return StartCoroutine (MoveRacketToPosition (point));

@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float gravity = -25f;
 	public float runSpeed = 8f;
 	public float groundDamping = 20f; // how fast do we change direction? higher means faster
-	public float inAirDamping = 5f;
+	public float inAirDamping = 100f;
 	public float jumpHeight = 3f;
 	
 	[HideInInspector]
@@ -19,9 +19,9 @@ public class PlayerMovement : MonoBehaviour {
 	private Vector3 _velocity;
 	
 	// input bools
-	private bool _right;
-	private bool _left;
-	private bool _up;
+	public bool _right;
+	public bool _left;
+	public bool _up;
 
 	public bool _input = true; // True = keyboard, false = controller
 	
@@ -66,6 +66,20 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// the Update loop only gathers input. Actual movement is handled in FixedUpdate because we are using the Physics system for movement
 	void Update(){
+		// a minor bit of trickery here. FixedUpdate sets _up to false so to ensure we never miss any jump presses we leave _up
+		// set to true if it was true the previous frame
+
+		if(_player1 == true){
+			_up = _up || (Input.GetAxis ( "P1_Vertical" ) > 0);
+			_right = (Input.GetAxis ( "P1_Horizontal" ) > 0);
+			_left = (Input.GetAxis ( "P1_Horizontal" ) < 0);
+		}else if(_player2 == true){
+			_up = _up || (Input.GetAxis ( "P2_Vertical" ) > 0);
+			_right = (Input.GetAxis ( "P2_Horizontal" ) > 0);
+			_left = (Input.GetAxis ( "P2_Horizontal" ) < 0);
+		}
+
+		/*
 		// Check if any controllers are connected, if not set boolean to keyboard
 		if(Input.GetJoystickNames().Length == 0){
 			_input = true; // Keyboard connected
@@ -77,19 +91,23 @@ public class PlayerMovement : MonoBehaviour {
 		// set to true if it was true the previous frame
 		if (_input == true) {
 			if(_player1 == true){
-				_up = _up || Input.GetKeyDown( KeyCode.W );
+				_up = Input.GetKeyDown( KeyCode.W );
 				_right = Input.GetKey( KeyCode.D );
 				_left = Input.GetKey( KeyCode.A );
 			}else if (_player2 == true){
-				_up = _up || Input.GetKeyDown( KeyCode.UpArrow );
+				_up = Input.GetKeyDown( KeyCode.UpArrow );
 				_right = Input.GetKey( KeyCode.RightArrow );
 				_left = Input.GetKey( KeyCode.LeftArrow );
 			}
-		} else {
-			_up = _up || (Input.GetAxis ("P1_Vertical") > 0);
-			_right = (Input.GetAxis ("P1_Horizontal") > 0);
-			_left = (Input.GetAxis ("P1_Horizontal") < 0);
-		}
+		} else if(_input == false) {
+			_up = _up || (Input.GetAxis("P1_Vertical") > 0);
+			_right = (Input.GetAxis("P1_Horizontal") > 0);
+			_left = (Input.GetAxis("P1_Horizontal") < 0);
+
+			//_up = _up || (Input.GetAxis ("P1_Vertical") > 0);
+			//_right = (Input.GetAxis ("P1_Horizontal") > 0);
+			//_left = (Input.GetAxis ("P1_Horizontal") < 0);
+		}*/
 	}
 	
 	
@@ -116,7 +134,7 @@ public class PlayerMovement : MonoBehaviour {
 				//_animator.Play( Animator.StringToHash( "Run" ) );
 		}else{
 			normalizedHorizontalSpeed = 0;
-			
+
 			//if( _controller.isGrounded )
 				//_animator.Play( Animator.StringToHash( "Idle" ) );
 		}
@@ -130,7 +148,8 @@ public class PlayerMovement : MonoBehaviour {
 			Debug.Log(Mathf.Sqrt( 2f * jumpHeight * -gravity ));
 			//_animator.Play( Animator.StringToHash( "Jump" ) );
 		}
-		
+		// reset input
+		_up = false;
 		
 		// apply horizontal speed smoothing it
 		var smoothedMovementFactor = _controller.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
@@ -141,7 +160,6 @@ public class PlayerMovement : MonoBehaviour {
 		
 		_controller.move( _velocity * Time.fixedDeltaTime );
 		
-		// reset input
-		_up = false;
+
 	}
 }

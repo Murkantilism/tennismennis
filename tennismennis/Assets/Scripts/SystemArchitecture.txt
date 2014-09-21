@@ -6,14 +6,17 @@
  * 
  * Player Movement
  * 	> Input (controller vs keyboard)
- *  > Out-of-bounds detection
  *  > Animation system
  * 
  * Ball Physics
  *  > Racket-Ball collision detection
- *  > Out-of-bounds detection
  * 
+ * Out-of-bounds detection
+ *	> Checks for both player and ball out of bounds
+ *	
  * Power-ups (talks to and effects Player Movement, Ball Physics)
+ * 
+ * Pause script
  * 
  * Match UI Overlay
  * 	> Score
