@@ -88,5 +88,18 @@ public class RacketToss : MonoBehaviour {
 			}
 			yield return 0;
 		}
+		// Invoke the redundant return method to ensure racket is returned
+		InvokeRepeating ("ReturnRacket", 0.5f, 0.25f);
+	}
+
+	// A redundant method just to make sure the racket is returned to the correct position
+	void ReturnRacket(){
+		// If the racket isn't at the original position where it should be
+		if (transform.position != originalRacketPosMarker.transform.position) {
+			// move it there
+			transform.position = originalRacketPosMarker.transform.position;
+		}
+		// Once this method has run, cancel all invocation calls on this MonoBehaviour
+		CancelInvoke();
 	}
 }
