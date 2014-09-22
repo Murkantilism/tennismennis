@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour {
 	private bool _right;
 	private bool _left;
 	private bool _up;
+	private bool _swing;
+	public bool isSwinging;
 	
 	
 	
@@ -33,6 +35,7 @@ public class PlayerMovement : MonoBehaviour {
 		_controller.onControllerCollidedEvent += onControllerCollider;
 		_controller.onTriggerEnterEvent += onTriggerEnterEvent;
 		_controller.onTriggerExitEvent += onTriggerExitEvent;
+		isSwinging = false;
 	}
 	
 	
@@ -61,6 +64,7 @@ public class PlayerMovement : MonoBehaviour {
 		_up = _up || Input.GetKeyDown( KeyCode.UpArrow );
 		_right = Input.GetKey( KeyCode.RightArrow );
 		_left = Input.GetKey( KeyCode.LeftArrow );
+		_swing = Input.GetKey (KeyCode.A);
 	}
 	
 	
@@ -85,7 +89,17 @@ public class PlayerMovement : MonoBehaviour {
 			
 			//if( _controller.isGrounded )
 				//_animator.Play( Animator.StringToHash( "Run" ) );
-		}else{
+		}else if(_swing) {
+			for( int i = 0; i < 24; i++) {
+				double f = 0.0f;
+				isSwinging = true;
+				f += 0.1f;
+	
+				Debug.Log (f);
+			}
+			isSwinging = false;
+			Debug.Log("STOP");
+		}else {
 			normalizedHorizontalSpeed = 0;
 			
 			//if( _controller.isGrounded )

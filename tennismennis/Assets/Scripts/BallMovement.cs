@@ -27,7 +27,7 @@ public class BallMovement : MonoBehaviour {
 			TennisForce(new Vector2(100, 100));
 			Debug.Log ("PLAYER1");
 		}
-		if (col.gameObject.name == "Player2") {
+		if (col.gameObject.name == "racket2") {
 			TennisForce(new Vector2(-100, 150));
 			Debug.Log("Player2");
 		}
