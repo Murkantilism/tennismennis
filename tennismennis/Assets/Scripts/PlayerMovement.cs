@@ -27,6 +27,17 @@ public class PlayerMovement : MonoBehaviour {
 	
 	public bool _player1 = false; // Is this player 1? Set via inspector
 	public bool _player2 = false; // Is this player 2? Set via inspector
+
+
+	// Player swing vars
+	private bool _player1Swing;
+	private bool _player2Swing;
+	public bool player1IsSwinging;
+	public bool player2IsSwinging;
+
+	// Player racket vars
+	private GameObject racket1;
+	private GameObject racket2;
 	
 	void Awake(){
 		//_animator = GetComponent<Animator>();
@@ -43,9 +54,25 @@ public class PlayerMovement : MonoBehaviour {
 		}else{
 			_input = false; // Controller connected
 		}
+
+		// Find & assign racket vars
+		racket1 = GameObject.Find("Player1").transform.GetChild(0).gameObject;
+		racket2 = GameObject.Find("Player2").transform.GetChild(0).gameObject;
+		racket1.collider2D.enabled = false;
+		racket2.collider2D.enabled = false;
+
+		// Players are not swinging by default
+		player1IsSwinging = false;
+		player2IsSwinging = false;
 	}
-	
-	
+
+	// Reset the swing booleans
+	IEnumerator ToggleSwing(bool playerSwing, GameObject racket){
+		yield return new WaitForSeconds(1);
+		playerSwing = false;
+		racket.collider2D.enabled = false;
+	}
+
 	#region Event Listeners
 	
 	void onControllerCollider( RaycastHit2D hit ){
@@ -73,13 +100,14 @@ public class PlayerMovement : MonoBehaviour {
 			_up = _up || (Input.GetAxis ( "P1_Vertical" ) > 0);
 			_right = (Input.GetAxis ( "P1_Horizontal" ) > 0);
 			_left = (Input.GetAxis ( "P1_Horizontal" ) < 0);
+			_player1Swing = Input.GetKey (KeyCode.E);
 		}else if(_player2 == true){
 			_up = _up || (Input.GetAxis ( "P2_Vertical" ) > 0);
 			_right = (Input.GetAxis ( "P2_Horizontal" ) > 0);
 			_left = (Input.GetAxis ( "P2_Horizontal" ) < 0);
+			_player2Swing = Input.GetKey (KeyCode.RightShift);
 		}
-	}
-	
+	}	
 	
 	void FixedUpdate(){
 		// grab our current _velocity to use as a base for all calculations
@@ -108,8 +136,21 @@ public class PlayerMovement : MonoBehaviour {
 			//if( _controller.isGrounded )
 				//_animator.Play( Animator.StringToHash( "Idle" ) );
 		}
-		
-		
+
+		// If the swing input is hit by either player, and that player isn't already swinging:
+		// -Set the swinging bool to true
+		// -Enable the collider on the racket
+		// -Trigger a coroutine which will eventually reset the swinging bool and collider
+		if(_player1Swing && player1IsSwinging == false) {
+			player1IsSwinging = true;
+			racket1.collider2D.enabled = true;
+			StartCoroutine(ToggleSwing(player1IsSwinging, racket1));
+		}else if(_player2Swing && player2IsSwinging == false) {
+			player2IsSwinging = true;
+			racket2.collider2D.enabled = true;
+			StartCoroutine(ToggleSwing(player2IsSwinging, racket2));
+		}
+
 		// we can only jump whilst grounded
 		if( _controller.isGrounded && _up ){
 			_velocity.y = Mathf.Sqrt( 2f * jumpHeight * -gravity );
