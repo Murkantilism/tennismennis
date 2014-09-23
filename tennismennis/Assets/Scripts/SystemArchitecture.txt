@@ -24,6 +24,11 @@
  * 	> Character power-ups
  * 	> [Reach] Super-move bar
  * 
+ * End of Round
+ *	> Resets player positions
+ *	> Resets ball
+ *	> Wait X seconds, then start next round
+ * 
  * [Reach] Super-moves (talks to and effects player movement, maybe ball physics)
  * 
  * /

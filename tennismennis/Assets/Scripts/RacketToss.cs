@@ -17,6 +17,9 @@ public class RacketToss : MonoBehaviour {
 	public bool _player1 = false; // Is this player 1's racket? Set via inspector
 	public bool _player2 = false; // Is this player 2's racket? Set via inspector
 
+	bool _throw1 = false;
+	bool _throw2 = false;
+
 	// Use this for initialization
 	void Start () {
 		// Save the racket's original position
@@ -35,19 +38,12 @@ public class RacketToss : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
 		// Update the path array
 		path[0] = endMarker.transform.position;
 		path[1] = originalRacketPosMarker.transform.position;
 
 		// If player 1 throws racket, throw it
-		if(_player1 && Input.GetKeyUp(KeyCode.R)){
-			// Update the path array //NOTE: These are commented out in order to allow player
-									 //movement during racket toss (not perfect). Uncomment
-									 //this and below p2 path array update, comment out above
-									 //in order to reverse this effect.
-			//path[0] = endMarker.transform.position;
-			//path[1] = originalRacketPosMarker.transform.position;
+		if(_player1 == true && Input.GetKeyUp(KeyCode.R)){
 
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
@@ -58,10 +54,7 @@ public class RacketToss : MonoBehaviour {
 		}
 
 		// If player 2 throws racket, throw it
-		if(_player2 && Input.GetKeyUp(KeyCode.RightControl)){
-			// Update the path array
-			//path[0] = endMarker.transform.position;
-			//path[1] = originalRacketPosMarker.transform.position;
+		if(_player2 == true && Input.GetKeyUp(KeyCode.RightControl)){
 
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
@@ -70,13 +63,11 @@ public class RacketToss : MonoBehaviour {
 				StartCoroutine (ThrowRacket (false));
 			}
 		}
+
 	}
 
 	// Walk through the array of targets (only two positions) and move the racket
 	IEnumerator ThrowRacket(bool loop){
-		//endMarker.transform.position = path[0];
-		//Debug.Log ("Path[0] " + path [0]);
-		//Debug.Log ("End Marker " + endMarker.transform.position);
 		do {
 				foreach (Vector3 point in path) {
 						yield return StartCoroutine (MoveRacketToPosition (point));
