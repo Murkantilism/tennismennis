@@ -17,9 +17,6 @@ public class RacketToss : MonoBehaviour {
 	public bool _player1 = false; // Is this player 1's racket? Set via inspector
 	public bool _player2 = false; // Is this player 2's racket? Set via inspector
 
-	bool _throw1 = false;
-	bool _throw2 = false;
-
 	// Use this for initialization
 	void Start () {
 		// Save the racket's original position
@@ -41,10 +38,8 @@ public class RacketToss : MonoBehaviour {
 		// Update the path array
 		path[0] = endMarker.transform.position;
 		path[1] = originalRacketPosMarker.transform.position;
-
 		// If player 1 throws racket, throw it
-		if(_player1 == true && Input.GetKeyUp(KeyCode.R)){
-
+		if(_player1 == true &&(Input.GetAxis("P1_Throw") > 0)){
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
@@ -54,8 +49,7 @@ public class RacketToss : MonoBehaviour {
 		}
 
 		// If player 2 throws racket, throw it
-		if(_player2 == true && Input.GetKeyUp(KeyCode.RightControl)){
-
+		if (_player2 == true && (Input.GetAxis ("P2_Throw") > 0)) {
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
@@ -63,7 +57,6 @@ public class RacketToss : MonoBehaviour {
 				StartCoroutine (ThrowRacket (false));
 			}
 		}
-
 	}
 
 	// Walk through the array of targets (only two positions) and move the racket
@@ -73,7 +66,7 @@ public class RacketToss : MonoBehaviour {
 						yield return StartCoroutine (MoveRacketToPosition (point));
 				}
 		} while(loop);
-		being_thrown = false;
+		being_thrown = false; // Reset after throw finished
 	}
 
 	// Move the racket to the given position

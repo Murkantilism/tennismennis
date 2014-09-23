@@ -78,36 +78,6 @@ public class PlayerMovement : MonoBehaviour {
 			_right = (Input.GetAxis ( "P2_Horizontal" ) > 0);
 			_left = (Input.GetAxis ( "P2_Horizontal" ) < 0);
 		}
-
-		/*
-		// Check if any controllers are connected, if not set boolean to keyboard
-		if(Input.GetJoystickNames().Length == 0){
-			_input = true; // Keyboard connected
-		}else{
-			_input = false; // Controller connected
-		}
-
-		// a minor bit of trickery here. FixedUpdate sets _up to false so to ensure we never miss any jump presses we leave _up
-		// set to true if it was true the previous frame
-		if (_input == true) {
-			if(_player1 == true){
-				_up = Input.GetKeyDown( KeyCode.W );
-				_right = Input.GetKey( KeyCode.D );
-				_left = Input.GetKey( KeyCode.A );
-			}else if (_player2 == true){
-				_up = Input.GetKeyDown( KeyCode.UpArrow );
-				_right = Input.GetKey( KeyCode.RightArrow );
-				_left = Input.GetKey( KeyCode.LeftArrow );
-			}
-		} else if(_input == false) {
-			_up = _up || (Input.GetAxis("P1_Vertical") > 0);
-			_right = (Input.GetAxis("P1_Horizontal") > 0);
-			_left = (Input.GetAxis("P1_Horizontal") < 0);
-
-			//_up = _up || (Input.GetAxis ("P1_Vertical") > 0);
-			//_right = (Input.GetAxis ("P1_Horizontal") > 0);
-			//_left = (Input.GetAxis ("P1_Horizontal") < 0);
-		}*/
 	}
 	
 	
