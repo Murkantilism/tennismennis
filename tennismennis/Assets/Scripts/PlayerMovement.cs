@@ -17,22 +17,40 @@ public class PlayerMovement : MonoBehaviour {
 	//private Animator _animator;
 	private RaycastHit2D _lastControllerColliderHit;
 	private Vector3 _velocity;
+	private GameObject racket1;
+	private GameObject racket2;
 	
 	// input
 	private bool _right;
 	private bool _left;
 	private bool _up;
+	private bool _player1Swing;
+	private bool _player2Swing;
+	public bool player1IsSwinging;
+	public bool player2IsSwinging;
+
 	
 	
 	
 	void Awake(){
 		//_animator = GetComponent<Animator>();
 		_controller = GetComponent<CharacterController2D>();
-		
+		racket1 = GameObject.Find("Player1").transform.GetChild(0).gameObject;
+		racket2 = GameObject.Find("Player2").transform.GetChild(0).gameObject;
+		racket1.collider2D.enabled = false;
+		racket2.collider2D.enabled = false;
 		// listen to some events for illustration purposes
 		_controller.onControllerCollidedEvent += onControllerCollider;
 		_controller.onTriggerEnterEvent += onTriggerEnterEvent;
 		_controller.onTriggerExitEvent += onTriggerExitEvent;
+		player1IsSwinging = false;
+		player2IsSwinging = false;
+	}
+
+	IEnumerator Toggle(bool playerSwing, GameObject racket){
+		yield return new WaitForSeconds(1);
+		playerSwing = false;
+		racket.collider2D.enabled = false;
 	}
 	
 	
@@ -58,12 +76,17 @@ public class PlayerMovement : MonoBehaviour {
 	void Update(){
 		// a minor bit of trickery here. FixedUpdate sets _up to false so to ensure we never miss any jump presses we leave _up
 		// set to true if it was true the previous frame
-		_up = _up || (Input.GetAxis ( "P1_Vertical" ) > 0);
+		/*_up = _up || (Input.GetAxis ( "P1_Vertical" ) > 0);
 		_right = (Input.GetAxis ( "P1_Horizontal" ) > 0);
-		_left = (Input.GetAxis ( "P1_Horizontal" ) < 0);
+		_left = (Input.GetAxis ( "P1_Horizontal" ) < 0);*/
+		_up = _up || Input.GetKeyDown( KeyCode.UpArrow );
+		_right = Input.GetKey( KeyCode.RightArrow );
+		_left = Input.GetKey( KeyCode.LeftArrow );
+		_player1Swing = Input.GetKey (KeyCode.A);
+		_player2Swing = Input.GetKey (KeyCode.L);
 	}
 	
-	
+		
 	void FixedUpdate(){
 		// grab our current _velocity to use as a base for all calculations
 		_velocity = _controller.velocity;
@@ -85,6 +108,16 @@ public class PlayerMovement : MonoBehaviour {
 			
 			//if( _controller.isGrounded )
 				//_animator.Play( Animator.StringToHash( "Run" ) );
+		}else if(_player1Swing && player1IsSwinging == false) {
+			player1IsSwinging = true;
+			racket1.collider2D.enabled = true;
+			StartCoroutine(Toggle(player1IsSwinging, racket1));
+			
+		}else if(_player2Swing && player2IsSwinging == false) {
+			player2IsSwinging = true;
+			racket2.collider2D.enabled = true;
+			StartCoroutine(Toggle(player2IsSwinging, racket2));
+			
 		}else{
 			normalizedHorizontalSpeed = 0;
 			
