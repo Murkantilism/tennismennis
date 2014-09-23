@@ -17,7 +17,9 @@ public class PlayerMovement : MonoBehaviour {
 	//private Animator _animator;
 	private RaycastHit2D _lastControllerColliderHit;
 	private Vector3 _velocity;
-	
+	private GameObject racket1;
+	private GameObject racket2;
+
 	// input
 	private bool _right;
 	private bool _left;
@@ -30,7 +32,10 @@ public class PlayerMovement : MonoBehaviour {
 	void Awake(){
 		//_animator = GetComponent<Animator>();
 		_controller = GetComponent<CharacterController2D>();
-		
+		racket1 = GameObject.Find("Player1").transform.GetChild(0).gameObject;
+		racket2 = GameObject.Find("Player2").transform.GetChild(0).gameObject;
+		racket1.collider2D.enabled = false;
+		racket2.collider2D.enabled = false;
 		// listen to some events for illustration purposes
 		_controller.onControllerCollidedEvent += onControllerCollider;
 		_controller.onTriggerEnterEvent += onTriggerEnterEvent;
@@ -48,6 +53,11 @@ public class PlayerMovement : MonoBehaviour {
 	
 	void onTriggerEnterEvent( Collider2D col ){
 		Debug.Log( "onTriggerEnterEvent: " + col.gameObject.name );
+	}
+
+	void Toggle(){
+		isSwinging = false;
+		racket1.collider2D.enabled = false;
 	}
 
 	void onTriggerExitEvent( Collider2D col ){
@@ -89,16 +99,11 @@ public class PlayerMovement : MonoBehaviour {
 			
 			//if( _controller.isGrounded )
 				//_animator.Play( Animator.StringToHash( "Run" ) );
-		}else if(_swing) {
-			for( int i = 0; i < 24; i++) {
-				double f = 0.0f;
-				isSwinging = true;
-				f += 0.1f;
-	
-				Debug.Log (f);
-			}
-			isSwinging = false;
-			Debug.Log("STOP");
+		}else if(_swing && isSwinging == false) {
+			isSwinging = true;
+			racket1.collider2D.enabled = true;
+			Invoke("Toggle", 1.0f); 
+
 		}else {
 			normalizedHorizontalSpeed = 0;
 			
