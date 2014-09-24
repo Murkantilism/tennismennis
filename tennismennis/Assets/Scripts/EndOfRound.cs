@@ -33,9 +33,17 @@ public class EndOfRound : MonoBehaviour {
 	
 	}
 
+	// Reset ALL THE THINGS!
+	void ResetRound(){
+		PauseGame ();
+		RespawnPlayers ();
+		RespawnPlayers ();
+		DelayedRoundStart ();
+	}
+
 	// Pause the game while we reset for the next round
 	void PauseGame(){
-
+		Time.timeScale = 0.0f;
 	}
 
 	// Reset both player's positions to their respective spawn points
@@ -62,6 +70,6 @@ public class EndOfRound : MonoBehaviour {
 	IEnumerator DelayedRoundStart(){
 		yield return new WaitForSeconds(roundStartDelay);
 		// Unpause to start next round
-
+		Time.timeScale = 1;
 	}
 }
