@@ -17,6 +17,10 @@ public class EndOfRound : MonoBehaviour {
 
 	float ballSpawnHeight = 2.0f; // How high above the players should the ball spawn?
 
+	public GUISkin guiSkin;
+
+	bool paused = false;
+
 	// Use this for initialization
 	void Start () {
 		// Find and assign all relevent vars
@@ -30,20 +34,24 @@ public class EndOfRound : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		// TODO: Eventually remove this input check, this is for development use only
+		if(Input.GetKeyUp(KeyCode.Escape)){
+			RespawnBall();
+		}
 	}
 
 	// Reset ALL THE THINGS!
 	void ResetRound(){
 		PauseGame ();
 		RespawnPlayers ();
-		RespawnPlayers ();
-		DelayedRoundStart ();
+		RespawnBall ();
 	}
 
 	// Pause the game while we reset for the next round
 	void PauseGame(){
 		Time.timeScale = 0.0f;
+		paused = true;
+		StartCoroutine (DelayedRoundStart());
 	}
 
 	// Reset both player's positions to their respective spawn points
@@ -68,8 +76,38 @@ public class EndOfRound : MonoBehaviour {
 
 	// Delay the start of the next round, then start it
 	IEnumerator DelayedRoundStart(){
-		yield return new WaitForSeconds(roundStartDelay);
-		// Unpause to start next round
-		Time.timeScale = 1;
+		// Declare a timer (so that it is reset to original value each round)
+		float roundStartDelay = 3.0f;
+
+		// This is a workaround so we don't depend on WaitForSeconds while paused
+		while(paused == true){
+			float pauseEndTime = Time.realtimeSinceStartup + 1f;
+			while (Time.realtimeSinceStartup < pauseEndTime){
+				yield return 0;
+			}
+			Debug.Log(roundStartDelay);
+
+			// Decrement the timer until it is zero, then unpause
+			if (roundStartDelay > -2){ // Stop decrementing at -2
+				roundStartDelay -= 1; 
+			}
+
+			// TODO: Uncomment these texture line once the textures have been created + added
+			if(roundStartDelay == 3){
+				//threeTexture.render.enabled = true;
+			}else if(roundStartDelay == 2){
+				//threeTexture.render.enabled = false;
+				//twoTexture.render.enabled = true;
+			}else if(roundStartDelay == 1){
+				//twoTexture.render.enabled = false;
+				//oneTexture.render.enabled = true;
+			}else if(roundStartDelay == 0){
+				//oneTexture.render.enabled = false;
+				paused = false;
+				Time.timeScale = 1f;
+				// Stop the coroutine
+				StopCoroutine (DelayedRoundStart());
+			}
+		}
 	}
 }

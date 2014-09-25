@@ -17,7 +17,7 @@ public class OutOfBoundsDetection : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Find and assign the scripts OOBDetection needs to talk to
-		scoreKeeping = GameObject.Find ("ScoreKeeeper").GetComponent<ScoreKeeping> ();
+		scoreKeeping = GameObject.Find ("ScoreKeeper").GetComponent<ScoreKeeping> ();
 		endOfRound = GameObject.Find ("EndOfRound").GetComponent<EndOfRound> ();
 
 		// An OOB object cannot be on both sides of the court, if so print error
@@ -37,7 +37,7 @@ public class OutOfBoundsDetection : MonoBehaviour {
 
 
 	// Check if the ball or either player has collided with this OOB object
-	void OnTriggerEnter(Collider col){
+	void OnTriggerEnter2D(Collider2D col){
 		Debug.Log (col.name);
 		// If the ball has collided with an OOB object that doesn't care about sides, it 
 		// probably went flying somewhere it shouldn't, so reset without awards points.
