@@ -27,11 +27,11 @@ public class BallMovement : MonoBehaviour {
 		if(col.gameObject.name == "Court"){
 			Debug.Log("GROUND");
 		}
-		if(col.gameObject.name == "Player1" && player1Hit) {
+		if(col.gameObject.name == "racket_p1" && player1Hit) {
 			TennisForce(new Vector2(400, 400));
 			Debug.Log("HIT PLAYER 1");
 		}
-		if (col.gameObject.name == "Player2" && player2Hit) {
+		if (col.gameObject.name == "racket_p2" && player2Hit) {
 			TennisForce(new Vector2(-400, 400));
 			Debug.Log("Hit Player 2");
 		}

@@ -69,9 +69,13 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	// Reset the swing booleans
-	IEnumerator ToggleSwing(bool playerSwing, GameObject racket){
+	IEnumerator ToggleSwing(int player, GameObject racket){
 		yield return new WaitForSeconds(1);
-		playerSwing = false;
+		if(player == 1){
+			player1IsSwinging = false;
+		}else if(player == 2){
+			player2IsSwinging = false;
+		}
 		racket.collider2D.enabled = false;
 	}
 
@@ -157,11 +161,11 @@ public class PlayerMovement : MonoBehaviour {
 		if(_player1Swing && player1IsSwinging == false) {
 			player1IsSwinging = true;
 			racket1.collider2D.enabled = true;
-			StartCoroutine(ToggleSwing(player1IsSwinging, racket1));
+			StartCoroutine(ToggleSwing(1, racket1));
 		}else if(_player2Swing && player2IsSwinging == false) {
 			player2IsSwinging = true;
 			racket2.collider2D.enabled = true;
-			StartCoroutine(ToggleSwing(player2IsSwinging, racket2));
+			StartCoroutine(ToggleSwing(2, racket2));
 		}
 
 		// we can only jump whilst grounded, and the player isn't throwing his racket (frozen)
