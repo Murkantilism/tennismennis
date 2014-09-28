@@ -51,7 +51,7 @@ public class EndOfRound : MonoBehaviour {
 	void PauseGame(){
 		Time.timeScale = 0.0f;
 		paused = true;
-		StartCoroutine (DelayedRoundStart());
+		StartCoroutine ("DelayedRoundStart");
 	}
 
 	// Reset both player's positions to their respective spawn points
@@ -106,7 +106,7 @@ public class EndOfRound : MonoBehaviour {
 				paused = false;
 				Time.timeScale = 1f;
 				// Stop the coroutine
-				StopCoroutine (DelayedRoundStart());
+				StopCoroutine ("DelayedRoundStart");
 			}
 		}
 	}
