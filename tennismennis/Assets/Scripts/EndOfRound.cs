@@ -3,10 +3,13 @@ using System.Collections;
 
 public class EndOfRound : MonoBehaviour {
 
-	Transform player1;
-	Transform player2;
+	GameObject player1;
+	GameObject player2;
 	
 	Transform ball;
+
+	Vector3 racket_p1;
+	Vector3 racket_p2;
 
 	Vector3 player1_spawn;
 	Vector3 player2_spawn;
@@ -21,15 +24,24 @@ public class EndOfRound : MonoBehaviour {
 
 	bool paused = false;
 
+	PlayerMovement playerMovement_p1;
+	PlayerMovement playerMovement_p2;
+
 	// Use this for initialization
 	void Start () {
 		// Find and assign all relevent vars
-		player1 = GameObject.Find ("Player1").transform;
-		player2 = GameObject.Find ("Player2").transform;
+		player1 = GameObject.Find ("Player1");
+		player2 = GameObject.Find ("Player2");
 		ball = GameObject.Find ("Ball").transform;
+
+		racket_p1 = GameObject.Find ("racket_p1").transform.position;
+		racket_p2 = GameObject.Find ("racket_p2").transform.position;
 
 		player1_spawn = GameObject.Find ("player1_spawn").transform.position;
 		player2_spawn = GameObject.Find ("player2_spawn").transform.position;
+
+		playerMovement_p1 = player1.GetComponent<PlayerMovement> ();
+		playerMovement_p2 = player2.GetComponent<PlayerMovement> ();
 	}
 	
 	// Update is called once per frame
@@ -45,6 +57,8 @@ public class EndOfRound : MonoBehaviour {
 		PauseGame ();
 		RespawnPlayers ();
 		RespawnBall ();
+		playerMovement_p1.SendMessage ("ResetRound");
+		playerMovement_p2.SendMessage ("ResetRound");
 	}
 
 	// Pause the game while we reset for the next round
@@ -54,10 +68,14 @@ public class EndOfRound : MonoBehaviour {
 		StartCoroutine ("DelayedRoundStart");
 	}
 
-	// Reset both player's positions to their respective spawn points
+	// Reset both player's positions to their respective spawn points, and reset the
+	// local scale so they are facing the correct direction.
 	void RespawnPlayers(){
-		player1.position = player1_spawn;
-		player2.position = player2_spawn;
+		player1.transform.position = player1_spawn;
+		player1.transform.localScale = new Vector3( 2, 2, 1 );
+
+		player2.transform.position = player2_spawn;
+		player2.transform.localScale = new Vector3( 2, 2, 1 );
 	}
 
 	// Reset the ball's position to the opposite player that last served
@@ -65,12 +83,16 @@ public class EndOfRound : MonoBehaviour {
 		// Flip the value of the server_player bool to switch who serves next
 		serving_player = !serving_player;
 
-		// Spawn ball above player 1
+		// Spawn ball above player 1's racket
 		if(serving_player == true){
-			ball.position = new Vector3(player1_spawn.x, player1_spawn.y + ballSpawnHeight, player1_spawn.z);
-		// Spawn ball above player 2
+			ball.position = new Vector3(racket_p1.x, racket_p1.y + ballSpawnHeight, racket_p1.z);
+			// Reset the ball's velocity
+			ball.rigidbody2D.velocity = new Vector2(0, 0);
+		// Spawn ball above player 2's racket
 		}else{
-			ball.position = new Vector3(player2_spawn.x, player2_spawn.y + ballSpawnHeight, player2_spawn.z);
+			ball.position = new Vector3(racket_p2.x, racket_p2.y + ballSpawnHeight, racket_p2.z);
+			// Reset the ball's velocity
+			ball.rigidbody2D.velocity = new Vector2(0, 0);
 		}
 	}
 

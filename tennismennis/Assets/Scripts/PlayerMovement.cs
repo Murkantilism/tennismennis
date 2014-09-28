@@ -112,17 +112,29 @@ public class PlayerMovement : MonoBehaviour {
 		// set to true if it was true the previous frame
 
 		if(_player1 == true){
-			_up = _up || (Input.GetAxis ( "P1_Vertical" ) > 0);
-			_right = (Input.GetAxis ( "P1_Horizontal" ) > 0);
-			_left = (Input.GetAxis ( "P1_Horizontal" ) < 0);
+			_up = _up || (Input.GetAxisRaw ( "P1_Vertical" ) > 0);
+			_right = (Input.GetAxisRaw ( "P1_Horizontal" ) > 0);
+			_left = (Input.GetAxisRaw ( "P1_Horizontal" ) < 0);
 			_player1Swing = Input.GetKey (KeyCode.E);
 		}else if(_player2 == true){
-			_up = _up || (Input.GetAxis ( "P2_Vertical" ) > 0);
-			_right = (Input.GetAxis ( "P2_Horizontal" ) > 0);
-			_left = (Input.GetAxis ( "P2_Horizontal" ) < 0);
+			_up = _up || (Input.GetAxisRaw ( "P2_Vertical" ) > 0);
+			_right = (Input.GetAxisRaw ( "P2_Horizontal" ) > 0);
+			_left = (Input.GetAxisRaw ( "P2_Horizontal" ) < 0);
 			_player2Swing = Input.GetKey (KeyCode.RightShift);
 		}
-	}	
+	}
+
+	// When a point is scored, reset all of the input vars, the normalized horizontal speed, and 
+	// the local scale. This prevents movement inputs from being carried over into the next round
+	void ResetRound(){
+		_up = false;
+		_right = false;
+		_left = false;
+		_player1Swing = false;
+		_player2Swing = false;
+		normalizedHorizontalSpeed = 0;
+		transform.localScale = new Vector3 (2, 2, 1);
+	}
 	
 	void FixedUpdate(){
 		// grab our current _velocity to use as a base for all calculations
