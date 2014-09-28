@@ -44,6 +44,79 @@ public class RacketToss : MonoBehaviour {
 		// Update the path array
 		path[0] = endMarker.transform.position;
 		path[1] = originalRacketPosMarker.transform.position;
+
+		// ======================= \\
+		// ***KEYBOARD INPUTS*** \\
+		// ======================= \\
+		// If player 1 throws the racket at a high angle, throw it high
+		if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_High") > 0)) {
+			Debug.Log("P1 THROW RACKET HIGH");
+		// If player 1 throws the racket at a straight angle, throw it straight
+		}else if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_Straight") > 0)) {
+			Debug.Log("P1 THROW RACKET STRAIGHT");
+		// If player 1 throws the racket at a low angle, throw it low
+		}else if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_Low") > 0)) {
+			Debug.Log("P1 THROW RACKET LOW");
+		}
+
+		// If player 2 throws the racket at a high angle, throw it high
+		if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_High") > 0)) {
+			Debug.Log("P2 THROW RACKET HIGH");
+			// If player 2 throws the racket at a straight angle, throw it straight
+		}else if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_Straight") > 0)) {
+			Debug.Log("P2 THROW RACKET STRAIGHT");
+			// If player 2 throws the racket at a low angle, throw it low
+		}else if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_Low") > 0)) {
+			Debug.Log("P2 THROW RACKET LOW");
+		}
+
+		// ======================= \\
+		// ***CONTROLLER INPUTS*** \\
+		// ======================= \\
+		// If player 1 sets the racket angle high, set it high (UP on right stick)
+		if (_player1 == true && (Input.GetAxisRaw("P1_SetAngleY") > 0)){
+			Debug.Log("P1 RACKET SET TO HIGH");
+			Debug.Log(Input.GetAxisRaw("P1_SetAngleY"));
+		// If player 1 sets the racket angle low, set it low (DOWN on right stick)
+		}else if (_player1 == true && (Input.GetAxisRaw("P1_SetAngleY") < 0)){
+			Debug.Log("P1 RACKET SET TO LOW");
+			Debug.Log(Input.GetAxisRaw("P1_SetAngleY"));
+		// If player 1 sets the racket angle straight, set it straight (RIGHT on right stick)
+		}else if (_player1 == true && (Input.GetAxisRaw("P1_SetAngleX") > 0)){
+			Debug.Log("P1 RACKET SET TO STRAIGHT");
+		}
+
+		// TODO: THIS IS FOR TESTING PURPOSES, REMOVE THIS
+		else if (_player1 == true && (Input.GetAxisRaw("P1_SetAngleX") < 0)){
+			Debug.Log("P1 RACKET SET TO NOT-STRAIGHT?");
+		}
+
+		// If player 2 sets the racket angle high, set it high (UP on right stick)
+		if (_player2 == true && (Input.GetAxisRaw("P2_SetAngleY") > 0)){
+			Debug.Log("P2 RACKET SET TO HIGH");
+			// If player 1 sets the racket angle low, set it low (DOWN on right stick)
+		}else if (_player2 == true && (Input.GetAxisRaw("P2_SetAngleY") < 0)){
+			Debug.Log("P2 RACKET SET TO LOW");
+			// If player 1 sets the racket angle straight, set it straight (RIGHT on right stick)
+		}else if (_player2 == true && (Input.GetAxisRaw("P2_SetAngleX") > 0)){
+			Debug.Log("P2 RACKET SET TO STRAIGHT");
+
+		// TODO: THIS IS FOR TESTING PURPOSES, REMOVE THIS
+		}else if (_player2 == true && (Input.GetAxisRaw("P2_SetAngleX") < 0)){
+			Debug.Log("P2 RACKET SET TO NOT-STRAIGHT?");
+		}
+
+		// If player 1 throws the racket, throw it (Right Bumper)
+		if (_player1 == true && (Input.GetAxisRaw ("P1_Throw") > 0)) {
+			Debug.Log("P1 RACKET THROW");
+		}
+
+		// If player 2 throws the racket, throw it (Right Bumper)
+		if (_player2 == true && (Input.GetAxisRaw ("P2_Throw") > 0)) {
+			Debug.Log("P2 RACKET THROW");
+		}
+
+		/*
 		// If player 1 throws racket, throw it
 		if(_player1 == true &&(Input.GetAxis("P1_Throw") > 0)){
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
@@ -62,7 +135,7 @@ public class RacketToss : MonoBehaviour {
 				// TODO: Some call to freeze position
 				StartCoroutine (ThrowRacket (false));
 			}
-		}
+		}*/
 	}
 
 	// Freeze the player (helper function) then walk through the array of targets (only two positions) and move the racket
