@@ -13,7 +13,7 @@ Library/cache/*
 Library/metadata/*
 Library/previews/*
 Library/ScriptAssemblies/*
-Library/*
+/Library/*
 
 AnnotationManager
 assetDatabase3
