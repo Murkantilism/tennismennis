@@ -38,6 +38,8 @@ public class PlayerMovement : MonoBehaviour {
 	// Player racket vars
 	private GameObject racket1;
 	private GameObject racket2;
+
+	private bool freezePlayerp = false;
 	
 	void Awake(){
 		//_animator = GetComponent<Animator>();
@@ -67,9 +69,13 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	// Reset the swing booleans
-	IEnumerator ToggleSwing(bool playerSwing, GameObject racket){
+	IEnumerator ToggleSwing(int player, GameObject racket){
 		yield return new WaitForSeconds(1);
-		playerSwing = false;
+		if(player == 1){
+			player1IsSwinging = false;
+		}else if(player == 2){
+			player2IsSwinging = false;
+		}
 		racket.collider2D.enabled = false;
 	}
 
@@ -86,6 +92,15 @@ public class PlayerMovement : MonoBehaviour {
 
 	void onTriggerExitEvent( Collider2D col ){
 		Debug.Log( "onTriggerExitEvent: " + col.gameObject.name );
+	}
+
+	// Freeze the player's x-position
+	void FreezePlayer(){
+		freezePlayerp = true;
+	}
+	// Unfreeze the player's x-postion
+	void UnfreezePlayer(){
+		freezePlayerp = false;
 	}
 	
 	#endregion
@@ -115,15 +130,17 @@ public class PlayerMovement : MonoBehaviour {
 
 		if( _controller.isGrounded )
 			_velocity.y = 0;
-		
-		if( _right ){
+
+		// If the right movement is input, and the player isn't throwing his racket (frozen)
+		if( _right && freezePlayerp == false){
 			normalizedHorizontalSpeed = 1;
 			if( transform.localScale.x < 0f )
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 			
 			//if( _controller.isGrounded )
 				//_animator.Play( Animator.StringToHash( "Run" ) );
-		}else if( _left ){
+		// If the left movement is input, and the player isn't throwing his racket (frozen)
+		}else if( _left && freezePlayerp == false){
 			normalizedHorizontalSpeed = -1;
 			if( transform.localScale.x > 0f )
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
@@ -144,19 +161,19 @@ public class PlayerMovement : MonoBehaviour {
 		if(_player1Swing && player1IsSwinging == false) {
 			player1IsSwinging = true;
 			racket1.collider2D.enabled = true;
-			StartCoroutine(ToggleSwing(player1IsSwinging, racket1));
+			StartCoroutine(ToggleSwing(1, racket1));
 		}else if(_player2Swing && player2IsSwinging == false) {
 			player2IsSwinging = true;
 			racket2.collider2D.enabled = true;
-			StartCoroutine(ToggleSwing(player2IsSwinging, racket2));
+			StartCoroutine(ToggleSwing(2, racket2));
 		}
 
-		// we can only jump whilst grounded
-		if( _controller.isGrounded && _up ){
+		// we can only jump whilst grounded, and the player isn't throwing his racket (frozen)
+		if( _controller.isGrounded && _up  && freezePlayerp == false){
 			_velocity.y = Mathf.Sqrt( 2f * jumpHeight * -gravity );
 
-			Debug.Log("Velocity " + _velocity.y);
-			Debug.Log(Mathf.Sqrt( 2f * jumpHeight * -gravity ));
+			//Debug.Log("Velocity " + _velocity.y);
+			//Debug.Log(Mathf.Sqrt( 2f * jumpHeight * -gravity ));
 			//_animator.Play( Animator.StringToHash( "Jump" ) );
 		}
 		// reset input

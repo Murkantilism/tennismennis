@@ -17,6 +17,9 @@ public class RacketToss : MonoBehaviour {
 	public bool _player1 = false; // Is this player 1's racket? Set via inspector
 	public bool _player2 = false; // Is this player 2's racket? Set via inspector
 
+	PlayerMovement playerMovement1;
+	PlayerMovement playerMovement2;
+
 	// Use this for initialization
 	void Start () {
 		// Save the racket's original position
@@ -24,6 +27,9 @@ public class RacketToss : MonoBehaviour {
 
 		// Set the end marker's position
 		endMarker.transform.position = new Vector3 (transform.position.x + racketThrowDist, transform.position.y, transform.position.z);
+
+		playerMovement1 = GameObject.Find ("Player1").GetComponent<PlayerMovement> ();
+		playerMovement2 = GameObject.Find("Player2").GetComponent<PlayerMovement>();
 
 		// Define path array with max length of 2 members
 		path = new Vector3[2];
@@ -59,14 +65,35 @@ public class RacketToss : MonoBehaviour {
 		}
 	}
 
-	// Walk through the array of targets (only two positions) and move the racket
+	// Freeze the player (helper function) then walk through the array of targets (only two positions) and move the racket
 	IEnumerator ThrowRacket(bool loop){
+		// First freeze the player's X position
+		FreezePlayer ();
 		do {
 				foreach (Vector3 point in path) {
 						yield return StartCoroutine (MoveRacketToPosition (point));
 				}
 		} while(loop);
 		being_thrown = false; // Reset after throw finished
+		UnfreeezePlayer ();
+	}
+
+	// Send a call to PlayerMovement.cs to freeze the player's X position
+	void FreezePlayer(){
+		if(_player1 == true){
+			playerMovement1.SendMessage("FreezePlayer");
+		}else if(_player2 == true){
+			playerMovement2.SendMessage("FreezePlayer");
+		}
+	}
+
+	// Send a call to PlayerMovement.cs to unfreeze the player's x posotion
+	void UnfreeezePlayer(){
+		if(_player1 == true){
+			playerMovement1.SendMessage("UnfreezePlayer");
+		}else if(_player2 == true){
+			playerMovement2.SendMessage("UnfreezePlayer");
+		}
 	}
 
 	// Move the racket to the given position
@@ -82,6 +109,8 @@ public class RacketToss : MonoBehaviour {
 	}
 
 	// A redundant method just to make sure the racket is returned to the correct position
+	// TODO: Check if this method is necessary now that (as of 09/25/14) player movement in 
+	// X direction (and jumping) is disabled. The racket should (theorhetically) return to the hand A-Okay now.
 	void ReturnRacket(){
 		// If the racket isn't at the original position where it should be
 		if (transform.position != originalRacketPosMarker.transform.position) {
