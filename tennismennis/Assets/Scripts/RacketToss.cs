@@ -92,7 +92,7 @@ public class RacketToss : MonoBehaviour {
 		if(_player1 == true){
 			playerMovement1.SendMessage("UnfreezePlayer");
 		}else if(_player2 == true){
-			playerMovement2.SendMessage("UnfreeezePlayer");
+			playerMovement2.SendMessage("UnfreezePlayer");
 		}
 	}
 
