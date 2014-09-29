@@ -31,8 +31,7 @@ public class PlayerMovement : MonoBehaviour {
 
 
 	// Player swing vars
-	private bool _playerChip;
-	private bool _playerPowerShot;
+	private bool _playerSwing;
 	public bool player1IsSwinging;
 	public bool player2IsSwinging;
 
@@ -140,19 +139,12 @@ public class PlayerMovement : MonoBehaviour {
 		_right = ((inputDevice.LeftStickX) > 0.5);
 		_left = ((inputDevice.LeftStickX) < -0.5);
 		
-		// If player 1 hits right trigger, perform a quick racket swing
+		// If player 1 hits right trigger, swing racket
 		if(_player1 == true){
-			_playerChip = inputDevice.RightTrigger > 0;
-		// If player 2 hits right trigger, perform a quick racket swing
+			_playerSwing = inputDevice.RightTrigger > 0;
+			// If player 2 hits right trigger, swing racket
 		}else if(_player2 == true){
-			_playerChip = inputDevice.RightTrigger > 0;
-		}
-
-		// If player hits left trigger, perform a 
-		if(_player1 == true){
-			_playerPowerShot = inputDevice.LeftTrigger > 0;
-		}else if(_player2 == true){
-			_playerPowerShot = inputDevice.LeftTrigger > 0;
+			_playerSwing = inputDevice.RightTrigger > 0;
 		}
 	}
 
@@ -164,12 +156,12 @@ public class PlayerMovement : MonoBehaviour {
 			_up = _up || (Input.GetAxisRaw ( "P1_Vertical" ) > 0);
 			_right = (Input.GetAxisRaw ( "P1_Horizontal" ) > 0);
 			_left = (Input.GetAxisRaw ( "P1_Horizontal" ) < 0);
-			_playerChip = Input.GetKey (KeyCode.E);
+			_playerSwing = Input.GetKey (KeyCode.E);
 		}else if(_player2 == true){
 			_up = _up || (Input.GetAxisRaw ( "P2_Vertical" ) > 0);
 			_right = (Input.GetAxisRaw ( "P2_Horizontal" ) > 0);
 			_left = (Input.GetAxisRaw ( "P2_Horizontal" ) < 0);
-			_playerChip = Input.GetKey (KeyCode.O);
+			_playerSwing = Input.GetKey (KeyCode.O);
 		}
 	}
 
@@ -179,7 +171,7 @@ public class PlayerMovement : MonoBehaviour {
 		_up = false;
 		_right = false;
 		_left = false;
-		_playerChip = false;
+		_playerSwing = false;
 		normalizedHorizontalSpeed = 0;
 		transform.localScale = new Vector3 (2, 2, 1);
 	}
@@ -218,11 +210,11 @@ public class PlayerMovement : MonoBehaviour {
 		// -Set the swinging bool to true
 		// -Enable the collider on the racket
 		// -Trigger a coroutine which will eventually reset the swinging bool and collider
-		if(_playerChip && player1IsSwinging == false) {
+		if(_playerSwing && player1IsSwinging == false) {
 			player1IsSwinging = true;
 			racket1.collider2D.enabled = true;
 			StartCoroutine(ToggleSwing(1, racket1));
-		}else if(_playerChip && player2IsSwinging == false) {
+		}else if(_playerSwing && player2IsSwinging == false) {
 			player2IsSwinging = true;
 			racket2.collider2D.enabled = true;
 			StartCoroutine(ToggleSwing(2, racket2));

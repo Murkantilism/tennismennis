@@ -12,8 +12,6 @@ public class PlayerControls : MonoBehaviour {
 	GameObject racket1;
 	GameObject racket2;
 
-	bool paused = false;
-
 	// Use this for initialization
 	void Start () {
 		player1 = GameObject.Find ("Player1");
@@ -59,11 +57,8 @@ public class PlayerControls : MonoBehaviour {
 		}
 	}
 
-	// Detect if controllers are attached or detached
 	public void DetectAttachDetach(){
 		InputManager.OnDeviceAttached += inputDevice => Debug.Log ("Controller " + inputDevice.Name + " attached");
-		InputManager.OnDeviceAttached += inputDevice => OnControllerAttach ();
-
 		InputManager.OnDeviceDetached += inputDevice => Debug.Log ("Controller " + inputDevice.Name + " detached");
 		InputManager.OnDeviceDetached += inputDevice => OnControllerDetach();
 	}
@@ -77,14 +72,14 @@ public class PlayerControls : MonoBehaviour {
 		racket2.SendMessage ("GetInputSettings", keyboard_input_enabled);
 	}
 
-	// If a controller is detached during play, pause
+	// If a controller is detached during play
 	void OnControllerDetach(){
-		paused = true;
+		// Get the number of controllers plugged in
+		int deviceCnt = InputManager.Devices.Count;
+		// Pause
 		Time.timeScale = 0.001f;
-	}
-	// If a controller is attached during play, and the game is paused, unpause
-	void OnControllerAttach(){
-		if(paused == true){
+		// Wait until the number of controllers increases, then unpause
+		for (int i = InputManager.Devices.Count; i > deviceCnt; i++) {
 			Time.timeScale = 1.0f;
 		}
 	}
