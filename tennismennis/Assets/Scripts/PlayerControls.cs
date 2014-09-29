@@ -60,6 +60,7 @@ public class PlayerControls : MonoBehaviour {
 	public void DetectAttachDetach(){
 		InputManager.OnDeviceAttached += inputDevice => Debug.Log ("Controller " + inputDevice.Name + " attached");
 		InputManager.OnDeviceDetached += inputDevice => Debug.Log ("Controller " + inputDevice.Name + " detached");
+		InputManager.OnDeviceDetached += inputDevice => OnControllerDetach();
 	}
 
 	// Send message to PlayerMovement and RacketToss scripts
@@ -69,5 +70,17 @@ public class PlayerControls : MonoBehaviour {
 
 		racket1.SendMessage ("GetInputSettings", keyboard_input_enabled);
 		racket2.SendMessage ("GetInputSettings", keyboard_input_enabled);
+	}
+
+	// If a controller is detached during play
+	void OnControllerDetach(){
+		// Get the number of controllers plugged in
+		int deviceCnt = InputManager.Devices.Count;
+		// Pause
+		Time.timeScale = 0.001f;
+		// Wait until the number of controllers increases, then unpause
+		for (int i = InputManager.Devices.Count; i > deviceCnt; i++) {
+			Time.timeScale = 1.0f;
+		}
 	}
 }

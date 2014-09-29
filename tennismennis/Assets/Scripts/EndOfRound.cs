@@ -16,8 +16,6 @@ public class EndOfRound : MonoBehaviour {
 
 	bool serving_player = true; // Who's currently serving? true = player 1, false = player 2 | player 1 by default
 
-	float roundStartDelay = 3.0f; // How long do we wait to start the next round?
-
 	float ballSpawnHeight = 2.0f; // How high above the players should the ball spawn?
 
 	public GUISkin guiSkin;
