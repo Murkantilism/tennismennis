@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	InputDevice inputDevice;
 
-	bool keyboard = false;
+	bool keyboard_input_enabled;
 	
 	void Awake(){
 		//_animator = GetComponent<Animator>();
@@ -106,12 +106,28 @@ public class PlayerMovement : MonoBehaviour {
 	void UnfreezePlayer(){
 		freezePlayerp = false;
 	}
+
+	// Listen for the input controls setup by PlayerControls.cs
+	void GetInputSettings(bool b){
+		keyboard_input_enabled = b;
+	}
 	
 	#endregion
 	
 	
 	// the Update loop only gathers input. Actual movement is handled in FixedUpdate because we are using the Physics system for movement
 	void Update(){
+		if(keyboard_input_enabled == true){
+			KeyboardInput();
+		}else if(keyboard_input_enabled == false){
+			ControllerInput();
+		}
+	}
+
+	// ======================= \\
+	// ***CONTROLLER INPUTS*** \\
+	// ======================= \\
+	void ControllerInput(){
 		// Setup the controller inputs
 		if(_player1 == true){
 			inputDevice = InputManager.Devices [0];
@@ -119,30 +135,29 @@ public class PlayerMovement : MonoBehaviour {
 			inputDevice = InputManager.Devices [1];
 		}
 
-		// ======================= \\
-		// ***CONTROLLER INPUTS*** \\
-		// ======================= \\
 		_up = _up || ((inputDevice.LeftStickY) > 0.5);
 		_right = ((inputDevice.LeftStickX) > 0.5);
 		_left = ((inputDevice.LeftStickX) < -0.5);
-
+		
 		// If player 1 hits right trigger, swing racket
 		if(_player1 == true){
 			_playerSwing = inputDevice.RightTrigger > 0;
-		// If player 2 hits right trigger, swing racket
+			// If player 2 hits right trigger, swing racket
 		}else if(_player2 == true){
 			_playerSwing = inputDevice.RightTrigger > 0;
 		}
+	}
 
-		// ======================= \\
-		// ***KEYBOARD INPUTS***   \\
-		// ======================= \\
-		if(_player1 == true && keyboard == true){
+	// ======================= \\
+	//  ***KEYBOARD INPUT***   \\
+	// ======================= \\
+	void KeyboardInput(){
+		if(_player1 == true){
 			_up = _up || (Input.GetAxisRaw ( "P1_Vertical" ) > 0);
 			_right = (Input.GetAxisRaw ( "P1_Horizontal" ) > 0);
 			_left = (Input.GetAxisRaw ( "P1_Horizontal" ) < 0);
 			_playerSwing = Input.GetKey (KeyCode.E);
-		}else if(_player2 == true && keyboard == true){
+		}else if(_player2 == true){
 			_up = _up || (Input.GetAxisRaw ( "P2_Vertical" ) > 0);
 			_right = (Input.GetAxisRaw ( "P2_Horizontal" ) > 0);
 			_left = (Input.GetAxisRaw ( "P2_Horizontal" ) < 0);

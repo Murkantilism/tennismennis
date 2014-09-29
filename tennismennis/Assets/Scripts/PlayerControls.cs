@@ -21,6 +21,7 @@ public class PlayerControls : MonoBehaviour {
 		racket2 = GameObject.Find ("racket_p2");
 
 		InvokeRepeating ("InputMessenger", 0, 1);
+		InvokeRepeating ("DetectAttachDetach", 0, 1);
 	}
 
 	// Check if controllers are present and send the corresponding message
@@ -54,6 +55,11 @@ public class PlayerControls : MonoBehaviour {
 			Debug.LogError(e.ToString());
 			return true;
 		}
+	}
+
+	public void DetectAttachDetach(){
+		InputManager.OnDeviceAttached += inputDevice => Debug.Log ("Controller " + inputDevice.Name + " attached");
+		InputManager.OnDeviceDetached += inputDevice => Debug.Log ("Controller " + inputDevice.Name + " detached");
 	}
 
 	// Send message to PlayerMovement and RacketToss scripts
