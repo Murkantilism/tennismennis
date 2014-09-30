@@ -12,8 +12,6 @@ public class PlayerControls : MonoBehaviour {
 	GameObject racket1;
 	GameObject racket2;
 
-	bool paused = false;
-
 	// Use this for initialization
 	void Start () {
 		player1 = GameObject.Find ("Player1");
@@ -79,13 +77,14 @@ public class PlayerControls : MonoBehaviour {
 
 	// If a controller is detached during play, pause
 	void OnControllerDetach(){
-		paused = true;
+		SendInput (true); // Enable keyboard support if a controller is lost (helps prevents errors)
 		Time.timeScale = 0.001f;
 	}
 
-	// If a controller is attached during play, and the game is paused, unpause
+	// If a controller is attached during play, check how many controllers are attached.
+	// If there are 2 or more, unpause. Otherwise wait until more are connected.
 	void OnControllerAttach(){
-		if(paused == true){
+		if(InputManager.Devices.Count > 1){
 			Time.timeScale = 1.0f;
 		}
 	}
