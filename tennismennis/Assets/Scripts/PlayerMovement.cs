@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using InControl;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -30,8 +31,9 @@ public class PlayerMovement : MonoBehaviour {
 
 
 	// Player swing vars
-	private bool _player1Swing;
-	private bool _player2Swing;
+	private bool _playerChip;
+	private bool _playerPowerShot;
+
 	public bool player1IsSwinging;
 	public bool player2IsSwinging;
 
@@ -40,6 +42,10 @@ public class PlayerMovement : MonoBehaviour {
 	private GameObject racket2;
 
 	private bool freezePlayerp = false;
+
+	InputDevice inputDevice;
+
+	bool keyboard_input_enabled;
 	
 	void Awake(){
 		//_animator = GetComponent<Animator>();
@@ -102,27 +108,83 @@ public class PlayerMovement : MonoBehaviour {
 	void UnfreezePlayer(){
 		freezePlayerp = false;
 	}
+
+	// Listen for the input controls setup by PlayerControls.cs
+	void GetInputSettings(bool b){
+		keyboard_input_enabled = b;
+	}
 	
 	#endregion
 	
 	
 	// the Update loop only gathers input. Actual movement is handled in FixedUpdate because we are using the Physics system for movement
 	void Update(){
-		// a minor bit of trickery here. FixedUpdate sets _up to false so to ensure we never miss any jump presses we leave _up
-		// set to true if it was true the previous frame
-
-		if(_player1 == true){
-			_up = _up || (Input.GetAxis ( "P1_Vertical" ) > 0);
-			_right = (Input.GetAxis ( "P1_Horizontal" ) > 0);
-			_left = (Input.GetAxis ( "P1_Horizontal" ) < 0);
-			_player1Swing = Input.GetKey (KeyCode.E);
-		}else if(_player2 == true){
-			_up = _up || (Input.GetAxis ( "P2_Vertical" ) > 0);
-			_right = (Input.GetAxis ( "P2_Horizontal" ) > 0);
-			_left = (Input.GetAxis ( "P2_Horizontal" ) < 0);
-			_player2Swing = Input.GetKey (KeyCode.RightShift);
+		if(keyboard_input_enabled == true){
+			KeyboardInput();
+		}else if(keyboard_input_enabled == false){
+			ControllerInput();
 		}
-	}	
+	}
+
+	// ======================= \\
+	// ***CONTROLLER INPUTS*** \\
+	// ======================= \\
+	void ControllerInput(){
+		// Setup the controller inputs
+		if(_player1 == true){
+			inputDevice = InputManager.Devices [0];
+		}else if(_player2 == true){
+			inputDevice = InputManager.Devices [1];
+		}
+
+		_up = _up || ((inputDevice.LeftStickY) > 0.5);
+		_right = ((inputDevice.LeftStickX) > 0.5);
+		_left = ((inputDevice.LeftStickX) < -0.5);
+		
+		// If player 1 hits right trigger, perform a quick racket swing
+		if(_player1 == true){
+			_playerChip = inputDevice.RightTrigger > 0;
+			// If player 2 hits right trigger, perform a quick racket swing
+		}else if(_player2 == true){
+			_playerChip = inputDevice.RightTrigger > 0;
+		}
+
+		// If player 1 hits left trigger, perform a power shot
+		if(_player1 == true){
+			_playerPowerShot = inputDevice.LeftTrigger > 0;
+		// If player 2 hits left trigger, perform a power shot
+		}else if(_player2 == true){
+			_playerPowerShot = inputDevice.LeftTrigger > 0;
+		}
+	}
+
+	// ======================= \\
+	//  ***KEYBOARD INPUT***   \\
+	// ======================= \\
+	void KeyboardInput(){
+		if(_player1 == true){
+			_up = _up || (Input.GetAxisRaw ( "P1_Vertical" ) > 0);
+			_right = (Input.GetAxisRaw ( "P1_Horizontal" ) > 0);
+			_left = (Input.GetAxisRaw ( "P1_Horizontal" ) < 0);
+			_playerChip = Input.GetKey (KeyCode.E);
+		}else if(_player2 == true){
+			_up = _up || (Input.GetAxisRaw ( "P2_Vertical" ) > 0);
+			_right = (Input.GetAxisRaw ( "P2_Horizontal" ) > 0);
+			_left = (Input.GetAxisRaw ( "P2_Horizontal" ) < 0);
+			_playerChip = Input.GetKey (KeyCode.O);
+		}
+	}
+
+	// When a point is scored, reset all of the input vars, the normalized horizontal speed, and 
+	// the local scale. This prevents movement inputs from being carried over into the next round
+	void ResetRound(){
+		_up = false;
+		_right = false;
+		_left = false;
+		_playerChip = false;
+		normalizedHorizontalSpeed = 0;
+		transform.localScale = new Vector3 (2, 2, 1);
+	}
 	
 	void FixedUpdate(){
 		// grab our current _velocity to use as a base for all calculations
@@ -158,11 +220,11 @@ public class PlayerMovement : MonoBehaviour {
 		// -Set the swinging bool to true
 		// -Enable the collider on the racket
 		// -Trigger a coroutine which will eventually reset the swinging bool and collider
-		if(_player1Swing && player1IsSwinging == false) {
+		if(_playerChip && player1IsSwinging == false) {
 			player1IsSwinging = true;
 			racket1.collider2D.enabled = true;
 			StartCoroutine(ToggleSwing(1, racket1));
-		}else if(_player2Swing && player2IsSwinging == false) {
+		}else if(_playerChip && player2IsSwinging == false) {
 			player2IsSwinging = true;
 			racket2.collider2D.enabled = true;
 			StartCoroutine(ToggleSwing(2, racket2));

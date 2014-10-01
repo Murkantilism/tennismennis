@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using InControl;
 
 // NOTE: This script must be attached to the racket gameObject
 public class RacketToss : MonoBehaviour {
@@ -19,6 +20,17 @@ public class RacketToss : MonoBehaviour {
 
 	PlayerMovement playerMovement1;
 	PlayerMovement playerMovement2;
+
+	InputDevice inputDevice;
+
+	bool keyboard_input_enabled;
+
+	#region Event Listeners
+	// Listen for the input controls setup by PlayerControls.cs
+	void GetInputSettings(bool b){
+		keyboard_input_enabled = b;
+	}
+	#endregion
 
 	// Use this for initialization
 	void Start () {
@@ -41,25 +53,96 @@ public class RacketToss : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if(keyboard_input_enabled == true){
+			KeyboardInput();
+		}else if(keyboard_input_enabled == false){
+			ControllerInput();
+		}
+
 		// Update the path array
 		path[0] = endMarker.transform.position;
 		path[1] = originalRacketPosMarker.transform.position;
+	}
+
+	// ======================= \\
+	// ***KEYBOARD INPUTS***   \\
+	// ======================= \\
+	void KeyboardInput(){
+		// If player 1 throws the racket at a high angle, throw it high
+		if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_High") > 0)) {
+			Debug.Log("P1 THROW RACKET HIGH");
+			// If player 1 throws the racket at a straight angle, throw it straight
+		}else if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_Straight") > 0)) {
+			Debug.Log("P1 THROW RACKET STRAIGHT");
+			// If player 1 throws the racket at a low angle, throw it low
+		}else if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_Low") > 0)) {
+			Debug.Log("P1 THROW RACKET LOW");
+		}
+		
+		// If player 2 throws the racket at a high angle, throw it high
+		if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_High") > 0)) {
+			Debug.Log("P2 THROW RACKET HIGH");
+			// If player 2 throws the racket at a straight angle, throw it straight
+		}else if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_Straight") > 0)) {
+			Debug.Log("P2 THROW RACKET STRAIGHT");
+			// If player 2 throws the racket at a low angle, throw it low
+		}else if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_Low") > 0)) {
+			Debug.Log("P2 THROW RACKET LOW");
+		}
+	}
+
+	// ======================= \\
+	// ***CONTROLLER INPUTS*** \\
+	// ======================= \\
+	void ControllerInput(){
+		// Setup the controller inputs
+		if(_player1 == true){
+			inputDevice = InputManager.Devices [0];
+		}else if(_player2 == true){
+			inputDevice = InputManager.Devices [1];
+		}
+
+		// If player 1 sets the racket angle straight, set it straight (RIGHT on right stick)
+		if(_player1 == true && (inputDevice.RightStickX > 0.7)){
+			Debug.Log("P1 RACKET SET TO STRAIGHT");
+			
+			// If player 1 sets the racket angle high, set it high (UP on right stick)
+		}else if(_player1 == true && (inputDevice.RightStickY > 0.7)){
+			Debug.Log("P1 RACKET SET TO HIGH");
+			
+			// If player 1 sets the racket angle low, set it low (down on right stick)
+		}else if(_player1 == true && (inputDevice.RightStickY < -0.7)){
+			Debug.Log("P1 RACKET SET TO LOW");
+		}
+		
+		// If player 2 sets the racket angle straight, set it straight (RIGHT on right stick)
+		if(_player2 == true && (inputDevice.RightStickX > 0.7)){
+			Debug.Log("P2 RACKET SET TO STRAIGHT");
+			
+			// If player 2 sets the racket angle high, set it high (UP on right stick)
+		}else if(_player2 == true && (inputDevice.RightStickY > 0.7)){
+			Debug.Log("P2 RACKET SET TO HIGH");
+			
+			// If player 1 sets the racket angle low, set it low (down on right stick)
+		}else if(_player2 == true && (inputDevice.RightStickY < -0.7)){
+			Debug.Log("P2 RACKET SET TO LOW");
+		}
+		
 		// If player 1 throws racket, throw it
-		if(_player1 == true &&(Input.GetAxis("P1_Throw") > 0)){
-			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+		if(_player1 == true && (inputDevice.RightBumper > 0)){
 			if (being_thrown == false){
 				being_thrown = true;
-				// TODO: Some call to freeze position
+				Debug.Log("P1 RACKET THROW");
 				StartCoroutine (ThrowRacket (false));
 			}
 		}
-
+		
 		// If player 2 throws racket, throw it
-		if (_player2 == true && (Input.GetAxis ("P2_Throw") > 0)) {
+		if(_player2 == true && (inputDevice.RightBumper > 0)){
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
-				// TODO: Some call to freeze position
+				Debug.Log("P2 RACKET THROW");
 				StartCoroutine (ThrowRacket (false));
 			}
 		}
