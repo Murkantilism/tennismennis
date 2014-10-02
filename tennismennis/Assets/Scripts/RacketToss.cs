@@ -23,11 +23,11 @@ public class RacketToss : MonoBehaviour {
 
 	InputDevice inputDevice;
 
-	bool keyboard_input_enabled;
+	bool keyboard_input_enabled = true;
 
 	#region Event Listeners
 	// Listen for the input controls setup by PlayerControls.cs
-	void GetInputSettings(bool b){
+	public void GetInputSettings(bool b){
 		keyboard_input_enabled = b;
 	}
 	#endregion

@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour {
 	private float normalizedHorizontalSpeed = 0;
 	
 	private CharacterController2D _controller;
-	//private Animator _animator;
+	private Animator _animator;
 	private RaycastHit2D _lastControllerColliderHit;
 	private Vector3 _velocity;
 	
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour {
 	bool keyboard_input_enabled;
 	
 	void Awake(){
-		//_animator = GetComponent<Animator>();
+		_animator = GetComponent<Animator>();
 		_controller = GetComponent<CharacterController2D>();
 		
 		// listen to some events for illustration purposes
@@ -199,21 +199,34 @@ public class PlayerMovement : MonoBehaviour {
 			if( transform.localScale.x < 0f )
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 			
-			//if( _controller.isGrounded )
-				//_animator.Play( Animator.StringToHash( "Run" ) );
+			if( _controller.isGrounded )
+				if(_player1 == true){
+						_animator.Play( Animator.StringToHash( "Run_forward" ) );
+				}else if(_player2 == true){
+					// TODO: Uncomment when backward animation is added
+					//_animator.Play( Animator.StringToHash( "Run_backward" ) );
+					_animator.Play( Animator.StringToHash( "Run_forward" ) );
+				}
+
 		// If the left movement is input, and the player isn't throwing his racket (frozen)
 		}else if( _left && freezePlayerp == false){
 			normalizedHorizontalSpeed = -1;
 			if( transform.localScale.x > 0f )
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 			
-			//if( _controller.isGrounded )
-				//_animator.Play( Animator.StringToHash( "Run" ) );
+			if( _controller.isGrounded )
+				if(_player1 == true){
+					// TODO: Uncomment when backward animation is added
+					//_animator.Play( Animator.StringToHash( "Run_backward" ) );
+					_animator.Play( Animator.StringToHash( "Run_forward" ) );
+				}else if(_player2 == true){
+					_animator.Play( Animator.StringToHash( "Run_forward" ) );
+				}
 		}else{
 			normalizedHorizontalSpeed = 0;
 
-			//if( _controller.isGrounded )
-				//_animator.Play( Animator.StringToHash( "Idle" ) );
+			if( _controller.isGrounded )
+				_animator.Play( Animator.StringToHash( "Idle" ) );
 		}
 
 		// If the swing input is hit by either player, and that player isn't already swinging:
