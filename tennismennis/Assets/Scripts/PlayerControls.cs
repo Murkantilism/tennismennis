@@ -70,7 +70,7 @@ public class PlayerControls : MonoBehaviour {
 	void SendInput(bool keyboard_input_enabled){
 		player1.SendMessage ("GetInputSettings", keyboard_input_enabled);
 		player2.SendMessage ("GetInputSettings", keyboard_input_enabled);
-
+		
 		racket1.SendMessage ("GetInputSettings", keyboard_input_enabled);
 		racket2.SendMessage ("GetInputSettings", keyboard_input_enabled);
 	}
