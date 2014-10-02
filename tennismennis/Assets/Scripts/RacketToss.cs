@@ -24,6 +24,9 @@ public class RacketToss : MonoBehaviour {
 	InputDevice inputDevice;
 
 	bool keyboard_input_enabled = true;
+	
+	MennisMeter mennisMeter_p1;
+	MennisMeter mennisMeter_p2;
 
 	#region Event Listeners
 	// Listen for the input controls setup by PlayerControls.cs
@@ -49,6 +52,9 @@ public class RacketToss : MonoBehaviour {
 		path[0] = endMarker.transform.position;
 		// Set the second member of the array to the original racket's position
 		path[1] = originalRacketPosMarker.transform.position;
+		
+		mennisMeter_p1 = GameObject.Find("MennisMeter_p1").GetComponent<MennisMeter>();
+		mennisMeter_p2 = GameObject.Find("MennisMeter_p2").GetComponent<MennisMeter>();
 	}
 
 	// Update is called once per frame
@@ -132,6 +138,7 @@ public class RacketToss : MonoBehaviour {
 		if(_player1 == true && (inputDevice.RightBumper > 0)){
 			if (being_thrown == false){
 				being_thrown = true;
+				mennisMeter_p1.DecrementMennis_racketToss();
 				Debug.Log("P1 RACKET THROW");
 				StartCoroutine (ThrowRacket (false));
 			}
@@ -142,6 +149,7 @@ public class RacketToss : MonoBehaviour {
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
+				mennisMeter_p2.DecrementMennis_racketToss();
 				Debug.Log("P2 RACKET THROW");
 				StartCoroutine (ThrowRacket (false));
 			}
