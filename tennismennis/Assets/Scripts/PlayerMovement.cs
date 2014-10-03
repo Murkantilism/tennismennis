@@ -203,9 +203,7 @@ public class PlayerMovement : MonoBehaviour {
 				if(_player1 == true){
 						_animator.Play( Animator.StringToHash( "Run_forward" ) );
 				}else if(_player2 == true){
-					// TODO: Uncomment when backward animation is added
-					//_animator.Play( Animator.StringToHash( "Run_backward" ) );
-					_animator.Play( Animator.StringToHash( "Run_forward" ) );
+					_animator.Play( Animator.StringToHash( "Run_backward" ) );
 				}
 
 		// If the left movement is input, and the player isn't throwing his racket (frozen)
@@ -216,9 +214,7 @@ public class PlayerMovement : MonoBehaviour {
 			
 			if( _controller.isGrounded )
 				if(_player1 == true){
-					// TODO: Uncomment when backward animation is added
-					//_animator.Play( Animator.StringToHash( "Run_backward" ) );
-					_animator.Play( Animator.StringToHash( "Run_forward" ) );
+					_animator.Play( Animator.StringToHash( "Run_backward" ) );
 				}else if(_player2 == true){
 					_animator.Play( Animator.StringToHash( "Run_forward" ) );
 				}
@@ -249,7 +245,7 @@ public class PlayerMovement : MonoBehaviour {
 
 			//Debug.Log("Velocity " + _velocity.y);
 			//Debug.Log(Mathf.Sqrt( 2f * jumpHeight * -gravity ));
-			//_animator.Play( Animator.StringToHash( "Jump" ) );
+			_animator.Play( Animator.StringToHash( "Jump" ) );
 		}
 		// reset input
 		_up = false;
