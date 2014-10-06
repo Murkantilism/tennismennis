@@ -27,6 +27,9 @@ public class RacketToss : MonoBehaviour {
 	
 	MennisMeter mennisMeter_p1;
 	MennisMeter mennisMeter_p2;
+	
+	private Animator _animator_p1;
+	private Animator _animator_p2;
 
 	#region Event Listeners
 	// Listen for the input controls setup by PlayerControls.cs
@@ -55,6 +58,9 @@ public class RacketToss : MonoBehaviour {
 		
 		mennisMeter_p1 = GameObject.Find("MennisMeter_p1").GetComponent<MennisMeter>();
 		mennisMeter_p2 = GameObject.Find("MennisMeter_p2").GetComponent<MennisMeter>();
+		
+		_animator_p1 = GameObject.Find("Player1").GetComponent<Animator>();
+		_animator_p2 = GameObject.Find("Player2").GetComponent<Animator>();
 	}
 
 	// Update is called once per frame
@@ -77,23 +83,40 @@ public class RacketToss : MonoBehaviour {
 		// If player 1 throws the racket at a high angle, throw it high
 		if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_High") > 0)) {
 			Debug.Log("P1 THROW RACKET HIGH");
+			playerMovement1.SendMessage("RacketToss", true);
+			_animator_p1.Play( Animator.StringToHash("RacketToss_High"));
 			// If player 1 throws the racket at a straight angle, throw it straight
 		}else if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_Straight") > 0)) {
 			Debug.Log("P1 THROW RACKET STRAIGHT");
+			playerMovement1.SendMessage("RacketToss", true);
+			_animator_p1.Play( Animator.StringToHash("RacketToss_Straight"));
 			// If player 1 throws the racket at a low angle, throw it low
 		}else if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_Low") > 0)) {
 			Debug.Log("P1 THROW RACKET LOW");
+			playerMovement1.SendMessage("RacketToss", true);
+			_animator_p1.Play( Animator.StringToHash("RacketToss_Low"));
+		}else{
+			playerMovement1.SendMessage("RacketToss", false);
 		}
 		
 		// If player 2 throws the racket at a high angle, throw it high
 		if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_High") > 0)) {
 			Debug.Log("P2 THROW RACKET HIGH");
+			playerMovement2.SendMessage("RacketToss", true);
+			_animator_p2.Play( Animator.StringToHash("RacketToss_High"));
 			// If player 2 throws the racket at a straight angle, throw it straight
 		}else if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_Straight") > 0)) {
 			Debug.Log("P2 THROW RACKET STRAIGHT");
+			playerMovement2.SendMessage("RacketToss", true);
+			_animator_p2.Play( Animator.StringToHash("RacketToss_Straight"));
 			// If player 2 throws the racket at a low angle, throw it low
 		}else if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_Low") > 0)) {
 			Debug.Log("P2 THROW RACKET LOW");
+			playerMovement2.SendMessage("RacketToss", true);
+			_animator_p2.Play( Animator.StringToHash("RacketToss_Low"));
+		}else{
+			// Send a message to enable idle animation again
+			playerMovement2.SendMessage("RacketToss", false);
 		}
 	}
 

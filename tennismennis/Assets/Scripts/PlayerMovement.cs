@@ -47,6 +47,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	bool keyboard_input_enabled;
 	
+	bool racketBeingTossed = false;
+	
 	void Awake(){
 		_animator = GetComponent<Animator>();
 		_controller = GetComponent<CharacterController2D>();
@@ -112,6 +114,10 @@ public class PlayerMovement : MonoBehaviour {
 	// Listen for the input controls setup by PlayerControls.cs
 	void GetInputSettings(bool b){
 		keyboard_input_enabled = b;
+	}
+	// Listen for the RacketToss.cs to control movement animations during racket toss
+	void RacketToss(bool b){
+		racketBeingTossed = b;
 	}
 	
 	#endregion
@@ -221,7 +227,7 @@ public class PlayerMovement : MonoBehaviour {
 		}else{
 			normalizedHorizontalSpeed = 0;
 
-			if( _controller.isGrounded )
+			if( _controller.isGrounded && racketBeingTossed == false)
 				_animator.Play( Animator.StringToHash( "Idle" ) );
 		}
 
