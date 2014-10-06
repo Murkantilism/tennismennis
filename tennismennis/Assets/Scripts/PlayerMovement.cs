@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	bool keyboard_input_enabled;
 	
-	bool racketBeingTossed = false;
+	public bool racketBeingTossed = false;
 	
 	void Awake(){
 		_animator = GetComponent<Animator>();
@@ -117,6 +117,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	// Listen for the RacketToss.cs to control movement animations during racket toss
 	void RacketToss(bool b){
+		Debug.Log("Player 1: " + _player1 + " Player 2: " + _player2 + " Racket being tossed: " + racketBeingTossed);
 		racketBeingTossed = b;
 	}
 	
@@ -255,6 +256,8 @@ public class PlayerMovement : MonoBehaviour {
 		}
 		// reset input
 		_up = false;
+		
+		racketBeingTossed = false;
 		
 		// apply horizontal speed smoothing it
 		var smoothedMovementFactor = _controller.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?

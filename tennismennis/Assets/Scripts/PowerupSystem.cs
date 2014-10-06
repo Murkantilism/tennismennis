@@ -54,11 +54,11 @@ public class PowerupSystem : MonoBehaviour {
 	// Wait a semi-random amount of time, spawn the power-up
 	IEnumerator Powerup(){
 		if(spawned == false){
-			Debug.Log("Powerup coroutine");
+			//Debug.Log("Powerup coroutine");
 			yield return new WaitForSeconds(Random.Range(powerup_spawnTimer_low, powerup_spawnTimer_high));
 			SpawnPowerup();
 		}
-		Debug.Log("Outside powerup coroutine");
+		//Debug.Log("Outside powerup coroutine");
 	}
 	
 	// Spawn the power-up at max Y = 7.5, and random X
