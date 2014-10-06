@@ -6,6 +6,7 @@ public class BallMovement : MonoBehaviour {
 	bool player2Hit;
 	GameObject player1;
 	GameObject player2;
+	public bool lastHit = true; // Who hit this ball last? true = player 1, false = player 2
 	
 	// Use this for initialization
 	void Start () {

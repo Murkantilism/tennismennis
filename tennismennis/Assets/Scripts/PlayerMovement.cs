@@ -190,7 +190,7 @@ public class PlayerMovement : MonoBehaviour {
 		_left = false;
 		_playerChip = false;
 		normalizedHorizontalSpeed = 0;
-		transform.localScale = new Vector3 (2, 2, 1);
+		transform.localScale = new Vector3 (2.25f, 2.25f, 1);
 	}
 	
 	void FixedUpdate(){

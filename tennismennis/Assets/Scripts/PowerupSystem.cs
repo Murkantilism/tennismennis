@@ -13,7 +13,7 @@ public class PowerupSystem : MonoBehaviour {
 	
 	public float normalizedHorizontalSpeed = 0;
 	
-	public Rigidbody2D powerup_rigid2d;
+	public Rigidbody powerup_rigid;
 	
 	public Vector3 _velocity;
 	
@@ -27,6 +27,8 @@ public class PowerupSystem : MonoBehaviour {
 	public float xbound_neg = -16.0f;
 	public float ybound_pos = 10.0f;
 	public float ybound_neg = -2.9f;
+	
+	private string powerup_type;
 
 	// Use this for initialization
 	IEnumerator Start () {
@@ -61,20 +63,31 @@ public class PowerupSystem : MonoBehaviour {
 		//Debug.Log("Outside powerup coroutine");
 	}
 	
-	// Spawn the power-up at max Y = 7.5, and random X
-	// between -17.5, 17.5
+	// Spawn the power-up at max Y = 7.5, and random X between -17.5, 17.5
+	// with a random type
 	void SpawnPowerup(){
 		Debug.Log("Powerup spawned");
 		powerup = (GameObject)Instantiate(prefab, new Vector3(Random.Range(xbound_neg, xbound_pos), ybound_pos, 0.0f), Quaternion.identity);
 		spawned = true;
 		powerup_transform = powerup.transform;
-		powerup_rigid2d = powerup.GetComponent<Rigidbody2D>();
+		powerup_rigid = powerup.GetComponent<Rigidbody>();
 		
 		// Set the starting direction the power-up randomly (50/50)
 		if(Random.value < 0.5f){
 			normalizedHorizontalSpeed = -1;
 		}else{
 			normalizedHorizontalSpeed = 1;
+		}
+		
+		int randy = Random.Range(1, 4); // Do I make you randy, baby?
+		if(randy == 1){
+			powerup_type = "powerhitter";
+		}else if(randy == 2){
+			powerup_type = "hugeRacket";
+		}else if(randy == 3){
+			powerup_type = "doubleJump";
+		}else if(randy == 4){
+			powerup_type = "decoy";
 		}
 	}
 	
@@ -99,8 +112,30 @@ public class PowerupSystem : MonoBehaviour {
 		}
 		
 		// Move the power up based on velocity and time
-		powerup_rigid2d.MovePosition(powerup_transform.position +  (_velocity * normalizedHorizontalSpeed) * Time.fixedDeltaTime);
+		powerup_rigid.MovePosition(powerup_transform.position +  (_velocity * normalizedHorizontalSpeed) * Time.fixedDeltaTime);
 	}
+	
+	// If the ball collides with the power-up, destroy the power-up and invoke 
+	// the class for the corresponding power-up to apply it to the player
+	public void PowerupAcquired(bool ballLastHit){
+		DestroyPowerup();
+
+		// Invoke the power up class and pass the ball's last hit bool to it
+		if(powerup_type == "powerhitter"){
+			Powerup_powerhitter powerhitter = new Powerup_powerhitter();
+			powerhitter.ActivatePowerup(ballLastHit);
+		}else if(powerup_type == "hugeRacket"){
+			Powerup_hugeRacket hugeRacket = new Powerup_hugeRacket();
+			hugeRacket.ActivatePowerup(ballLastHit);
+		}else if(powerup_type == "doubleJump"){
+			Powerup_doubleJump doubleJump = new Powerup_doubleJump();
+			doubleJump.ActivatePowerup(ballLastHit);
+		}else if(powerup_type == "decoy"){
+			Powerup_decoy decoy = new Powerup_decoy();
+			decoy.ActivatePowerup(ballLastHit);
+		}
+	}
+
 	
 	// Destroy the current power-up object, reset spawned bool
 	void DestroyPowerup(){
