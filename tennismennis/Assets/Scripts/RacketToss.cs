@@ -89,16 +89,37 @@ public class RacketToss : MonoBehaviour {
 			Debug.Log("P1 THROW RACKET HIGH");
 			playerMovement.SendMessage("RacketToss", true);
 			_animator.Play( Animator.StringToHash("RacketToss_High"));
-			// If player 1 throws the racket at a straight angle, throw it straight
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p1.DecrementMennis_racketToss();
+				Debug.Log("P1 RACKET THROW");
+				StartCoroutine (ThrowRacket (false));
+			}
+		// If player 1 throws the racket at a straight angle, throw it straight
 		}else if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_Straight") > 0)) {
-			Debug.Log("P1 THROW RACKET STRAIGHT");
+			//Debug.Log("P1 THROW RACKET STRAIGHT");
 			playerMovement.SendMessage("RacketToss", true);
 			_animator.Play( Animator.StringToHash("RacketToss_Straight"));
-			// If player 1 throws the racket at a low angle, throw it low
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p1.DecrementMennis_racketToss();
+				Debug.Log("P1 RACKET THROW");
+				StartCoroutine (ThrowRacket (false));
+			}
+		// If player 1 throws the racket at a low angle, throw it low
 		}else if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_Low") > 0)) {
 			Debug.Log("P1 THROW RACKET LOW");
 			playerMovement.SendMessage("RacketToss", true);
 			_animator.Play( Animator.StringToHash("RacketToss_Low"));
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p1.DecrementMennis_racketToss();
+				Debug.Log("P1 RACKET THROW");
+				StartCoroutine (ThrowRacket (false));
+			}
 		}
 		
 		// If player 2 throws the racket at a high angle, throw it high
@@ -106,16 +127,37 @@ public class RacketToss : MonoBehaviour {
 			Debug.Log("P2 THROW RACKET HIGH");
 			playerMovement.SendMessage("RacketToss", true);
 			_animator.Play( Animator.StringToHash("RacketToss_High"));
-			// If player 2 throws the racket at a straight angle, throw it straight
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p2.DecrementMennis_racketToss();
+				Debug.Log("P2 RACKET THROW");
+				StartCoroutine (ThrowRacket (false));
+			}
+		// If player 2 throws the racket at a straight angle, throw it straight
 		}else if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_Straight") > 0)) {
-			Debug.Log("P2 THROW RACKET STRAIGHT");
+			//Debug.Log("P2 THROW RACKET STRAIGHT");
 			playerMovement.SendMessage("RacketToss", true);
 			_animator.Play( Animator.StringToHash("RacketToss_Straight"));
-			// If player 2 throws the racket at a low angle, throw it low
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p2.DecrementMennis_racketToss();
+				Debug.Log("P2 RACKET THROW");
+				StartCoroutine (ThrowRacket (false));
+			}
+		// If player 2 throws the racket at a low angle, throw it low
 		}else if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_Low") > 0)) {
 			Debug.Log("P2 THROW RACKET LOW");
 			playerMovement.SendMessage("RacketToss", true);
 			_animator.Play( Animator.StringToHash("RacketToss_Low"));
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p2.DecrementMennis_racketToss();
+				Debug.Log("P2 RACKET THROW");
+				StartCoroutine (ThrowRacket (false));
+			}
 		}
 	}
 
@@ -158,6 +200,7 @@ public class RacketToss : MonoBehaviour {
 		
 		// If player 1 throws racket, throw it
 		if(_player1 == true && (inputDevice.RightBumper > 0)){
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
 				mennisMeter_p1.DecrementMennis_racketToss();

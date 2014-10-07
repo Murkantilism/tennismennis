@@ -95,11 +95,11 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	void onTriggerEnterEvent( Collider2D col ){
-		Debug.Log( "onTriggerEnterEvent: " + col.gameObject.name );
+		//Debug.Log( "onTriggerEnterEvent: " + col.gameObject.name );
 	}
 
 	void onTriggerExitEvent( Collider2D col ){
-		Debug.Log( "onTriggerExitEvent: " + col.gameObject.name );
+		//Debug.Log( "onTriggerExitEvent: " + col.gameObject.name );
 	}
 
 	// Freeze the player's x-position
@@ -117,7 +117,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	// Listen for the RacketToss.cs to control movement animations during racket toss
 	void RacketToss(bool b){
-		Debug.Log("Player 1: " + _player1 + " Player 2: " + _player2 + " Racket being tossed: " + racketBeingTossed);
+		//Debug.Log("Player 1: " + _player1 + " Player 2: " + _player2 + " Racket being tossed: " + racketBeingTossed);
 		racketBeingTossed = b;
 	}
 	

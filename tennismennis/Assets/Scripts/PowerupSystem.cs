@@ -13,7 +13,7 @@ public class PowerupSystem : MonoBehaviour {
 	
 	public float normalizedHorizontalSpeed = 0;
 	
-	public Rigidbody powerup_rigid;
+	public Rigidbody2D powerup_rigid2D;
 	
 	public Vector3 _velocity;
 	
@@ -70,7 +70,7 @@ public class PowerupSystem : MonoBehaviour {
 		powerup = (GameObject)Instantiate(prefab, new Vector3(Random.Range(xbound_neg, xbound_pos), ybound_pos, 0.0f), Quaternion.identity);
 		spawned = true;
 		powerup_transform = powerup.transform;
-		powerup_rigid = powerup.GetComponent<Rigidbody>();
+		powerup_rigid2D = powerup.GetComponent<Rigidbody2D>();
 		
 		// Set the starting direction the power-up randomly (50/50)
 		if(Random.value < 0.5f){
@@ -112,27 +112,27 @@ public class PowerupSystem : MonoBehaviour {
 		}
 		
 		// Move the power up based on velocity and time
-		powerup_rigid.MovePosition(powerup_transform.position +  (_velocity * normalizedHorizontalSpeed) * Time.fixedDeltaTime);
+		powerup_rigid2D.MovePosition(powerup_transform.position +  (_velocity * normalizedHorizontalSpeed) * Time.fixedDeltaTime);
 	}
 	
 	// If the ball collides with the power-up, destroy the power-up and invoke 
 	// the class for the corresponding power-up to apply it to the player
-	public void PowerupAcquired(bool ballLastHit){
+	public void PowerupAcquired(bool player){ // true = player 1, false = player 2
 		DestroyPowerup();
 
 		// Invoke the power up class and pass the ball's last hit bool to it
 		if(powerup_type == "powerhitter"){
 			Powerup_powerhitter powerhitter = new Powerup_powerhitter();
-			powerhitter.ActivatePowerup(ballLastHit);
+			powerhitter.ActivatePowerup(player);
 		}else if(powerup_type == "hugeRacket"){
 			Powerup_hugeRacket hugeRacket = new Powerup_hugeRacket();
-			hugeRacket.ActivatePowerup(ballLastHit);
+			hugeRacket.ActivatePowerup(player);
 		}else if(powerup_type == "doubleJump"){
 			Powerup_doubleJump doubleJump = new Powerup_doubleJump();
-			doubleJump.ActivatePowerup(ballLastHit);
+			doubleJump.ActivatePowerup(player);
 		}else if(powerup_type == "decoy"){
 			Powerup_decoy decoy = new Powerup_decoy();
-			decoy.ActivatePowerup(ballLastHit);
+			decoy.ActivatePowerup(player);
 		}
 	}
 
