@@ -27,6 +27,8 @@ public class RacketToss : MonoBehaviour {
 	MennisMeter mennisMeter_p1;
 	MennisMeter mennisMeter_p2;
 	
+	GameObject racket;
+	
 	private Animator _animator;
 
 	#region Event Listeners
@@ -65,6 +67,12 @@ public class RacketToss : MonoBehaviour {
 		}else if(_player2 == true){
 			_animator = GameObject.Find("Player2").GetComponent<Animator>();
 		}
+		
+		if(_player1 == true){
+			racket = GameObject.Find("racket_p1");
+		}else if(_player2 == true){
+			racket = GameObject.Find("racket_p2");
+		}
 	}
 
 	// Update is called once per frame
@@ -94,6 +102,7 @@ public class RacketToss : MonoBehaviour {
 				being_thrown = true;
 				mennisMeter_p1.DecrementMennis_racketToss();
 				Debug.Log("P1 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
 				StartCoroutine (ThrowRacket (false));
 			}
 		// If player 1 throws the racket at a straight angle, throw it straight
@@ -106,6 +115,7 @@ public class RacketToss : MonoBehaviour {
 				being_thrown = true;
 				mennisMeter_p1.DecrementMennis_racketToss();
 				Debug.Log("P1 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
 				StartCoroutine (ThrowRacket (false));
 			}
 		// If player 1 throws the racket at a low angle, throw it low
@@ -118,6 +128,7 @@ public class RacketToss : MonoBehaviour {
 				being_thrown = true;
 				mennisMeter_p1.DecrementMennis_racketToss();
 				Debug.Log("P1 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
 				StartCoroutine (ThrowRacket (false));
 			}
 		}
@@ -132,6 +143,7 @@ public class RacketToss : MonoBehaviour {
 				being_thrown = true;
 				mennisMeter_p2.DecrementMennis_racketToss();
 				Debug.Log("P2 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
 				StartCoroutine (ThrowRacket (false));
 			}
 		// If player 2 throws the racket at a straight angle, throw it straight
@@ -144,6 +156,7 @@ public class RacketToss : MonoBehaviour {
 				being_thrown = true;
 				mennisMeter_p2.DecrementMennis_racketToss();
 				Debug.Log("P2 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
 				StartCoroutine (ThrowRacket (false));
 			}
 		// If player 2 throws the racket at a low angle, throw it low
@@ -156,6 +169,7 @@ public class RacketToss : MonoBehaviour {
 				being_thrown = true;
 				mennisMeter_p2.DecrementMennis_racketToss();
 				Debug.Log("P2 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
 				StartCoroutine (ThrowRacket (false));
 			}
 		}
