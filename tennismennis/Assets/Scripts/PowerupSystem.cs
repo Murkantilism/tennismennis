@@ -45,11 +45,6 @@ public class PowerupSystem : MonoBehaviour {
 	void FixedUpdate () {
 		if(spawned == true){
 			MovePowerup();
-			
-			// If the power up reaches the court floor, destroy it
-			if(powerup_transform.position.y <= ybound_neg){
-				DestroyPowerup();
-			}
 		}
 	}
 	
@@ -138,7 +133,7 @@ public class PowerupSystem : MonoBehaviour {
 
 	
 	// Destroy the current power-up object, reset spawned bool
-	void DestroyPowerup(){
+	public void DestroyPowerup(){
 		Debug.Log("Powerup destroyed");
 		spawned = false;
 		Destroy(powerup);

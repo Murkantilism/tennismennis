@@ -44,5 +44,10 @@ public class Powerup : MonoBehaviour {
 			
 			Debug.Log("BALL HIT POWERUP");
 		}
+		
+		// If this power-up collides with the net or the court, destroy it!
+		if(col.gameObject.name == "Net" || col.gameObject.name == "Court"){
+			powerupSystem.DestroyPowerup();
+		}
 	}
 }
