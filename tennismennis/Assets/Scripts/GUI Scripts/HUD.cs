@@ -3,14 +3,14 @@ using System.Collections;
 
 public class HUD : MonoBehaviour {
 	
-	public GUISkin customSkin;
+	public GUISkin guiSkin;
 
 	string p1Character;
 	string p2Character;
 
 	Vector2 p1Pos = new Vector2(Screen.width/16,Screen.height/16);
-	Vector2 p2Pos = new Vector2(Screen.width*11/16, Screen.height/16);
-	Vector2 size = new Vector2(Screen.width*1/4,Screen.height*9/64);
+	Vector2 p2Pos = new Vector2(Screen.width*17/32, Screen.height/16);
+	Vector2 size = new Vector2(Screen.width*13/32,Screen.height*3/16);
 
 	float p1Mennis = 0;
 	float p2Mennis = 0;
@@ -25,35 +25,43 @@ public class HUD : MonoBehaviour {
 
 	void Start()
 	{
-		p1Mennis = size.x * 30/100;
+		p1Mennis = (float)(size.x * .4);
 		p2Mennis = (float)(size.x * .4);
 	}
 
 	void OnGUI()
 	{
-		//// P1 and P2 Mennis Meters
-		// draw the background:
+		// Assign this GUI's skin to the skin assigned via inspector
+		GUI.skin = guiSkin;
+		// Create a GUI style for the score based on the skin's label
+		GUIStyle scoreStyle = GUI.skin.label;
+
+		//// Player 1 HUD
 		GUI.BeginGroup (new Rect (p1Pos.x, p1Pos.y, size.x, size.y));
-		GUI.Label (new Rect(0,0,Screen.width/4,Screen.height/16), swolesaurusTitle);
-		GUI.Box (new Rect (0,Screen.height/16, size.x, size.y/2),progressBarEmpty);
-		
-		// draw the filled-in part:
+		GUI.Box(new Rect(0,0,Screen.width*3/32,Screen.height*3/16), "Portrait");
+		GUI.Label (new Rect(Screen.width*3/32,Screen.height*1/32,Screen.width/4,Screen.height/16), swolesaurusTitle);
+		GUI.Box(new Rect(Screen.width*21/64,0,Screen.width*1/16,Screen.height*3/16), "100", scoreStyle);
+	
+		// mennis meter:
+		GUI.Box (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarEmpty);
 		GUI.BeginGroup (new Rect (0, 0, p1Mennis, size.y));
-		GUI.Box (new Rect (0,Screen.height/16, size.x, size.y/2),progressBarFull);
+		GUI.Box (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarFull);
 		GUI.EndGroup ();
 		
 		GUI.EndGroup ();
 
-		// draw the background:
+		//// Player 2 HUD
 		GUI.BeginGroup (new Rect (p2Pos.x, p2Pos.y, size.x, size.y));
-		GUI.Label (new Rect(0,0,Screen.width/4,Screen.height/16), fishTitle);
-		GUI.Box (new Rect (0,Screen.height/16, size.x, size.y/2),progressBarEmpty);
+		GUI.Box(new Rect(0,0,Screen.width*3/32,Screen.height*3/16), "Portrait");
+		GUI.Label (new Rect(Screen.width*3/32,Screen.height*1/32,Screen.width/4,Screen.height/16), fishTitle);
+		GUI.Box(new Rect(Screen.width*21/64,0,Screen.width*1/16,Screen.height*3/16), "100", scoreStyle);
 		
-		// draw the filled-in part:
+		// mennis meter:
+		GUI.Box (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarEmpty);
 		GUI.BeginGroup (new Rect (0, 0, p2Mennis, size.y));
-		GUI.Box (new Rect (0,Screen.height/16, size.x, size.y/2),progressBarFull);
+		GUI.Box (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarFull);
 		GUI.EndGroup ();
-		
+
 		GUI.EndGroup ();
 	} 
 	
