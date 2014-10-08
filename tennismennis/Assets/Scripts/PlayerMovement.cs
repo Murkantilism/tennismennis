@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour {
 	private float normalizedHorizontalSpeed = 0;
 	
 	private CharacterController2D _controller;
-	private Animator _animator;
+	public Animator _animator;
 	private RaycastHit2D _lastControllerColliderHit;
 	private Vector3 _velocity;
 	
@@ -140,10 +140,14 @@ public class PlayerMovement : MonoBehaviour {
 	// ======================= \\
 	void ControllerInput(){
 		// Setup the controller inputs
-		if(_player1 == true){
-			inputDevice = InputManager.Devices [0];
-		}else if(_player2 == true){
-			inputDevice = InputManager.Devices [1];
+		try{
+			if(_player1 == true){
+				inputDevice = InputManager.Devices [0];
+			}else if(_player2 == true){
+				inputDevice = InputManager.Devices [1];
+			}
+		}catch(UnityException e){
+			Debug.LogWarning(e.ToString());
 		}
 
 		_up = _up || ((inputDevice.LeftStickY) > 0.5);
