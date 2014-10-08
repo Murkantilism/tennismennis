@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	public bool player1IsSwinging;
 	public bool player2IsSwinging;
+	
+	public bool powerHitterEnabled = false;
 
 	// Player racket vars
 	private GameObject racket1;

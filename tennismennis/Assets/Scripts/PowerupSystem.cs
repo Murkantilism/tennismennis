@@ -75,9 +75,9 @@ public class PowerupSystem : MonoBehaviour {
 		}else{
 			normalizedHorizontalSpeed = 1;
 		}
-		powerup_type = "hugeRacket";
+		powerup_type = "decoy";
 		/*
-		int randy = Random.Range(1, 4); // Do I make you randy, baby?
+		int randy = Random.Range(1, 5); // Do I make you randy, baby?
 		if(randy == 1){
 			powerup_type = "powerhitter";
 		}else if(randy == 2){
