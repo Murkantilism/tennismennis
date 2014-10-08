@@ -10,11 +10,7 @@ public class Powerup : MonoBehaviour {
 	}
 
 	// Check for things hitting this power-up
-	//void OnTriggerEnter2D(Collider2D col){
-
-	//}
-	
-	void OnCollisionEnter2D(Collision2D col){
+	void OnTriggerEnter2D(Collider2D col){
 		// If either player's racket hits the power-up, check if it's being tossed
 		if(col.gameObject.name == "racket_p1"){
 			Debug.Log("P1 Racket Toss Hit Powerup");
@@ -50,4 +46,8 @@ public class Powerup : MonoBehaviour {
 			powerupSystem.DestroyPowerup();
 		}
 	}
+	
+	//void OnCollisionEnter2D(Collision2D col){
+		
+	//}
 }

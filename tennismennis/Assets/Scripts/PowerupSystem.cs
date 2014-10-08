@@ -75,7 +75,7 @@ public class PowerupSystem : MonoBehaviour {
 		}else{
 			normalizedHorizontalSpeed = 1;
 		}
-		powerup_type = "spaceWalk";
+		powerup_type = "hugeRacket";
 		/*
 		int randy = Random.Range(1, 4); // Do I make you randy, baby?
 		if(randy == 1){
@@ -129,10 +129,13 @@ public class PowerupSystem : MonoBehaviour {
 		if(powerup_type == "powerhitter"){
 			player_go.AddComponent<Powerup_powerhitter>();
 			player_go.GetComponent<Powerup_powerhitter>().ActivatePowerup(player);
+			StartCoroutine(WaitToDeactivate(player));
 			
 		}else if(powerup_type == "hugeRacket"){
 			player_go.AddComponent<Powerup_hugeRacket>();
 			player_go.GetComponent<Powerup_hugeRacket>().ActivatePowerup(player);
+			StartCoroutine(WaitToDeactivate(player));
+			
 		}else if(powerup_type == "spaceWalk"){
 			player_go.AddComponent<Powerup_spaceWalk>();
 			player_go.GetComponent<Powerup_spaceWalk>().ActivatePowerup(player);
@@ -141,6 +144,7 @@ public class PowerupSystem : MonoBehaviour {
 		}else if(powerup_type == "decoy"){
 			player_go.AddComponent<Powerup_decoy>();
 			player_go.GetComponent<Powerup_decoy>().ActivatePowerup(player);
+			StartCoroutine(WaitToDeactivate(player));
 		}
 	}
 

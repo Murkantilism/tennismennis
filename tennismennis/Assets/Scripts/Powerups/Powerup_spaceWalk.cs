@@ -18,7 +18,7 @@ public class Powerup_spaceWalk : MonoBehaviour {
 	
 	// Actives the power up on the player given (true = player 1, false = player 2)
 	public void ActivatePowerup(bool player){
-		Debug.Log("DOUBLE JUMP ACTIVATED");
+		Debug.Log("SPACE WALK ACTIVATED");
 		
 		p1_movement = GameObject.Find("Player1").GetComponent<PlayerMovement>();
 		p2_movement = GameObject.Find("Player2").GetComponent<PlayerMovement>();
