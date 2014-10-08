@@ -29,6 +29,8 @@ public class PowerupSystem : MonoBehaviour {
 	public float ybound_neg = -2.9f;
 	
 	private string powerup_type;
+	
+	GameObject player_go;
 
 	// Use this for initialization
 	IEnumerator Start () {
@@ -73,17 +75,18 @@ public class PowerupSystem : MonoBehaviour {
 		}else{
 			normalizedHorizontalSpeed = 1;
 		}
-		
+		powerup_type = "spaceWalk";
+		/*
 		int randy = Random.Range(1, 4); // Do I make you randy, baby?
 		if(randy == 1){
 			powerup_type = "powerhitter";
 		}else if(randy == 2){
 			powerup_type = "hugeRacket";
 		}else if(randy == 3){
-			powerup_type = "doubleJump";
+			powerup_type = "spaceWalk";
 		}else if(randy == 4){
 			powerup_type = "decoy";
-		}
+		}*/
 	}
 	
 	// Move the power-up in a leaf-falling pattern
@@ -114,20 +117,30 @@ public class PowerupSystem : MonoBehaviour {
 	// the class for the corresponding power-up to apply it to the player
 	public void PowerupAcquired(bool player){ // true = player 1, false = player 2
 		DestroyPowerup();
+		
+		if(player == true){
+			player_go = GameObject.Find("Player1");
+		}else{
+			player_go = GameObject.Find("Player2");
+		}
+		
 
 		// Invoke the power up class and pass the ball's last hit bool to it
 		if(powerup_type == "powerhitter"){
-			Powerup_powerhitter powerhitter = new Powerup_powerhitter();
-			powerhitter.ActivatePowerup(player);
+			player_go.AddComponent<Powerup_powerhitter>();
+			player_go.GetComponent<Powerup_powerhitter>().ActivatePowerup(player);
+			
 		}else if(powerup_type == "hugeRacket"){
-			Powerup_hugeRacket hugeRacket = new Powerup_hugeRacket();
-			hugeRacket.ActivatePowerup(player);
-		}else if(powerup_type == "doubleJump"){
-			Powerup_doubleJump doubleJump = new Powerup_doubleJump();
-			doubleJump.ActivatePowerup(player);
+			player_go.AddComponent<Powerup_hugeRacket>();
+			player_go.GetComponent<Powerup_hugeRacket>().ActivatePowerup(player);
+		}else if(powerup_type == "spaceWalk"){
+			player_go.AddComponent<Powerup_spaceWalk>();
+			player_go.GetComponent<Powerup_spaceWalk>().ActivatePowerup(player);
+			StartCoroutine(WaitToDeactivate(player));
+			
 		}else if(powerup_type == "decoy"){
-			Powerup_decoy decoy = new Powerup_decoy();
-			decoy.ActivatePowerup(player);
+			player_go.AddComponent<Powerup_decoy>();
+			player_go.GetComponent<Powerup_decoy>().ActivatePowerup(player);
 		}
 	}
 
@@ -137,5 +150,23 @@ public class PowerupSystem : MonoBehaviour {
 		Debug.Log("Powerup destroyed");
 		spawned = false;
 		Destroy(powerup);
+	}
+	
+	IEnumerator WaitToDeactivate(bool player){
+		yield return new WaitForSeconds(5.0f);
+		
+		if(powerup_type == "powerhitter"){
+			player_go.GetComponent<Powerup_powerhitter>().DeactivatePowerup(player);
+			Destroy(player_go.GetComponent("Powerup_powerhitter"));	
+		}else if(powerup_type == "hugeRacket"){
+			player_go.GetComponent<Powerup_hugeRacket>().DeactivatePowerup(player);
+			Destroy(player_go.GetComponent("Powerup_hugeRacket"));
+		}else if(powerup_type == "spaceWalk"){
+			player_go.GetComponent<Powerup_spaceWalk>().DeactivatePowerup(player);
+			Destroy(player_go.GetComponent("Powerup_spaceWalk"));
+		}else if(powerup_type == "decoy"){
+			player_go.GetComponent<Powerup_decoy>().DeactivatePowerup(player);
+			Destroy(player_go.GetComponent("Powerup_decoy"));
+		}
 	}
 }

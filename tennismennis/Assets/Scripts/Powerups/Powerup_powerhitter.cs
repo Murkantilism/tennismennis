@@ -17,4 +17,8 @@ public class Powerup_powerhitter : MonoBehaviour {
 	public void ActivatePowerup(bool player){
 		Debug.Log("POWERHITTER ACTIVATED");
 	}
+	
+	public void DeactivatePowerup(bool player){
+	
+	}
 }

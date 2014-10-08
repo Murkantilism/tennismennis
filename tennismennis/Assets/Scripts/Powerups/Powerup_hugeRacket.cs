@@ -17,4 +17,8 @@ public class Powerup_hugeRacket : MonoBehaviour {
 	public void ActivatePowerup(bool player){
 		Debug.Log ("HUGE RACKET ACTIVATED");
 	}
+	
+	public void DeactivatePowerup(bool player){
+	
+	}
 }
