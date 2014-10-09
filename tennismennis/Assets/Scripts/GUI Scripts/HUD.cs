@@ -15,8 +15,8 @@ public class HUD : MonoBehaviour {
 	float p1Mennis = 0;
 	float p2Mennis = 0;
 
-	Texture2D progressBarEmpty;
-	Texture2D progressBarFull;
+	public Texture2D progressBarEmpty;
+	public Texture2D progressBarFull;
 
 	public Texture2D swolesaurusTitle;
 	public Texture2D fishTitle;
@@ -43,9 +43,9 @@ public class HUD : MonoBehaviour {
 		GUI.Box(new Rect(Screen.width*21/64,0,Screen.width*1/16,Screen.height*3/16), "100", scoreStyle);
 	
 		// mennis meter:
-		GUI.Box (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarEmpty);
+	//	GUI.DrawTexture (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarEmpty);
 		GUI.BeginGroup (new Rect (0, 0, p1Mennis, size.y));
-		GUI.Box (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarFull);
+		GUI.DrawTexture (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarFull);
 		GUI.EndGroup ();
 		
 		GUI.EndGroup ();
@@ -57,9 +57,9 @@ public class HUD : MonoBehaviour {
 		GUI.Box(new Rect(Screen.width*21/64,0,Screen.width*1/16,Screen.height*3/16), "100", scoreStyle);
 		
 		// mennis meter:
-		GUI.Box (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarEmpty);
+	//	GUI.DrawTexture (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarEmpty);
 		GUI.BeginGroup (new Rect (0, 0, p2Mennis, size.y));
-		GUI.Box (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarFull);
+		GUI.DrawTexture (new Rect (Screen.width*3/32,Screen.height*3/32, Screen.width*7/32, size.y/3),progressBarFull);
 		GUI.EndGroup ();
 
 		GUI.EndGroup ();
