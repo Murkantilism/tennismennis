@@ -34,8 +34,7 @@ public class PlayerMovement : MonoBehaviour {
 	private bool _playerChip;
 	private bool _playerPowerShot;
 
-	public bool player1IsSwinging;
-	public bool player2IsSwinging;
+	public bool playerIsSwinging;
 	
 	public bool powerHitterEnabled = false;
 
@@ -74,17 +73,16 @@ public class PlayerMovement : MonoBehaviour {
 		racket2.collider2D.enabled = false;
 
 		// Players are not swinging by default
-		player1IsSwinging = false;
-		player2IsSwinging = false;
+		playerIsSwinging = false;
 	}
 
 	// Reset the swing booleans
 	IEnumerator ToggleSwing(int player, GameObject racket){
 		yield return new WaitForSeconds(1);
 		if(player == 1){
-			player1IsSwinging = false;
+			playerIsSwinging = false;
 		}else if(player == 2){
-			player2IsSwinging = false;
+			playerIsSwinging = false;
 		}
 		racket.collider2D.enabled = false;
 	}
@@ -210,7 +208,9 @@ public class PlayerMovement : MonoBehaviour {
 		if( _right && freezePlayerp == false){
 			normalizedHorizontalSpeed = 1;
 			if( transform.localScale.x < 0f )
-				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+				if(_player1 == true){
+					transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+				}
 			
 			if( _controller.isGrounded )
 				if(_player1 == true){
@@ -223,7 +223,9 @@ public class PlayerMovement : MonoBehaviour {
 		}else if( _left && freezePlayerp == false){
 			normalizedHorizontalSpeed = -1;
 			if( transform.localScale.x > 0f )
-				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+				if(_player2 == true){
+					transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+				}
 			
 			if( _controller.isGrounded )
 				if(_player1 == true){
@@ -234,7 +236,7 @@ public class PlayerMovement : MonoBehaviour {
 		}else{
 			normalizedHorizontalSpeed = 0;
 
-			if( _controller.isGrounded && racketBeingTossed == false)
+			if( _controller.isGrounded && racketBeingTossed == false && playerIsSwinging == false )
 				_animator.Play( Animator.StringToHash( "Idle" ) );
 		}
 
@@ -242,13 +244,17 @@ public class PlayerMovement : MonoBehaviour {
 		// -Set the swinging bool to true
 		// -Enable the collider on the racket
 		// -Trigger a coroutine which will eventually reset the swinging bool and collider
-		if(_playerChip && player1IsSwinging == false) {
-			player1IsSwinging = true;
+		if(_playerChip && playerIsSwinging == false && _player1 == true) {
+			Debug.Log("Player 1 racket swung");
+			playerIsSwinging = true;
 			racket1.collider2D.enabled = true;
+			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
 			StartCoroutine(ToggleSwing(1, racket1));
-		}else if(_playerChip && player2IsSwinging == false) {
-			player2IsSwinging = true;
+		}else if(_playerChip && playerIsSwinging == false && _player2 == true) {
+			Debug.Log("Player 2 racket swung");
+			playerIsSwinging = true;
 			racket2.collider2D.enabled = true;
+			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
 			StartCoroutine(ToggleSwing(2, racket2));
 		}
 
