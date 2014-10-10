@@ -32,10 +32,18 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Player swing vars
 	private bool _playerChip;
-	private bool _playerPowerShot;
 
 	public bool player1IsSwinging;
 	public bool player2IsSwinging;
+
+	// Power shot variables
+
+	// Once the player releases the power shot, this variable saves the amount of 
+	// power stored
+	public float _player1Power = .5f;
+	public float _player2Power = .5f;
+
+	private float chargeRate = .75f;
 
 	// Player racket vars
 	private GameObject racket1;
@@ -79,8 +87,10 @@ public class PlayerMovement : MonoBehaviour {
 		yield return new WaitForSeconds(1);
 		if(player == 1){
 			player1IsSwinging = false;
+			_player1Power = 0.5f;
 		}else if(player == 2){
 			player2IsSwinging = false;
+			_player2Power = 0.5f;
 		}
 		racket.collider2D.enabled = false;
 	}
@@ -148,14 +158,7 @@ public class PlayerMovement : MonoBehaviour {
 		}else if(_player2 == true){
 			_playerChip = inputDevice.RightTrigger > 0;
 		}
-
-		// If player 1 hits left trigger, perform a power shot
-		if(_player1 == true){
-			_playerPowerShot = inputDevice.LeftTrigger > 0;
-		// If player 2 hits left trigger, perform a power shot
-		}else if(_player2 == true){
-			_playerPowerShot = inputDevice.LeftTrigger > 0;
-		}
+	
 	}
 
 	// ======================= \\
@@ -236,8 +239,36 @@ public class PlayerMovement : MonoBehaviour {
 		if(_playerChip && player1IsSwinging == false) {
 			player1IsSwinging = true;
 			racket1.collider2D.enabled = true;
+			_player1Power = 1.0f;
 			StartCoroutine(ToggleSwing(1, racket1));
 		}else if(_playerChip && player2IsSwinging == false) {
+			player2IsSwinging = true;
+			racket2.collider2D.enabled = true;
+			_player2Power = 1.0f;
+			StartCoroutine(ToggleSwing(2, racket2));
+		}
+
+		if(Input.GetKey(KeyCode.Q) && player1IsSwinging == false) {
+			if(_player1Power < 1.5f){
+				_player1Power += chargeRate * Time.deltaTime;
+			}
+			Debug.Log("Player 1 Power: " + _player1Power);
+		}
+		if(Input.GetKeyUp(KeyCode.Q) && player1IsSwinging == false) {
+			Debug.Log ("Player 1 CHARGE: " + _player1Power);
+			player1IsSwinging = true;
+			racket1.collider2D.enabled = true;
+			StartCoroutine(ToggleSwing(1, racket1));
+		}
+
+		if(Input.GetKey(KeyCode.BackQuote) && player2IsSwinging == false) {
+			if(_player2Power < 1.5f)
+			{
+				_player2Power += chargeRate * Time.deltaTime;
+			}
+			Debug.Log("Player 2 Power: " + _player2Power);
+		}
+		if(Input.GetKeyUp(KeyCode.BackQuote) && player2IsSwinging == false) {
 			player2IsSwinging = true;
 			racket2.collider2D.enabled = true;
 			StartCoroutine(ToggleSwing(2, racket2));
