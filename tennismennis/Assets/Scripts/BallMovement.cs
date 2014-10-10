@@ -6,6 +6,7 @@ public class BallMovement : MonoBehaviour {
 	bool player2Hit;
 	GameObject player1;
 	GameObject player2;
+	public bool lastHit = true; // Who hit this ball last? true = player 1, false = player 2
 	
 	// Use this for initialization
 	void Start () {
@@ -15,8 +16,8 @@ public class BallMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		player1Hit = player1.GetComponent<PlayerMovement>().player1IsSwinging;
-		player2Hit = player2.GetComponent<PlayerMovement>().player2IsSwinging;
+		player1Hit = player1.GetComponent<PlayerMovement>().playerIsSwinging;
+		player2Hit = player2.GetComponent<PlayerMovement>().playerIsSwinging;
 	}
 	
 	void TennisForce(Vector2 forceVector) {
