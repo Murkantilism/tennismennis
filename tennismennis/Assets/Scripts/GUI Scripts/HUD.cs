@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class HUD : MonoBehaviour {
 	
@@ -15,13 +16,14 @@ public class HUD : MonoBehaviour {
 	float p1Mennis = 0;
 	float p2Mennis = 0;
 
-	public Texture2D progressBarEmpty;
 	public Texture2D progressBarFull;
 
 	public Texture2D swolesaurusTitle;
 	public Texture2D fishTitle;
 	public Texture2D shivaTitle;
 	public Texture2D dennisTitle;
+
+	public Texture2D swolesaurusPic;
 
 	void Start()
 	{
@@ -38,7 +40,7 @@ public class HUD : MonoBehaviour {
 
 		//// Player 1 HUD
 		GUI.BeginGroup (new Rect (p1Pos.x, p1Pos.y, size.x, size.y));
-		GUI.Box(new Rect(0,0,Screen.width*3/32,Screen.height*3/16), "Portrait");
+		GUI.DrawTexture(new Rect(0,0,Screen.width*3/32,Screen.height*3/16), swolesaurusPic);
 		GUI.Label (new Rect(Screen.width*3/32,Screen.height*1/32,Screen.width/4,Screen.height/16), swolesaurusTitle);
 		GUI.Box(new Rect(Screen.width*21/64,0,Screen.width*1/16,Screen.height*3/16), "100", scoreStyle);
 	
@@ -52,8 +54,8 @@ public class HUD : MonoBehaviour {
 
 		//// Player 2 HUD
 		GUI.BeginGroup (new Rect (p2Pos.x, p2Pos.y, size.x, size.y));
-		GUI.Box(new Rect(0,0,Screen.width*3/32,Screen.height*3/16), "Portrait");
-		GUI.Label (new Rect(Screen.width*3/32,Screen.height*1/32,Screen.width/4,Screen.height/16), fishTitle);
+		GUI.DrawTexture(new Rect(0,0,Screen.width*3/32,Screen.height*3/16), swolesaurusPic);
+		GUI.Label (new Rect(Screen.width*3/32,Screen.height*1/32,Screen.width/4,Screen.height/16), swolesaurusTitle);
 		GUI.Box(new Rect(Screen.width*21/64,0,Screen.width*1/16,Screen.height*3/16), "100", scoreStyle);
 		
 		// mennis meter:
