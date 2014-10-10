@@ -28,8 +28,8 @@ public class ScoreKeeping : MonoBehaviour {
 		// Create a GUI style for the score based on the skin's label
 		GUIStyle scoreStyle = GUI.skin.label;
 
-		GUI.Label(new Rect (Screen.width / 2 - Screen.width/4, Screen.height - (Screen.height/4 * 3.5f), 100, 40), player1_score.ToString(), scoreStyle);
+		GUI.Label(new Rect (Screen.width * 12/32, Screen.height*7/64, 100, Screen.height*3/32), player1_score.ToString(), scoreStyle);
 
-		GUI.Label(new Rect (Screen.width / 2 + Screen.width/4, Screen.height - (Screen.height/4 * 3.5f), 100, 40), player2_score.ToString(), scoreStyle);
+		GUI.Label(new Rect (Screen.width * 30/32, Screen.height*7/64, 100, Screen.height*3/32), player2_score.ToString(), scoreStyle);
 	}
 }
