@@ -74,11 +74,15 @@ public class PlayerMovement : MonoBehaviour {
 
 		// Players are not swinging by default
 		playerIsSwinging = false;
+		
+		if(_player2 == true){
+			transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+		}
 	}
 
 	// Reset the swing booleans
 	IEnumerator ToggleSwing(int player, GameObject racket){
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(0.5f);
 		if(player == 1){
 			playerIsSwinging = false;
 		}else if(player == 2){

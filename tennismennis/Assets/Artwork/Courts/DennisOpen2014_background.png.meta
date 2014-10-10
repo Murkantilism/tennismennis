@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 1b3b5e0f7a3d753418cdd93c122a464d
+guid: 3cdf90d984f2d7d40a92a2ba71926e0f
 TextureImporter:
   fileIDToRecycleName:
-    21300000: TennisSwoleForwardHand7
+    21300000: DennisOpen2014_background
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -38,7 +38,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 550
+  spritePixelsToUnits: 200
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
