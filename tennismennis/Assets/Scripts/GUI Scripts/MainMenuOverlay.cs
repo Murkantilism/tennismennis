@@ -14,13 +14,13 @@ public class MainMenuOverlay : MonoBehaviour {
 		// Load the default scene
 		if(GUI.Button(new Rect(Screen.width*3/8,Screen.height*3/8, Screen.width/4,Screen.height/8), "Quick Match")) {
 			DontDestroyOnLoad(GameObject.Find("SaveSelections"));
-			Application.LoadLevel(4);
+			Application.LoadLevel("Court1");
 		}
 
 		// Character Select -> Stage Select -> Begin match
 		if(GUI.Button(new Rect(Screen.width*3/8,Screen.height*1/2 + 10,Screen.width/4,Screen.height/8), "Custom Match")) {
 			DontDestroyOnLoad(GameObject.Find("SaveSelections"));
-			Application.LoadLevel(1);
+			Application.LoadLevel("CharacterSelect");
 		}
 
 		// Quit button

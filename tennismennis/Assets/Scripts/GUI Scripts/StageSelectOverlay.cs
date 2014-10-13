@@ -26,19 +26,19 @@ public class StageSelectOverlay : MonoBehaviour {
 		// Court Select buttons
 		if(GUI.Button(new Rect(mainLayer.x + mainLayer.width/2,mainLayer.y,mainLayer.width/2,mainLayer.height/2), "Dennis Tennis")) {
 			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel(4);
+			Application.LoadLevel("Court1");
 		}
-		if(GUI.Button(new Rect(mainLayer.x,mainLayer.y,mainLayer.width/2,mainLayer.height/2), "Racknasium")) {
+		if(GUI.Button(new Rect(mainLayer.x,mainLayer.y,mainLayer.width/2,mainLayer.height/2), "Jurassic Gym")) {
 			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel(5);
+			Application.LoadLevel("Court2");
 		}
 		if(GUI.Button(new Rect(mainLayer.x,mainLayer.y + mainLayer.height/2,mainLayer.width/2,mainLayer.height/2), "5H1-V4 D0me")) {
 			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel(6);
+			Application.LoadLevel("Court3");
 		}
 		if(GUI.Button(new Rect(mainLayer.x + mainLayer.width/2,mainLayer.y + mainLayer.height/2,mainLayer.width/2,mainLayer.height/2), "The Other Tank")) {
 			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel(7);
+			Application.LoadLevel("Court4");
 		}
 	}
 }
