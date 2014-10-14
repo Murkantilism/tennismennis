@@ -4,8 +4,10 @@ using System.Collections;
 public class CharacterSelectOverlay : MonoBehaviour {
 
 	public GUISkin customSkin;
-	Rect backLayer;
-	Rect mainLayer;
+	public Texture2D DennisLabel;
+	public Texture2D SwoleLabel;
+	public Texture2D ShivaLabel;
+	public Texture2D FishLabel;
 	
 	SaveSelections saveSelection;
 
@@ -14,35 +16,41 @@ public class CharacterSelectOverlay : MonoBehaviour {
 
 		saveSelection = GameObject.Find("SaveSelections").GetComponent<SaveSelections>();
 
-		// Background box
-		backLayer = new Rect(Screen.width/4,Screen.height/8 - 30,Screen.width/2,Screen.height*3/4 + 30);
-		GUI.Box(backLayer, "P1 Select Character!");
-
 		// Main box
-		GUIStyle panelStyle =  GUI.skin.GetStyle("CharacterSelect");
-		mainLayer = new Rect(Screen.width/4,Screen.height/8 + 30,Screen.width/2,Screen.height*3/4 - 30);
-		GUI.Box(mainLayer, "", panelStyle);
+		GUI.BeginGroup (new Rect (Screen.width*8/32, Screen.height*6/32, Screen.width/2, Screen.height*20/32));
+		GUI.Box (new Rect(0,0, Screen.width/2, Screen.height*20/32), "");
+		GUI.Label (new Rect(Screen.width*1/32,Screen.height*1/64,Screen.width*14/32,Screen.height*4/32), "P1 Character");
+
 
 		// Character Select buttons
-		if(GUI.Button(new Rect(mainLayer.x,mainLayer.y,mainLayer.width/2,mainLayer.height/2), "S. Racks")) {
-			saveSelection.WriteCharacterSelection("S. Racks");
-			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel(2);
-		}
-		if(GUI.Button(new Rect(mainLayer.x + mainLayer.width/2,mainLayer.y,mainLayer.width/2,mainLayer.height/2), "Dennis")) {
+		if(GUI.Button(new Rect(0,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "")) {
 			saveSelection.WriteCharacterSelection("Dennis");
 			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel(2);
+			Application.LoadLevel("CharacterSelect_P2");
 		}
-		if(GUI.Button(new Rect(mainLayer.x,mainLayer.y + mainLayer.height/2,mainLayer.width/2,mainLayer.height/2), "SH1-V4")) {
+		GUI.Label(new Rect(Screen.width*1/32,Screen.height*6/32,Screen.width*6/32,Screen.height*13/64), DennisLabel);
+
+		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "")) {
+			saveSelection.WriteCharacterSelection("S. Racks");
+			DontDestroyOnLoad(saveSelection.gameObject);
+			Application.LoadLevel("CharacterSelect_P2");
+		}
+		GUI.Label(new Rect(Screen.width*9/32,Screen.height*6/32,Screen.width*6/32,Screen.height*13/64), SwoleLabel);
+
+		if(GUI.Button(new Rect(0,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "")) {
 			saveSelection.WriteCharacterSelection("SH1-V4");
 			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel(2);
+			Application.LoadLevel("CharacterSelect_P2");
 		}
-		if(GUI.Button(new Rect(mainLayer.x + mainLayer.width/2,mainLayer.y + mainLayer.height/2,mainLayer.width/2,mainLayer.height/2), "Colonel Topspin")) {
+		GUI.Label(new Rect(Screen.width*1/32,Screen.height*29/64,Screen.width*6/32,Screen.height*13/64), ShivaLabel);
+
+		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "")) {
 			saveSelection.WriteCharacterSelection("Colonel Topspin");
 			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel(2);
+			Application.LoadLevel("CharacterSelect_P2");
 		}
+		GUI.Label(new Rect(Screen.width*9/32,Screen.height*29/64,Screen.width*6/32,Screen.height*13/64), FishLabel);
+
+		GUI.EndGroup();
 	}
 }
