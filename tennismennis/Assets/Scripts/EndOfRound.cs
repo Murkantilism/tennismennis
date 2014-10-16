@@ -70,10 +70,10 @@ public class EndOfRound : MonoBehaviour {
 	// local scale so they are facing the correct direction.
 	void RespawnPlayers(){
 		player1.transform.position = player1_spawn;
-		player1.transform.localScale = new Vector3( 2, 2, 1 );
+		player1.transform.localScale = new Vector3 (2.25f, 2.25f, 1);
 
 		player2.transform.position = player2_spawn;
-		player2.transform.localScale = new Vector3( 2, 2, 1 );
+		player2.transform.localScale = new Vector3 (-2.25f, 2.25f, 1);
 	}
 
 	// Reset the ball's position to the opposite player that last served
