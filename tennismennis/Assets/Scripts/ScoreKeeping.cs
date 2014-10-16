@@ -5,25 +5,29 @@ public class ScoreKeeping : MonoBehaviour {
 	public GUISkin guiSkin;
 
 	public Texture2D pointLabel;
-	int player1_score = 0;
-	int player2_score = 0;
+	public int player1_score = 0;
+	public int player2_score = 0;
 
 	float point;
+	
+	EndOfRound endOfRound;
 
 	// Use this for initialization
 	void Start () {
+		endOfRound = GameObject.Find ("EndOfRound").GetComponent<EndOfRound> ();
 		point = 0.0f;
 	}
 
 	// Increment player scores based on who scored!
 	// Recieves calls from OutOfBoundsDetection.cs && Ball.cs
-	void PointScored(string whoScored){
+	public void PointScored(string whoScored){
 		if (whoScored == "Player1") {
 			player1_score += 1;
 		}else if(whoScored == "Player2"){
 			player2_score += 1;
 		}
 		point = 1;
+		endOfRound.SendMessage ("ResetRound");
 	}
 
 	void OnGUI(){
