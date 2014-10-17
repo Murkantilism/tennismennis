@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class BallMovement : MonoBehaviour {
+	bool serving = true;
 	bool player1Hit;
 	bool player2Hit;
 	float player1Power;
@@ -20,12 +21,10 @@ public class BallMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		player1Hit = player1.GetComponent<PlayerMovement>().player1IsSwinging;
-		player2Hit = player2.GetComponent<PlayerMovement>().player2IsSwinging;
-		player1Power = player1.GetComponent<PlayerMovement>()._player1Power;
-		player2Power = player2.GetComponent<PlayerMovement>()._player2Power;
 		player1Hit = player1.GetComponent<PlayerMovement>().playerIsSwinging;
 		player2Hit = player2.GetComponent<PlayerMovement>().playerIsSwinging;
+		player1Power = player1.GetComponent<PlayerMovement>()._playerPower;
+		player2Power = player2.GetComponent<PlayerMovement>()._playerPower;
 	}
 	
 	void TennisForce(Vector2 forceVector) {
