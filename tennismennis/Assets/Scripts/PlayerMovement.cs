@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour {
 	private float normalizedHorizontalSpeed = 0;
 	
 	private CharacterController2D _controller;
-	private Animator _animator;
+	public Animator _animator;
 	private RaycastHit2D _lastControllerColliderHit;
 	private Vector3 _velocity;
 	
@@ -33,8 +33,9 @@ public class PlayerMovement : MonoBehaviour {
 	// Player swing vars
 	private bool _playerChip;
 
-	public bool player1IsSwinging;
-	public bool player2IsSwinging;
+	public bool playerIsSwinging;
+	
+	public bool powerHitterEnabled = false;
 
 	// Power shot variables
 
@@ -54,6 +55,8 @@ public class PlayerMovement : MonoBehaviour {
 	InputDevice inputDevice;
 
 	bool keyboard_input_enabled;
+	
+	public bool racketBeingTossed = false;
 	
 	void Awake(){
 		_animator = GetComponent<Animator>();
@@ -78,19 +81,25 @@ public class PlayerMovement : MonoBehaviour {
 		racket2.collider2D.enabled = false;
 
 		// Players are not swinging by default
-		player1IsSwinging = false;
-		player2IsSwinging = false;
+		playerIsSwinging = false;
+		
+		if(_player2 == true){
+			transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+		}
 	}
 
 	// Reset the swing booleans
 	IEnumerator ToggleSwing(int player, GameObject racket){
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(0.5f);
 		if(player == 1){
 			player1IsSwinging = false;
 			_player1Power = 0.5f;
 		}else if(player == 2){
 			player2IsSwinging = false;
 			_player2Power = 0.5f;
+			playerIsSwinging = false;
+		}else if(player == 2){
+			playerIsSwinging = false;
 		}
 		racket.collider2D.enabled = false;
 	}
@@ -103,11 +112,11 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	void onTriggerEnterEvent( Collider2D col ){
-		Debug.Log( "onTriggerEnterEvent: " + col.gameObject.name );
+		//Debug.Log( "onTriggerEnterEvent: " + col.gameObject.name );
 	}
 
 	void onTriggerExitEvent( Collider2D col ){
-		Debug.Log( "onTriggerExitEvent: " + col.gameObject.name );
+		//Debug.Log( "onTriggerExitEvent: " + col.gameObject.name );
 	}
 
 	// Freeze the player's x-position
@@ -122,6 +131,11 @@ public class PlayerMovement : MonoBehaviour {
 	// Listen for the input controls setup by PlayerControls.cs
 	void GetInputSettings(bool b){
 		keyboard_input_enabled = b;
+	}
+	// Listen for the RacketToss.cs to control movement animations during racket toss
+	void RacketToss(bool b){
+		//Debug.Log("Player 1: " + _player1 + " Player 2: " + _player2 + " Racket being tossed: " + racketBeingTossed);
+		racketBeingTossed = b;
 	}
 	
 	#endregion
@@ -141,10 +155,14 @@ public class PlayerMovement : MonoBehaviour {
 	// ======================= \\
 	void ControllerInput(){
 		// Setup the controller inputs
-		if(_player1 == true){
-			inputDevice = InputManager.Devices [0];
-		}else if(_player2 == true){
-			inputDevice = InputManager.Devices [1];
+		try{
+			if(_player1 == true){
+				inputDevice = InputManager.Devices [0];
+			}else if(_player2 == true){
+				inputDevice = InputManager.Devices [1];
+			}
+		}catch(UnityException e){
+			Debug.LogWarning(e.ToString());
 		}
 
 		_up = _up || ((inputDevice.LeftStickY) > 0.5);
@@ -186,7 +204,7 @@ public class PlayerMovement : MonoBehaviour {
 		_left = false;
 		_playerChip = false;
 		normalizedHorizontalSpeed = 0;
-		transform.localScale = new Vector3 (2, 2, 1);
+		transform.localScale = new Vector3 (2.25f, 2.25f, 1);
 	}
 	
 	void FixedUpdate(){
@@ -200,35 +218,35 @@ public class PlayerMovement : MonoBehaviour {
 		if( _right && freezePlayerp == false){
 			normalizedHorizontalSpeed = 1;
 			if( transform.localScale.x < 0f )
-				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+				if(_player1 == true){
+					transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+				}
 			
 			if( _controller.isGrounded )
 				if(_player1 == true){
 						_animator.Play( Animator.StringToHash( "Run_forward" ) );
 				}else if(_player2 == true){
-					// TODO: Uncomment when backward animation is added
-					//_animator.Play( Animator.StringToHash( "Run_backward" ) );
-					_animator.Play( Animator.StringToHash( "Run_forward" ) );
+					_animator.Play( Animator.StringToHash( "Run_backward" ) );
 				}
 
 		// If the left movement is input, and the player isn't throwing his racket (frozen)
 		}else if( _left && freezePlayerp == false){
 			normalizedHorizontalSpeed = -1;
 			if( transform.localScale.x > 0f )
-				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+				if(_player2 == true){
+					transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+				}
 			
 			if( _controller.isGrounded )
 				if(_player1 == true){
-					// TODO: Uncomment when backward animation is added
-					//_animator.Play( Animator.StringToHash( "Run_backward" ) );
-					_animator.Play( Animator.StringToHash( "Run_forward" ) );
+					_animator.Play( Animator.StringToHash( "Run_backward" ) );
 				}else if(_player2 == true){
 					_animator.Play( Animator.StringToHash( "Run_forward" ) );
 				}
 		}else{
 			normalizedHorizontalSpeed = 0;
 
-			if( _controller.isGrounded )
+			if( _controller.isGrounded && racketBeingTossed == false && playerIsSwinging == false )
 				_animator.Play( Animator.StringToHash( "Idle" ) );
 		}
 
@@ -236,13 +254,16 @@ public class PlayerMovement : MonoBehaviour {
 		// -Set the swinging bool to true
 		// -Enable the collider on the racket
 		// -Trigger a coroutine which will eventually reset the swinging bool and collider
-		if(_playerChip && player1IsSwinging == false) {
-			player1IsSwinging = true;
+		if(_playerChip && playerIsSwinging == false && _player1 == true) {
+			Debug.Log("Player 1 racket swung");
+			playerIsSwinging = true;
 			racket1.collider2D.enabled = true;
 			_player1Power = 1.0f;
+			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
 			StartCoroutine(ToggleSwing(1, racket1));
-		}else if(_playerChip && player2IsSwinging == false) {
-			player2IsSwinging = true;
+		}else if(_playerChip && playerIsSwinging == false && _player2 == true) {
+			Debug.Log("Player 2 racket swung");
+			playerIsSwinging = true;
 			racket2.collider2D.enabled = true;
 			_player2Power = 1.0f;
 			StartCoroutine(ToggleSwing(2, racket2));
@@ -271,6 +292,7 @@ public class PlayerMovement : MonoBehaviour {
 		if(Input.GetKeyUp(KeyCode.BackQuote) && player2IsSwinging == false) {
 			player2IsSwinging = true;
 			racket2.collider2D.enabled = true;
+			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
 			StartCoroutine(ToggleSwing(2, racket2));
 		}
 
@@ -280,10 +302,12 @@ public class PlayerMovement : MonoBehaviour {
 
 			//Debug.Log("Velocity " + _velocity.y);
 			//Debug.Log(Mathf.Sqrt( 2f * jumpHeight * -gravity ));
-			//_animator.Play( Animator.StringToHash( "Jump" ) );
+			_animator.Play( Animator.StringToHash( "Jump" ) );
 		}
 		// reset input
 		_up = false;
+		
+		racketBeingTossed = false;
 		
 		// apply horizontal speed smoothing it
 		var smoothedMovementFactor = _controller.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?

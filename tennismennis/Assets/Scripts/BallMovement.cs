@@ -8,11 +8,14 @@ public class BallMovement : MonoBehaviour {
 	float player2Power;
 	GameObject player1;
 	GameObject player2;
+	public bool lastHit = true; // Who hit this ball last? true = player 1, false = player 2
+	ScoreKeeping scoreKeeper;
 	
 	// Use this for initialization
 	void Start () {
 		player1 = GameObject.Find("Player1");
 		player2 = GameObject.Find("Player2");
+		scoreKeeper = GameObject.Find("ScoreKeeper").GetComponent<ScoreKeeping>();
 	}
 	
 	// Update is called once per frame
@@ -21,6 +24,8 @@ public class BallMovement : MonoBehaviour {
 		player2Hit = player2.GetComponent<PlayerMovement>().player2IsSwinging;
 		player1Power = player1.GetComponent<PlayerMovement>()._player1Power;
 		player2Power = player2.GetComponent<PlayerMovement>()._player2Power;
+		player1Hit = player1.GetComponent<PlayerMovement>().playerIsSwinging;
+		player2Hit = player2.GetComponent<PlayerMovement>().playerIsSwinging;
 	}
 	
 	void TennisForce(Vector2 forceVector) {
@@ -29,7 +34,16 @@ public class BallMovement : MonoBehaviour {
 	
 	void OnCollisionEnter2D(Collision2D col) {
 		if(col.gameObject.name == "Court"){
-			Debug.Log("GROUND");
+			Debug.Log("Hit the court!");
+			// If the ball landed on the left side of the court, p2 scores
+			if(transform.position.x < 0.05f){
+				Debug.Log("Player 2 scores!");
+				scoreKeeper.PointScored("Player2");
+			// If the ball landed on the right side of the court, p1 scores	
+			}else if(transform.position.x > 0.05f){
+				Debug.Log("Player 1 scores!");
+				scoreKeeper.PointScored("Player1");
+			}
 		}
 		if(col.gameObject.name == "racket_p1" && player1Hit) {
 			TennisForce(new Vector2((500 * player1Power), 400));
@@ -37,6 +51,13 @@ public class BallMovement : MonoBehaviour {
 		}
 		if (col.gameObject.name == "racket_p2" && player2Hit) {
 			TennisForce(new Vector2((-500 * player2Power), 400));
+			TennisForce(new Vector2(400, 400));
+			lastHit = true;
+			Debug.Log("HIT PLAYER 1");
+		}
+		if (col.gameObject.name == "racket_p2" && player2Hit) {
+			TennisForce(new Vector2(-400, 400));
+			lastHit = false;
 			Debug.Log("Hit Player 2");
 		}
 	}

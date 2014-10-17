@@ -40,7 +40,7 @@ public class OutOfBoundsDetection : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col){
 		Debug.Log (col.name);
 		// If the ball has collided with an OOB object that doesn't care about sides, it 
-		// probably went flying somewhere it shouldn't, so reset without awards points.
+		// probably went flying somewhere it shouldn't, so reset without awarding points.
 		if (col.name == "Ball" && sideAgnosticOOB == true){
 			ResetRound();
 		}
@@ -50,11 +50,9 @@ public class OutOfBoundsDetection : MonoBehaviour {
 			// Left side = player 1, which means player 2 scored
 			if(leftSideOfCourt == true){
 				PointScored("Player2");
-				ResetRound();
 			// Right side = player 2, which means player 1 scored
 			}else if(rightSideOfCourt == true){
 				PointScored("Player1");
-				ResetRound();
 			// An OOB object cannot be on both sides of the court, if so print error
 			}else if (leftSideOfCourt == true && rightSideOfCourt == true) {
 				Debug.LogError("ERROR: This Out-Of-Bounds object: " + transform.name + ", is marked as being on both sides of the court, you dunce.");
@@ -62,17 +60,15 @@ public class OutOfBoundsDetection : MonoBehaviour {
 		// If players can go out-of-bounds, and player 1 has gone OOB
 		}else if(canPlayersOOB == true && col.name == "Player1"){
 			PointScored("Player2"); // Award point to player 2
-			ResetRound();
 		// If players can go out-of-bounds, and player 2 has gone OOB
 		}else if(canPlayersOOB == true && col.name == "Player2"){
 			PointScored("Player1"); // Award point to player 1
-			ResetRound();
 		}
 	}
 
 	// Calls out to ScoreKeeper.cs to increment the winning player's score
 	void PointScored(string whoScored){
-		scoreKeeping.SendMessage ("PointScored", whoScored);
+		scoreKeeping.PointScored (whoScored);
 	}
 
 	// Calls out to EndOfRound.cs to reset everything for the next round

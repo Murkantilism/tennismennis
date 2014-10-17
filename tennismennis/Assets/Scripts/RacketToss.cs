@@ -18,12 +18,18 @@ public class RacketToss : MonoBehaviour {
 	public bool _player1 = false; // Is this player 1's racket? Set via inspector
 	public bool _player2 = false; // Is this player 2's racket? Set via inspector
 
-	PlayerMovement playerMovement1;
-	PlayerMovement playerMovement2;
+	PlayerMovement playerMovement;
 
 	InputDevice inputDevice;
 
 	bool keyboard_input_enabled = true;
+	
+	MennisMeter mennisMeter_p1;
+	MennisMeter mennisMeter_p2;
+	
+	GameObject racket;
+	
+	private Animator _animator;
 
 	#region Event Listeners
 	// Listen for the input controls setup by PlayerControls.cs
@@ -40,8 +46,11 @@ public class RacketToss : MonoBehaviour {
 		// Set the end marker's position
 		endMarker.transform.position = new Vector3 (transform.position.x + racketThrowDist, transform.position.y, transform.position.z);
 
-		playerMovement1 = GameObject.Find ("Player1").GetComponent<PlayerMovement> ();
-		playerMovement2 = GameObject.Find("Player2").GetComponent<PlayerMovement>();
+		if(_player1 == true){
+			playerMovement = GameObject.Find ("Player1").GetComponent<PlayerMovement> ();
+		}else if(_player2 == true){
+			playerMovement = GameObject.Find("Player2").GetComponent<PlayerMovement>();
+		}
 
 		// Define path array with max length of 2 members
 		path = new Vector3[2];
@@ -49,6 +58,21 @@ public class RacketToss : MonoBehaviour {
 		path[0] = endMarker.transform.position;
 		// Set the second member of the array to the original racket's position
 		path[1] = originalRacketPosMarker.transform.position;
+		
+		mennisMeter_p1 = GameObject.Find("MennisMeter_p1").GetComponent<MennisMeter>();
+		mennisMeter_p2 = GameObject.Find("MennisMeter_p2").GetComponent<MennisMeter>();
+		
+		if(_player1 == true){
+			_animator = GameObject.Find("Player1").GetComponent<Animator>();
+		}else if(_player2 == true){
+			_animator = GameObject.Find("Player2").GetComponent<Animator>();
+		}
+		
+		if(_player1 == true){
+			racket = GameObject.Find("racket_p1");
+		}else if(_player2 == true){
+			racket = GameObject.Find("racket_p2");
+		}
 	}
 
 	// Update is called once per frame
@@ -71,23 +95,83 @@ public class RacketToss : MonoBehaviour {
 		// If player 1 throws the racket at a high angle, throw it high
 		if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_High") > 0)) {
 			Debug.Log("P1 THROW RACKET HIGH");
-			// If player 1 throws the racket at a straight angle, throw it straight
+			playerMovement.SendMessage("RacketToss", true);
+			_animator.Play( Animator.StringToHash("RacketToss_High"));
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p1.DecrementMennis_racketToss();
+				Debug.Log("P1 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
+				StartCoroutine (ThrowRacket (false));
+			}
+		// If player 1 throws the racket at a straight angle, throw it straight
 		}else if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_Straight") > 0)) {
-			Debug.Log("P1 THROW RACKET STRAIGHT");
-			// If player 1 throws the racket at a low angle, throw it low
+			//Debug.Log("P1 THROW RACKET STRAIGHT");
+			playerMovement.SendMessage("RacketToss", true);
+			_animator.Play( Animator.StringToHash("RacketToss_Straight"));
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p1.DecrementMennis_racketToss();
+				Debug.Log("P1 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
+				StartCoroutine (ThrowRacket (false));
+			}
+		// If player 1 throws the racket at a low angle, throw it low
 		}else if (_player1 == true && (Input.GetAxisRaw ("P1_Throw_Low") > 0)) {
 			Debug.Log("P1 THROW RACKET LOW");
+			playerMovement.SendMessage("RacketToss", true);
+			_animator.Play( Animator.StringToHash("RacketToss_Low"));
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p1.DecrementMennis_racketToss();
+				Debug.Log("P1 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
+				StartCoroutine (ThrowRacket (false));
+			}
 		}
 		
 		// If player 2 throws the racket at a high angle, throw it high
 		if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_High") > 0)) {
 			Debug.Log("P2 THROW RACKET HIGH");
-			// If player 2 throws the racket at a straight angle, throw it straight
+			playerMovement.SendMessage("RacketToss", true);
+			_animator.Play( Animator.StringToHash("RacketToss_High"));
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p2.DecrementMennis_racketToss();
+				Debug.Log("P2 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
+				StartCoroutine (ThrowRacket (false));
+			}
+		// If player 2 throws the racket at a straight angle, throw it straight
 		}else if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_Straight") > 0)) {
-			Debug.Log("P2 THROW RACKET STRAIGHT");
-			// If player 2 throws the racket at a low angle, throw it low
+			//Debug.Log("P2 THROW RACKET STRAIGHT");
+			playerMovement.SendMessage("RacketToss", true);
+			_animator.Play( Animator.StringToHash("RacketToss_Straight"));
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p2.DecrementMennis_racketToss();
+				Debug.Log("P2 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
+				StartCoroutine (ThrowRacket (false));
+			}
+		// If player 2 throws the racket at a low angle, throw it low
 		}else if (_player2 == true && (Input.GetAxisRaw ("P2_Throw_Low") > 0)) {
 			Debug.Log("P2 THROW RACKET LOW");
+			playerMovement.SendMessage("RacketToss", true);
+			_animator.Play( Animator.StringToHash("RacketToss_Low"));
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
+			if (being_thrown == false){
+				being_thrown = true;
+				mennisMeter_p2.DecrementMennis_racketToss();
+				Debug.Log("P2 RACKET THROW");
+				racket.collider2D.enabled = true; // Enable the racket collider during toss
+				StartCoroutine (ThrowRacket (false));
+			}
 		}
 	}
 
@@ -130,8 +214,10 @@ public class RacketToss : MonoBehaviour {
 		
 		// If player 1 throws racket, throw it
 		if(_player1 == true && (inputDevice.RightBumper > 0)){
+			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
+				mennisMeter_p1.DecrementMennis_racketToss();
 				Debug.Log("P1 RACKET THROW");
 				StartCoroutine (ThrowRacket (false));
 			}
@@ -142,6 +228,7 @@ public class RacketToss : MonoBehaviour {
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
 			if (being_thrown == false){
 				being_thrown = true;
+				mennisMeter_p2.DecrementMennis_racketToss();
 				Debug.Log("P2 RACKET THROW");
 				StartCoroutine (ThrowRacket (false));
 			}
@@ -163,20 +250,12 @@ public class RacketToss : MonoBehaviour {
 
 	// Send a call to PlayerMovement.cs to freeze the player's X position
 	void FreezePlayer(){
-		if(_player1 == true){
-			playerMovement1.SendMessage("FreezePlayer");
-		}else if(_player2 == true){
-			playerMovement2.SendMessage("FreezePlayer");
-		}
+		playerMovement.SendMessage("FreezePlayer");
 	}
 
 	// Send a call to PlayerMovement.cs to unfreeze the player's x posotion
 	void UnfreeezePlayer(){
-		if(_player1 == true){
-			playerMovement1.SendMessage("UnfreezePlayer");
-		}else if(_player2 == true){
-			playerMovement2.SendMessage("UnfreezePlayer");
-		}
+		playerMovement.SendMessage("UnfreezePlayer");
 	}
 
 	// Move the racket to the given position
