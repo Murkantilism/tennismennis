@@ -24,6 +24,16 @@ public class EndOfRound : MonoBehaviour {
 
 	PlayerMovement playerMovement_p1;
 	PlayerMovement playerMovement_p2;
+	
+	public Texture2D threeLabel;
+	public Texture2D twoLabel;
+	public Texture2D oneLabel;
+	public Texture2D startLabel;
+	
+	bool three;
+	bool two;
+	bool one;
+	bool start;
 
 	// Use this for initialization
 	void Start () {
@@ -47,6 +57,21 @@ public class EndOfRound : MonoBehaviour {
 		// TODO: Eventually remove this input check, this is for development use only
 		if(Input.GetKeyUp(KeyCode.Escape)){
 			RespawnBall();
+		}
+	}
+	
+	void OnGUI(){
+		//// Game Messages
+		if (three) {
+			GUI.Label (new Rect(Screen.width*15/32, Screen.height*10/32,Screen.width*2/32, Screen.height*6/32), threeLabel);
+		}else if (two) {
+			GUI.Label (new Rect(Screen.width*15/32, Screen.height*10/32,Screen.width*2/32, Screen.height*6/32), twoLabel);
+		}else if (one) {
+			GUI.Label (new Rect(Screen.width*15/32, Screen.height*10/32,Screen.width*2/32, Screen.height*6/32), oneLabel);
+		}else if (start) {
+			GUI.Label (new Rect(Screen.width*12/32, Screen.height*10/32,Screen.width*8/32, Screen.height*6/32), startLabel);
+			paused = false;
+			Time.timeScale = 1f;
 		}
 	}
 
@@ -96,8 +121,8 @@ public class EndOfRound : MonoBehaviour {
 
 	// Delay the start of the next round, then start it
 	IEnumerator DelayedRoundStart(){
-		// Declare a timer (so that it is reset to original value each round)
-		float roundStartDelay = 3.0f;
+		// Reset timer to original value each round
+		float roundStartDelay = 4.0f;
 
 		// This is a workaround so we don't depend on WaitForSeconds while paused
 		while(paused == true){
@@ -111,22 +136,20 @@ public class EndOfRound : MonoBehaviour {
 			if (roundStartDelay > -2){ // Stop decrementing at -2
 				roundStartDelay -= 1; 
 			}
-
-			// TODO: Uncomment these texture line once the textures have been created + added
-			if(roundStartDelay == 3){
-				//threeTexture.render.enabled = true;
-			}else if(roundStartDelay == 2){
-				//threeTexture.render.enabled = false;
-				//twoTexture.render.enabled = true;
-			}else if(roundStartDelay == 1){
-				//twoTexture.render.enabled = false;
-				//oneTexture.render.enabled = true;
-			}else if(roundStartDelay == 0){
-				//oneTexture.render.enabled = false;
-				paused = false;
-				Time.timeScale = 1f;
-				// Stop the coroutine
-				StopCoroutine ("DelayedRoundStart");
+			
+			if (roundStartDelay == 3) {
+				three = true;
+			}else if (roundStartDelay == 2) {
+				three = false;
+				two = true;
+			}else if (roundStartDelay == 1) {
+				two = false;
+				one = true;
+			}else if (roundStartDelay == 0) {
+				one = false;
+				start = true;
+			}else{
+				start = false;
 			}
 		}
 	}

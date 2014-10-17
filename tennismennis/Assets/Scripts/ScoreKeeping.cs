@@ -28,6 +28,7 @@ public class ScoreKeeping : MonoBehaviour {
 		}
 		point = 1;
 		endOfRound.SendMessage ("ResetRound");
+		StartCoroutine("DisplayPointText");
 	}
 
 	void OnGUI(){
@@ -45,8 +46,18 @@ public class ScoreKeeping : MonoBehaviour {
 		}
 	}
 	void FixedUpdate(){
-		if (point > 0) {point -= Time.deltaTime;}
 		// cheat button, auto-scores a point for P1 for UI testing
 		if (Input.GetKeyDown("6")) {this.PointScored("Player1");}
+	}
+	
+	IEnumerator DisplayPointText(){
+		// While we are paused, subtract from "point"
+		while(Time.timeScale == 0.0f){
+			float pauseEndTime = Time.realtimeSinceStartup + 1f;
+			while (Time.realtimeSinceStartup < pauseEndTime){
+				yield return 0;
+			}
+			point -= 1.0f; // Subtracting by 0.5 will put "Point" text up for 2 seconds
+		}
 	}
 }
