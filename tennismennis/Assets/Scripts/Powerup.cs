@@ -14,7 +14,7 @@ public class Powerup : MonoBehaviour {
 		// If either player's racket hits the power-up, check if it's being tossed
 		if(col.gameObject.name == "racket_p1"){
 			Debug.Log("P1 Racket Toss Hit Powerup");
-			Player1 tossp1 = GameObject.Find ("Player1").GetComponent<Player1>();
+			RacketToss tossp1 = col.gameObject.GetComponent<RacketToss>();
 			// If player 1 did indeed toss his racket, tell PowerupSystem about it!
 			if (tossp1.being_thrown == true){
 				powerupSystem.PowerupAcquired(true); // true = p1
@@ -24,7 +24,7 @@ public class Powerup : MonoBehaviour {
 		
 		if(col.gameObject.name == "racket_p2"){
 			Debug.Log("P2 Racket Toss Hit Powerup");
-			Player2 tossp2 = GameObject.Find ("Player2").GetComponent<Player2>();
+			RacketToss tossp2 = col.gameObject.GetComponent<RacketToss>();
 			// If player 2 did indeed toss his racket, tell PowerupSystem about it!
 			if (tossp2.being_thrown == true){
 				powerupSystem.PowerupAcquired(false); // false = p2

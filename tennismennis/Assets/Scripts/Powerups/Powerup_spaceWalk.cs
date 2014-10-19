@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Powerup_spaceWalk : MonoBehaviour {
 
-	Player1 p1_movement;
-	Player2 p2_movement;
+	PlayerMovement p1_movement;
+	PlayerMovement p2_movement;
 
 	// Use this for initialization
 	void Start () {
@@ -20,8 +20,8 @@ public class Powerup_spaceWalk : MonoBehaviour {
 	public void ActivatePowerup(bool player){
 		Debug.Log("SPACE WALK ACTIVATED");
 		
-		p1_movement = GameObject.Find("Player1").GetComponent<Player1>();
-		p2_movement = GameObject.Find("Player2").GetComponent<Player2>();
+		p1_movement = GameObject.Find("Player1").GetComponent<PlayerMovement>();
+		p2_movement = GameObject.Find("Player2").GetComponent<PlayerMovement>();
 		
 		if(player == true){
 			p1_movement.jumpHeight += 5;
