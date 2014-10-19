@@ -22,8 +22,8 @@ public class EndOfRound : MonoBehaviour {
 
 	bool paused = false;
 
-	PlayerMovement playerMovement_p1;
-	PlayerMovement playerMovement_p2;
+	Player1 player_1;
+	Player2 player_2;
 	
 	public Texture2D threeLabel;
 	public Texture2D twoLabel;
@@ -48,8 +48,8 @@ public class EndOfRound : MonoBehaviour {
 		player1_spawn = GameObject.Find ("player1_spawn").transform.position;
 		player2_spawn = GameObject.Find ("player2_spawn").transform.position;
 
-		playerMovement_p1 = player1.GetComponent<PlayerMovement> ();
-		playerMovement_p2 = player2.GetComponent<PlayerMovement> ();
+		player_1 = player1.GetComponent<Player1> ();
+		player_2 = player2.GetComponent<Player2> ();
 	}
 	
 	// Update is called once per frame
@@ -80,8 +80,10 @@ public class EndOfRound : MonoBehaviour {
 		PauseGame ();
 		RespawnPlayers ();
 		RespawnBall ();
-		playerMovement_p1.SendMessage ("ResetRound");
-		playerMovement_p2.SendMessage ("ResetRound");
+		player_1 = player1.GetComponent<Player1> ();
+		player_2 = player2.GetComponent<Player2> ();
+		player_1.SendMessage ("ResetRound");
+		player_2.SendMessage ("ResetRound");
 	}
 
 	// Pause the game while we reset for the next round

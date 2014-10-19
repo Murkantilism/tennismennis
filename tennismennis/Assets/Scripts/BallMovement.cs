@@ -18,8 +18,8 @@ public class BallMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		player1Hit = player1.GetComponent<PlayerMovement>().playerIsSwinging;
-		player2Hit = player2.GetComponent<PlayerMovement>().playerIsSwinging;
+		player1Hit = player1.GetComponent<Player1>().playerIsSwinging;
+		player2Hit = player2.GetComponent<Player2>().playerIsSwinging;
 	}
 	
 	void TennisForce(Vector2 forceVector) {
