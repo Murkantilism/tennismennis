@@ -15,29 +15,21 @@ public class HUD : MonoBehaviour {
 
 	float p1Mennis = 0;
 	float p2Mennis = 0;
-<<<<<<< HEAD
-	float timeToStart;
 
 	bool three;
 	bool two;
 	bool one;
 	bool start;
 
-=======
 	float timeToStart = 4.0f;
 	
 	bool paused = false;
 
->>>>>>> denizDev
 	public Texture2D threeLabel;
 	public Texture2D twoLabel;
 	public Texture2D oneLabel;
 	public Texture2D startLabel;
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> denizDev
 	public Texture2D progressBarFull;
 	public Texture2D swolesaurusTitle;
 	public Texture2D fishTitle;
@@ -50,11 +42,8 @@ public class HUD : MonoBehaviour {
 	{
 		p1Mennis = (float)(size.x * .4);
 		p2Mennis = (float)(size.x * .4);
-<<<<<<< HEAD
 		timeToStart = 4.0f;
-=======
 		PauseGame();
->>>>>>> denizDev
 	}
 
 	void OnGUI()
