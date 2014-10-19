@@ -42,9 +42,6 @@ public class EndOfRound : MonoBehaviour {
 		player2 = GameObject.Find ("Player2");
 		ball = GameObject.Find ("Ball").transform;
 
-		racket_p1 = GameObject.Find ("racket_p1").transform.position;
-		racket_p2 = GameObject.Find ("racket_p2").transform.position;
-
 		player1_spawn = GameObject.Find ("player1_spawn").transform.position;
 		player2_spawn = GameObject.Find ("player2_spawn").transform.position;
 
@@ -107,6 +104,9 @@ public class EndOfRound : MonoBehaviour {
 	void RespawnBall(){
 		// Flip the value of the server_player bool to switch who serves next
 		serving_player = !serving_player;
+		
+		racket_p1 = GameObject.Find ("racket_p1").transform.position;
+		racket_p2 = GameObject.Find ("racket_p2").transform.position;
 
 		// Spawn ball above player 1's racket
 		if(serving_player == true){
