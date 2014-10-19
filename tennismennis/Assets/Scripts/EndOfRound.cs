@@ -22,8 +22,18 @@ public class EndOfRound : MonoBehaviour {
 
 	bool paused = false;
 
-	PlayerMovement playerMovement_p1;
-	PlayerMovement playerMovement_p2;
+	Player1 player_1;
+	Player2 player_2;
+	
+	public Texture2D threeLabel;
+	public Texture2D twoLabel;
+	public Texture2D oneLabel;
+	public Texture2D startLabel;
+	
+	bool three;
+	bool two;
+	bool one;
+	bool start;
 
 	// Use this for initialization
 	void Start () {
@@ -32,14 +42,11 @@ public class EndOfRound : MonoBehaviour {
 		player2 = GameObject.Find ("Player2");
 		ball = GameObject.Find ("Ball").transform;
 
-		racket_p1 = GameObject.Find ("racket_p1").transform.position;
-		racket_p2 = GameObject.Find ("racket_p2").transform.position;
-
 		player1_spawn = GameObject.Find ("player1_spawn").transform.position;
 		player2_spawn = GameObject.Find ("player2_spawn").transform.position;
 
-		playerMovement_p1 = player1.GetComponent<PlayerMovement> ();
-		playerMovement_p2 = player2.GetComponent<PlayerMovement> ();
+		player_1 = player1.GetComponent<Player1> ();
+		player_2 = player2.GetComponent<Player2> ();
 	}
 	
 	// Update is called once per frame
@@ -49,14 +56,31 @@ public class EndOfRound : MonoBehaviour {
 			RespawnBall();
 		}
 	}
+	
+	void OnGUI(){
+		//// Game Messages
+		if (three) {
+			GUI.Label (new Rect(Screen.width*15/32, Screen.height*10/32,Screen.width*2/32, Screen.height*6/32), threeLabel);
+		}else if (two) {
+			GUI.Label (new Rect(Screen.width*15/32, Screen.height*10/32,Screen.width*2/32, Screen.height*6/32), twoLabel);
+		}else if (one) {
+			GUI.Label (new Rect(Screen.width*15/32, Screen.height*10/32,Screen.width*2/32, Screen.height*6/32), oneLabel);
+		}else if (start) {
+			GUI.Label (new Rect(Screen.width*12/32, Screen.height*10/32,Screen.width*8/32, Screen.height*6/32), startLabel);
+			paused = false;
+			Time.timeScale = 1f;
+		}
+	}
 
 	// Reset ALL THE THINGS!
 	void ResetRound(){
 		PauseGame ();
 		RespawnPlayers ();
 		RespawnBall ();
-		playerMovement_p1.SendMessage ("ResetRound");
-		playerMovement_p2.SendMessage ("ResetRound");
+		player_1 = player1.GetComponent<Player1> ();
+		player_2 = player2.GetComponent<Player2> ();
+		player_1.SendMessage ("ResetRound");
+		player_2.SendMessage ("ResetRound");
 	}
 
 	// Pause the game while we reset for the next round
@@ -70,16 +94,19 @@ public class EndOfRound : MonoBehaviour {
 	// local scale so they are facing the correct direction.
 	void RespawnPlayers(){
 		player1.transform.position = player1_spawn;
-		player1.transform.localScale = new Vector3( 2, 2, 1 );
+		player1.transform.localScale = new Vector3 (2.25f, 2.25f, 1);
 
 		player2.transform.position = player2_spawn;
-		player2.transform.localScale = new Vector3( 2, 2, 1 );
+		player2.transform.localScale = new Vector3 (-2.25f, 2.25f, 1);
 	}
 
 	// Reset the ball's position to the opposite player that last served
 	void RespawnBall(){
 		// Flip the value of the server_player bool to switch who serves next
 		serving_player = !serving_player;
+		
+		racket_p1 = GameObject.Find ("racket_p1").transform.position;
+		racket_p2 = GameObject.Find ("racket_p2").transform.position;
 
 		// Spawn ball above player 1's racket
 		if(serving_player == true){
@@ -96,8 +123,8 @@ public class EndOfRound : MonoBehaviour {
 
 	// Delay the start of the next round, then start it
 	IEnumerator DelayedRoundStart(){
-		// Declare a timer (so that it is reset to original value each round)
-		float roundStartDelay = 3.0f;
+		// Reset timer to original value each round
+		float roundStartDelay = 4.0f;
 
 		// This is a workaround so we don't depend on WaitForSeconds while paused
 		while(paused == true){
@@ -111,22 +138,20 @@ public class EndOfRound : MonoBehaviour {
 			if (roundStartDelay > -2){ // Stop decrementing at -2
 				roundStartDelay -= 1; 
 			}
-
-			// TODO: Uncomment these texture line once the textures have been created + added
-			if(roundStartDelay == 3){
-				//threeTexture.render.enabled = true;
-			}else if(roundStartDelay == 2){
-				//threeTexture.render.enabled = false;
-				//twoTexture.render.enabled = true;
-			}else if(roundStartDelay == 1){
-				//twoTexture.render.enabled = false;
-				//oneTexture.render.enabled = true;
-			}else if(roundStartDelay == 0){
-				//oneTexture.render.enabled = false;
-				paused = false;
-				Time.timeScale = 1f;
-				// Stop the coroutine
-				StopCoroutine ("DelayedRoundStart");
+			
+			if (roundStartDelay == 3) {
+				three = true;
+			}else if (roundStartDelay == 2) {
+				three = false;
+				two = true;
+			}else if (roundStartDelay == 1) {
+				two = false;
+				one = true;
+			}else if (roundStartDelay == 0) {
+				one = false;
+				start = true;
+			}else{
+				start = false;
 			}
 		}
 	}
