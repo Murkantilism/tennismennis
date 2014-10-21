@@ -84,10 +84,10 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width *3/32, Screen.height*3/32, Screen.width*4/32, Screen.height*7/32), SwoleIdle);
 		
 		GUI.Label(new Rect(Screen.width *1/32, Screen.height*10/32, Screen.width*8/32, Screen.height*2/32), "\"" + tagline + "\"", bioStyle);
-		GUI.Label(new Rect(Screen.width *1/32, Screen.height*13/32, Screen.width*8/32, Screen.height*1/32), "<color=blue>Height:   </color>" + height, bioStyle);
-		GUI.Label(new Rect(Screen.width *1/32, Screen.height*14/32, Screen.width*8/32, Screen.height*1/32), "<color=blue>Weight:   </color>" + weight, bioStyle);
+		GUI.Label(new Rect(Screen.width *1/32, Screen.height*13/32, Screen.width*8/32, Screen.height*1/32), "<color=#4798D5>Height:   </color>" + height, bioStyle);
+		GUI.Label(new Rect(Screen.width *1/32, Screen.height*14/32, Screen.width*8/32, Screen.height*1/32), "<color=#4798D5>Weight:   </color>" + weight, bioStyle);
 		GUI.Label(new Rect(Screen.width *1/32, Screen.height*15/32, Screen.width*8/32, Screen.height*1/32), stat, bioStyle);
-		GUI.Label(new Rect(Screen.width *1/32, Screen.height*17/32, Screen.width*8/32, Screen.height*7/32), "<color=blue>The Story So Far:   </color>" + bio, bioStyle);
+		GUI.Label(new Rect(Screen.width *1/32, Screen.height*17/32, Screen.width*8/32, Screen.height*7/32), "<color=#4798D5>The Story So Far:   </color>" + bio, bioStyle);
 		
 		GUI.EndGroup();
 	}
@@ -99,7 +99,7 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 			tagline = "Just a regular guy, I guess";
 			height = "5ft 10in";
 			weight = "178lb";
-			stat = "<color=blue>Vision:   </color>20/20";
+			stat = "<color=#4798D5>Vision:   </color>20/20";
 			bio = "Dennis is a regular guy. So regular, in fact, that it's almost obscene. He lives in a normal " +
 				"house with his normal family and works a normal job. He plays tennis and enjoys vanilla ice cream.";
 		}
@@ -109,7 +109,7 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 			tagline = "Toughest dude this side of the Jurassic period.";
 			height = "6ft 9in";
 			weight = "387lb";
-			stat = "<color=blue>Max Bench:   </color>375lb";
+			stat = "<color=#4798D5>Max Bench:   </color>375lb";
 			bio = "He's mean. He's green. He's over 200 million years old. And he has never missed leg day. Not even once.";
 		}
 		else if (!top && left) {
@@ -118,7 +118,7 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 			tagline = "The many-armed god of Tennis Destruction";
 			height = "6ft 2in";
 			weight = "210lb";
-			stat = "<color=blue>Number of Arms:   </color>4.00";
+			stat = "<color=#4798D5>Number of Arms:   </color>4.00";
 			bio = "Just exactly how and when 5H1-V4 came to be remains unknown. But we do know this: She has four arms. And " +
 				"each one has the strength of 100 arms. That's like, 12 billion arms.";
 		}
@@ -128,7 +128,7 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 			tagline = "He's a goldfish in tank. Not that kind of tank.";
 			height = "2.7in";
 			weight = ".07lb";
-			stat = "<color=blue>Barrel Diameter:   </color>120mm";
+			stat = "<color=#4798D5>Barrel Diameter:   </color>120mm";
 			bio = "Growing up, Colonel Topspin wasn't like all the other goldfish. He was born with a rare genetic defect" +
 				" on his Y chromosome that confined him to live in a T36 tank for the rest of his life. This made it clear to" +
 					"him from an early age that he was destined for tennis glory.";

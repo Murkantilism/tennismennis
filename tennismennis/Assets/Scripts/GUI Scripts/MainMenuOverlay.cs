@@ -22,6 +22,7 @@ public class MainMenuOverlay : MonoBehaviour {
 	void OnGUI () {
 		GUI.skin = customSkin;
 
+
 		// Background box
 		GUI.BeginGroup (new Rect (Screen.width*8/32, Screen.height*6/32, Screen.width/2, Screen.height*20/32));
 		GUI.Box(new Rect(0,0,Screen.width/2,Screen.height*20/32),"");
