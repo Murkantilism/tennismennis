@@ -6,14 +6,14 @@ public class MainMenuOverlay : MonoBehaviour {
 	public GUISkin customSkin;
 
 	int item = 0;
-	string[] buttons = new string[] {"QuickButton", "CustomButton", "QuitButton"};
+	string[] buttons = new string[]{"QuickButton", "CustomButton", "QuitButton"};
 
 	void FixedUpdate () {
 		if (Input.GetKeyDown("s")) {
-			if (item < 3) {item += 1;}
+			if (item < 2) {item += 1;}
 			else {item = 0;} 
 		}
-		if (Input.GetKeyDown("w")) {
+		else if (Input.GetKeyDown("w")) {
 			if (item > 0) {item -= 1;}
 			else {item = 2;}
 		}
