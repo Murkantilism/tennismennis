@@ -13,7 +13,6 @@ public class CharacterSelectOverlay : MonoBehaviour {
 
 	bool left = true;
 	bool top = true;
-	string selected;
 	Texture2D selectedLabel;
 	string tagline;
 	string height;
@@ -83,7 +82,7 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width *2/32, Screen.height*1/32, Screen.width*6/32, Screen.height*2/32), selectedLabel);
 		GUI.Label(new Rect(Screen.width *3/32, Screen.height*3/32, Screen.width*4/32, Screen.height*7/32), SwoleIdle);
 
-		GUI.Label(new Rect(Screen.width *1/32, Screen.height*11/32, Screen.width*8/32, Screen.height*2/32), "\"" + tagline + "\"", bioStyle);
+		GUI.Label(new Rect(Screen.width *1/32, Screen.height*10/32, Screen.width*8/32, Screen.height*2/32), "\"" + tagline + "\"", bioStyle);
 		GUI.Label(new Rect(Screen.width *1/32, Screen.height*13/32, Screen.width*8/32, Screen.height*1/32), "<color=yellow>Height:   </color>" + height, bioStyle);
 		GUI.Label(new Rect(Screen.width *1/32, Screen.height*14/32, Screen.width*8/32, Screen.height*1/32), "<color=yellow>Weight:   </color>" + weight, bioStyle);
 		GUI.Label(new Rect(Screen.width *1/32, Screen.height*15/32, Screen.width*8/32, Screen.height*1/32), stat, bioStyle);
@@ -95,7 +94,6 @@ public class CharacterSelectOverlay : MonoBehaviour {
 	void assignSelection() {
 		if (top && left) {
 			GUI.FocusControl("DennisButton");
-			selected = "Dennis";
 			selectedLabel = DennisLabel;
 			tagline = "Just a regular guy, I guess";
 			height = "5ft 10in";
@@ -106,7 +104,6 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		}
 		else if (top && !left) {
 			GUI.FocusControl("SwoleButton");
-			selected = "Swolesaurus Racks";
 			selectedLabel = SwoleLabel;
 			tagline = "Toughest dude this side of the Jurassic period.";
 			height = "6ft 9in";
@@ -116,7 +113,6 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		}
 		else if (!top && left) {
 			GUI.FocusControl("ShivaButton");
-			selected = "Shiva";
 			selectedLabel = ShivaLabel;
 			tagline = "The many-armed god of Tennis Destruction";
 			height = "6ft 2in";
@@ -127,7 +123,6 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		}
 		else if (!top && !left) {
 			GUI.FocusControl("FishButton");
-			selected = "Colonel Topspin";
 			selectedLabel = FishLabel;
 			tagline = "He's a goldfish in tank. Not that kind of tank.";
 			height = "2.7in";
