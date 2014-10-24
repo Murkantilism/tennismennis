@@ -6,13 +6,20 @@ public class BallMovement : MonoBehaviour {
 	bool player2Hit;
 	GameObject player1;
 	GameObject player2;
+	GameObject racket1;
 	public bool lastHit = true; // Who hit this ball last? true = player 1, false = player 2
 	ScoreKeeping scoreKeeper;
+
+	Vector2 idealVector;
+	Vector2 forceVector;
 	
 	// Use this for initialization
 	void Start () {
 		player1 = GameObject.Find("Player1");
 		player2 = GameObject.Find("Player2");
+		racket1 = GameObject.Find ("racket_p1");
+		transform.position = racket1.transform.position;
+		ServeShot (new Vector2 (8, 7));
 		scoreKeeper = GameObject.Find("ScoreKeeper").GetComponent<ScoreKeeping>();
 	}
 	
@@ -23,10 +30,15 @@ public class BallMovement : MonoBehaviour {
 	}
 	
 	void TennisForce(Vector2 forceVector) {
-		rigidbody2D.AddForce(forceVector);
+		rigidbody2D.AddForce(forceVector, ForceMode2D.Impulse);
+	}
+
+	public void ServeShot(Vector2 forceVector) {
+		rigidbody2D.AddForce (forceVector, ForceMode2D.Impulse);
 	}
 	
 	void OnCollisionEnter2D(Collision2D col) {
+		Vector2 collisionVector;
 		if(col.gameObject.name == "Court"){
 			Debug.Log("Hit the court!");
 			// If the ball landed on the left side of the court, p2 scores
@@ -40,12 +52,21 @@ public class BallMovement : MonoBehaviour {
 			}
 		}
 		if(col.gameObject.name == "racket_p1" && player1Hit) {
-			TennisForce(new Vector2(400, 400));
+			idealVector = new Vector2(5, 1);
+			collisionVector = col.contacts[0].normal;
+			collisionVector.x = Mathf.Abs (collisionVector.x * 10);
+			collisionVector.y *= 5;
+			forceVector = idealVector + collisionVector;
+			TennisForce(forceVector);
 			lastHit = true;
-			Debug.Log("HIT PLAYER 1");
 		}
 		if (col.gameObject.name == "racket_p2" && player2Hit) {
-			TennisForce(new Vector2(-400, 400));
+			idealVector = new Vector2(-5, 1);
+			collisionVector = col.contacts[0].normal;
+			collisionVector.x = -1 * Mathf.Abs (collisionVector.x * 10);
+			collisionVector.y *= 5;
+			forceVector = idealVector + collisionVector;
+			TennisForce(forceVector);
 			lastHit = false;
 			Debug.Log("Hit Player 2");
 		}
