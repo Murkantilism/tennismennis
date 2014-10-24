@@ -15,15 +15,29 @@ public class HUD : MonoBehaviour {
 
 	float p1Mennis = 0;
 	float p2Mennis = 0;
+<<<<<<< HEAD
 	float timeToStart = 4.0f;
 	
 	bool paused = false;
 
+=======
+	float timeToStart;
+
+	bool three;
+	bool two;
+	bool one;
+	bool start;
+
+>>>>>>> df67f08eb0af04df8472e7eb840d0a535f1d29d0
 	public Texture2D threeLabel;
 	public Texture2D twoLabel;
 	public Texture2D oneLabel;
 	public Texture2D startLabel;
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> df67f08eb0af04df8472e7eb840d0a535f1d29d0
 	public Texture2D progressBarFull;
 	public Texture2D swolesaurusTitle;
 	public Texture2D fishTitle;
@@ -36,7 +50,11 @@ public class HUD : MonoBehaviour {
 	{
 		p1Mennis = (float)(size.x * .4);
 		p2Mennis = (float)(size.x * .4);
+<<<<<<< HEAD
 		PauseGame();
+=======
+		timeToStart = 4.0f;
+>>>>>>> df67f08eb0af04df8472e7eb840d0a535f1d29d0
 	}
 
 	void OnGUI()
@@ -82,12 +100,39 @@ public class HUD : MonoBehaviour {
 		GUI.EndGroup ();
 		
 		GUI.EndGroup ();
+
+		//// Game Messages
+		if (three) {
+			GUI.Label (new Rect(Screen.width*15/32, Screen.height*10/32,Screen.width*2/32, Screen.height*6/32), threeLabel);
+		}else if (two) {
+			GUI.Label (new Rect(Screen.width*15/32, Screen.height*10/32,Screen.width*2/32, Screen.height*6/32), twoLabel);
+		}else if (one) {
+			GUI.Label (new Rect(Screen.width*15/32, Screen.height*10/32,Screen.width*2/32, Screen.height*6/32), oneLabel);
+		}else if (start) {
+			GUI.Label (new Rect(Screen.width*12/32, Screen.height*10/32,Screen.width*8/32, Screen.height*6/32), startLabel);
+		}
 	} 
 	
 	void FixedUpdate()
 	{
 		p1Mennis += (float)0.35;
 		p2Mennis += (float)0.35;
+		timeToStart -= Time.deltaTime;
+
+		if (timeToStart > 3) {
+			three = true;
+		}else if (timeToStart > 2) {
+			three = false;
+			two = true;
+		}else if (timeToStart > 1) {
+			two = false;
+			one = true;
+		}else if (timeToStart > 0) {
+			one = false;
+			start = true;
+		}else if (timeToStart <= 0) {
+			start = false;
+		}
 	}
 	
 	// Pause the game while we reset for the next round
