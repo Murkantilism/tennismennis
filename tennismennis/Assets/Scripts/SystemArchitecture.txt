@@ -1,0 +1,34 @@
+﻿/* Tennis Mennis - System Architecture!
+ * 
+ * Menu Interface
+ * 	> Court selection
+ * 	> Character selection
+ * 
+ * Player Movement
+ * 	> Input (controller vs keyboard)
+ *  > Animation system
+ * 
+ * Ball Physics
+ *  > Racket-Ball collision detection
+ * 
+ * Out-of-bounds detection
+ *	> Checks for both player and ball out of bounds
+ *	
+ * Power-ups (talks to and effects Player Movement, Ball Physics)
+ * 
+ * Pause script
+ * 
+ * Match UI Overlay
+ * 	> Score
+ * 	> Character portraits
+ * 	> Character power-ups
+ * 	> [Reach] Super-move bar
+ * 
+ * End of Round
+ *	> Resets player positions
+ *	> Resets ball
+ *	> Wait X seconds, then start next round
+ * 
+ * [Reach] Super-moves (talks to and effects player movement, maybe ball physics)
+ * 
+ * /
