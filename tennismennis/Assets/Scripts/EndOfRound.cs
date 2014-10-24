@@ -20,6 +20,8 @@ public class EndOfRound : MonoBehaviour {
 
 	public GUISkin guiSkin;
 
+	BallMovement ballMovement;
+
 	bool paused = false;
 
 	Player1 player_1;
@@ -41,6 +43,7 @@ public class EndOfRound : MonoBehaviour {
 		player1 = GameObject.Find ("Player1");
 		player2 = GameObject.Find ("Player2");
 		ball = GameObject.Find ("Ball").transform;
+		ballMovement = ball.GetComponent<BallMovement> ();
 
 		player1_spawn = GameObject.Find ("player1_spawn").transform.position;
 		player2_spawn = GameObject.Find ("player2_spawn").transform.position;
@@ -73,14 +76,16 @@ public class EndOfRound : MonoBehaviour {
 	}
 
 	// Reset ALL THE THINGS!
-	void ResetRound(){
+	void ResetRound(){ 
 		PauseGame ();
 		RespawnPlayers ();
 		RespawnBall ();
+		Serve();
 		player_1 = player1.GetComponent<Player1> ();
 		player_2 = player2.GetComponent<Player2> ();
 		player_1.SendMessage ("ResetRound");
 		player_2.SendMessage ("ResetRound");
+
 	}
 
 	// Pause the game while we reset for the next round
@@ -110,14 +115,22 @@ public class EndOfRound : MonoBehaviour {
 
 		// Spawn ball above player 1's racket
 		if(serving_player == true){
-			ball.position = new Vector3(racket_p1.x, racket_p1.y + ballSpawnHeight, racket_p1.z);
+			ball.position = new Vector3(racket_p1.x, racket_p1.y, racket_p1.z);
 			// Reset the ball's velocity
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
 		// Spawn ball above player 2's racket
 		}else{
-			ball.position = new Vector3(racket_p2.x, racket_p2.y + ballSpawnHeight, racket_p2.z);
+			ball.position = new Vector3(racket_p2.x, racket_p2.y, racket_p2.z);
 			// Reset the ball's velocity
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
+		}
+	}
+
+	void Serve(){
+		if (serving_player) {
+			ballMovement.ServeShot (new Vector2 (8, 7));
+		} else {
+			ballMovement.ServeShot (new Vector2 (-8, 7));
 		}
 	}
 
