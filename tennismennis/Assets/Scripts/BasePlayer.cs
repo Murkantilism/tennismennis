@@ -145,6 +145,7 @@ class Player1 : BasePlayer{
 		playerObj = gameObject;
 		_controller = playerObj.GetComponent<CharacterController2D>();
 		_animator = playerObj.GetComponent<Animator>();
+		Debug.Log(_animator.ToString() + "   animator object");
 		
 		racket = GameObject.Find("racket_p1");
 		originalRacketPosMarker = transform.Find("originalRacketPos").gameObject;
