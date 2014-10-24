@@ -284,6 +284,15 @@ class Player1 : BasePlayer{
 			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
 			StartCoroutine(ToggleSwing());
 		}
+		
+		
+		if(being_thrown && playerIsSwinging == false){
+			Debug.Log("Player 1 racket toss");
+			playerIsSwinging = true;
+			racket.collider2D.enabled = true;
+			_animator.Play( Animator.StringToHash( "RacketToss_Straight" ) );
+			StartCoroutine(ToggleSwing());
+		}
 	}
 	
 	void FixedUpdate(){
@@ -444,6 +453,14 @@ class Player2 : BasePlayer{
 			playerIsSwinging = true;
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
+			StartCoroutine(ToggleSwing());
+		}
+		
+		if(being_thrown && playerIsSwinging == false){
+			Debug.Log("Player 2 racket toss");
+			playerIsSwinging = true;
+			racket.collider2D.enabled = true;
+			_animator.Play( Animator.StringToHash( "RacketToss_Straight" ) );
 			StartCoroutine(ToggleSwing());
 		}
 	}
