@@ -79,6 +79,7 @@ public abstract class BasePlayer : MonoBehaviour{
 		_right = false;
 		_left = false;
 		_playerChip = false;
+		racket.collider2D.enabled = false;
 		normalizedHorizontalSpeed = 0;
 	}
 	
