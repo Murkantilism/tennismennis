@@ -8,8 +8,10 @@ public class EndOfRound : MonoBehaviour {
 	
 	Transform ball;
 
-	Vector3 racket_p1;
-	Vector3 racket_p2;
+	BallMovement ballMovement;
+
+	GameObject racket_p1;
+	GameObject racket_p2;
 
 	Vector3 player1_spawn;
 	Vector3 player2_spawn;
@@ -40,7 +42,13 @@ public class EndOfRound : MonoBehaviour {
 		// Find and assign all relevent vars
 		player1 = GameObject.Find ("Player1");
 		player2 = GameObject.Find ("Player2");
+		racket_p1 = GameObject.Find ("racket_p1");
+		racket_p2 = GameObject.Find ("racket_p2");
 		ball = GameObject.Find ("Ball").transform;
+
+		ballMovement = ball.GetComponent<BallMovement> ();
+
+
 
 		player1_spawn = GameObject.Find ("player1_spawn").transform.position;
 		player2_spawn = GameObject.Find ("player2_spawn").transform.position;
@@ -77,6 +85,7 @@ public class EndOfRound : MonoBehaviour {
 		PauseGame ();
 		RespawnPlayers ();
 		RespawnBall ();
+		Serve ();
 		player_1 = player1.GetComponent<Player1> ();
 		player_2 = player2.GetComponent<Player2> ();
 		player_1.SendMessage ("ResetRound");
@@ -95,9 +104,11 @@ public class EndOfRound : MonoBehaviour {
 	void RespawnPlayers(){
 		player1.transform.position = player1_spawn;
 		player1.transform.localScale = new Vector3 (2.25f, 2.25f, 1);
+		racket_p1.collider2D.enabled = false;
 
 		player2.transform.position = player2_spawn;
 		player2.transform.localScale = new Vector3 (-2.25f, 2.25f, 1);
+		racket_p2.collider2D.enabled = false;
 	}
 
 	// Reset the ball's position to the opposite player that last served
@@ -105,19 +116,27 @@ public class EndOfRound : MonoBehaviour {
 		// Flip the value of the server_player bool to switch who serves next
 		serving_player = !serving_player;
 		
-		racket_p1 = GameObject.Find ("racket_p1").transform.position;
-		racket_p2 = GameObject.Find ("racket_p2").transform.position;
+		Vector3 racket_p1pos = racket_p1.transform.position;
+		Vector3 racket_p2pos = racket_p2.transform.position;
 
 		// Spawn ball above player 1's racket
 		if(serving_player == true){
-			ball.position = new Vector3(racket_p1.x, racket_p1.y + ballSpawnHeight, racket_p1.z);
+			ball.position = new Vector3(racket_p1pos.x, racket_p1pos.y, racket_p1pos.z);
 			// Reset the ball's velocity
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
 		// Spawn ball above player 2's racket
 		}else{
-			ball.position = new Vector3(racket_p2.x, racket_p2.y + ballSpawnHeight, racket_p2.z);
+			ball.position = new Vector3(racket_p2pos.x, racket_p2pos.y, racket_p2pos.z);
 			// Reset the ball's velocity
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
+		}
+	}
+
+	void Serve() {
+		if (serving_player) {
+			ballMovement.ServeShot(new Vector2 (8, 7));
+		} else {
+			ballMovement.ServeShot(new Vector2(-8, 7));
 		}
 	}
 
