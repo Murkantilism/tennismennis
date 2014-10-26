@@ -11,7 +11,7 @@ public class BallMovement : MonoBehaviour {
 	ScoreKeeping scoreKeeper;
 
 	Vector2 idealVector;
-	Vector2 forceVector;
+	public Vector2 forceVector;
 	
 	// Use this for initialization
 	void Start () {
@@ -29,7 +29,7 @@ public class BallMovement : MonoBehaviour {
 		player2Hit = player2.GetComponent<Player2>().playerIsSwinging;
 	}
 	
-	void TennisForce(Vector2 forceVector) {
+	public void TennisForce(Vector2 forceVector) {
 		rigidbody2D.AddForce(forceVector, ForceMode2D.Impulse);
 	}
 
