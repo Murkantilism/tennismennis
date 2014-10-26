@@ -35,9 +35,6 @@ public abstract class BasePlayer : MonoBehaviour{
 	
 	public bool racketBeingTossed = false;
 	
-	// Power-ups
-	public bool powerHitterEnabled = false;
-	
 	// Racket Toss variables
 	public Vector3[] path; // The path the racket toss will follow
 	
