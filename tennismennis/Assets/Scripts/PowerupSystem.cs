@@ -19,8 +19,8 @@ public class PowerupSystem : MonoBehaviour {
 	
 	public Vector3 powerup_speed = new Vector3(5, 0, 0);
 	
-	public float powerup_spawnTimer_low = 5.0f;
-	public float powerup_spawnTimer_high = 15.0f;
+	float powerup_spawnTimer_low = 5.0f;
+	float powerup_spawnTimer_high = 15.0f;
 	
 	// The out-of-bounds values for this court
 	public float xbound_pos = 16.0f;
@@ -75,7 +75,7 @@ public class PowerupSystem : MonoBehaviour {
 		}else{
 			normalizedHorizontalSpeed = 1;
 		}
-		powerup_type = "decoy";
+		powerup_type = "powerhitter";
 		/*
 		int randy = Random.Range(1, 5); // Do I make you randy, baby?
 		if(randy == 1){
