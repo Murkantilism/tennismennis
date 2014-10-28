@@ -132,5 +132,7 @@ public class CharacterSelectOverlay : MonoBehaviour {
 				" on his Y chromosome that confined him to live in a T36 tank for the rest of his life. This made it clear to" +
 				"him from an early age that he was destined for tennis glory.";
 		}
+
+		GUI.EndGroup();
 	}
 }
