@@ -9,11 +9,24 @@ public class CharacterSelectOverlay : MonoBehaviour {
 	public Texture2D ShivaLabel;
 	public Texture2D FishLabel;
 
+	public Texture2D DennisIdle;
 	public Texture2D SwoleIdle;
+	public Texture2D ShivaIdle;
+	public Texture2D FishIdle;
+	
+	public Texture2D DennisAlt;
+	public Texture2D SwoleAlt;
+	public Texture2D ShivaAlt;
+	public Texture2D FishAlt;
 
+	Vector2 buttonSize = new Vector2(Screen.width*8/32,Screen.height*17/64);
+	Vector2 nameSize =   new Vector2(Screen.width*6/32,Screen.height*13/64);
+
+	bool selectAlt = false;
 	bool left = true;
 	bool top = true;
 	Texture2D selectedLabel;
+	Texture2D idle;
 	string tagline;
 	string height;
 	string weight;
@@ -25,6 +38,8 @@ public class CharacterSelectOverlay : MonoBehaviour {
 	void FixedUpdate () {
 		if (Input.GetKeyDown("d") || Input.GetKeyDown("a")) {left = !left;}
 		if (Input.GetKeyDown("w") || Input.GetKeyDown("s")) {top = !top;}
+
+		if (Input.GetKeyDown("left shift")) {selectAlt = !selectAlt;}
 	}
 
 	void OnGUI () {
@@ -41,36 +56,28 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		
 		// Character Select buttons
 		GUI.SetNextControlName("DennisButton");
-		if(GUI.Button(new Rect(0,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "", p1Style)) {
-			saveSelection.WriteCharacterSelection("Dennis");
-			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel("CharacterSelect_P2");
+		if(GUI.Button(new Rect(0,Screen.height*3/32,buttonSize.x, buttonSize.y), "", p1Style)) {
+			characterButton("Dennis");
 		}
-		GUI.Label(new Rect(Screen.width*1/32,Screen.height*6/32,Screen.width*6/32,Screen.height*13/64), DennisLabel);
+		GUI.Label(new Rect(Screen.width*1/32,Screen.height*6/32,nameSize.x, nameSize.y), DennisLabel);
 
 		GUI.SetNextControlName("SwoleButton");
-		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "", p1Style)) {
-			saveSelection.WriteCharacterSelection("S. Racks");
-			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel("CharacterSelect_P2");
+		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*3/32,buttonSize.x, buttonSize.y), "", p1Style)) {
+			characterButton("S. Racks");
 		}
-		GUI.Label(new Rect(Screen.width*9/32,Screen.height*6/32,Screen.width*6/32,Screen.height*13/64), SwoleLabel);
+		GUI.Label(new Rect(Screen.width*9/32,Screen.height*6/32,nameSize.x, nameSize.y), SwoleLabel);
 
 		GUI.SetNextControlName("ShivaButton");
-		if(GUI.Button(new Rect(0,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "", p1Style)) {
-			saveSelection.WriteCharacterSelection("SH1-V4");
-			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel("CharacterSelect_P2");
+		if(GUI.Button(new Rect(0,Screen.height*23/64,buttonSize.x, buttonSize.y), "", p1Style)) {
+			characterButton("Shiva");
 		}
-		GUI.Label(new Rect(Screen.width*1/32,Screen.height*29/64,Screen.width*6/32,Screen.height*13/64), ShivaLabel);
+		GUI.Label(new Rect(Screen.width*1/32,Screen.height*29/64,nameSize.x, nameSize.y), ShivaLabel);
 
 		GUI.SetNextControlName("FishButton");
-		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "", p1Style)) {
-			saveSelection.WriteCharacterSelection("Colonel Topspin");
-			DontDestroyOnLoad(saveSelection.gameObject);
-			Application.LoadLevel("CharacterSelect_P2");
+		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*23/64,buttonSize.x, buttonSize.y), "", p1Style)) {
+			characterButton("Colonel Topspin");
 		}
-		GUI.Label(new Rect(Screen.width*9/32,Screen.height*29/64,Screen.width*6/32,Screen.height*13/64), FishLabel);
+		GUI.Label(new Rect(Screen.width*9/32,Screen.height*29/64,nameSize.x, nameSize.y), FishLabel);
 		
 		GUI.EndGroup();
 
@@ -80,7 +87,7 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		GUI.Box(new Rect(0,0,Screen.width*10/32,Screen.height*26/32), "");
 
 		GUI.Label(new Rect(Screen.width *2/32, Screen.height*1/32, Screen.width*6/32, Screen.height*2/32), selectedLabel);
-		GUI.Label(new Rect(Screen.width *3/32, Screen.height*3/32, Screen.width*4/32, Screen.height*7/32), SwoleIdle);
+		GUI.Label(new Rect(Screen.width *3/32, Screen.height*3/32, Screen.width*4/32, Screen.height*7/32), idle);
 
 		GUI.Label(new Rect(Screen.width *1/32, Screen.height*10/32, Screen.width*8/32, Screen.height*2/32), "\"" + tagline + "\"", bioStyle);
 		GUI.Label(new Rect(Screen.width *1/32, Screen.height*13/32, Screen.width*8/32, Screen.height*1/32), "<color=#f2be2c>Height:   </color>" + height, bioStyle);
@@ -91,9 +98,20 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		GUI.EndGroup();
 	}
 
+	void characterButton(string name) {
+		if(selectAlt) { saveSelection.WriteCharacterSelection(name + " Alt"); }
+		else { saveSelection.WriteCharacterSelection(name); }
+		saveSelection.WriteCharacterSelection(name);
+		DontDestroyOnLoad(saveSelection.gameObject);
+		Application.LoadLevel("CharacterSelect_P2");
+	}
+
 	void assignSelection() {
 		if (top && left) {
 			GUI.FocusControl("DennisButton");
+			if (selectAlt) { idle = DennisAlt; } 
+			else { idle = DennisIdle; }
+
 			selectedLabel = DennisLabel;
 			tagline = "Just a regular guy, I guess";
 			height = "5ft 10in";
@@ -104,6 +122,9 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		}
 		else if (top && !left) {
 			GUI.FocusControl("SwoleButton");
+			if (selectAlt) { idle = SwoleAlt; } 
+			else { idle = SwoleIdle; }
+
 			selectedLabel = SwoleLabel;
 			tagline = "Toughest dude this side of the Jurassic period.";
 			height = "6ft 9in";
@@ -113,6 +134,9 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		}
 		else if (!top && left) {
 			GUI.FocusControl("ShivaButton");
+			if (selectAlt) { idle = ShivaAlt; } 
+			else { idle = ShivaIdle; }
+
 			selectedLabel = ShivaLabel;
 			tagline = "The many-armed god of Tennis Destruction";
 			height = "6ft 2in";
@@ -123,6 +147,9 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		}
 		else if (!top && !left) {
 			GUI.FocusControl("FishButton");
+			if (selectAlt) { idle = FishAlt; } 
+			else { idle = FishIdle; }
+
 			selectedLabel = FishLabel;
 			tagline = "He's a goldfish in tank. Not that kind of tank.";
 			height = "2.7in";
@@ -132,7 +159,5 @@ public class CharacterSelectOverlay : MonoBehaviour {
 				" on his Y chromosome that confined him to live in a T36 tank for the rest of his life. This made it clear to" +
 				"him from an early age that he was destined for tennis glory.";
 		}
-
-		GUI.EndGroup();
 	}
 }
