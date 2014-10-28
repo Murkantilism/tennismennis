@@ -66,19 +66,19 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 
 		GUI.SetNextControlName("SwoleButton");
 		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*3/32,buttonSize.x, buttonSize.y), "", p2Style)) {
-			characterButton("Swole");
+			characterButton("S. Racks");
 		}
 		GUI.Label(new Rect(Screen.width*9/32,Screen.height*6/32,nameSize.x, nameSize.y), SwoleLabel);
 
 		GUI.SetNextControlName("ShivaButton");
 		if(GUI.Button(new Rect(0,Screen.height*23/64,buttonSize.x, buttonSize.y), "", p2Style)) {
-			characterButton("Shiva");
+			characterButton("SH1-V4");
 		}
 		GUI.Label(new Rect(Screen.width*1/32,Screen.height*29/64,nameSize.x, nameSize.y), ShivaLabel);
 
 		GUI.SetNextControlName("FishButton");
 		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*23/64,buttonSize.x, buttonSize.y), "", p2Style)) {
-			characterButton("Fish");
+			characterButton("Colonel Topspin");
 		}
 		GUI.Label(new Rect(Screen.width*9/32,Screen.height*29/64,nameSize.x, nameSize.y), FishLabel);
 
@@ -102,9 +102,8 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 	}
 
 	void characterButton(string name) {
-		if(selectAlt) { saveSelection.WriteCharacterSelection(name + " Alt"); }
-		else { saveSelection.WriteCharacterSelection(name); }
-		saveSelection.WriteCharacterSelection(name);
+		if(selectAlt) { saveSelection.WriteCharacterSelection_p2(name + " Alt"); }
+		else { saveSelection.WriteCharacterSelection_p2(name); }
 		DontDestroyOnLoad(saveSelection.gameObject);
 		Application.LoadLevel("StageSelect");
 	}

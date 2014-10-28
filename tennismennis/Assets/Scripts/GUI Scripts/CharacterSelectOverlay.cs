@@ -70,7 +70,7 @@ public class CharacterSelectOverlay : MonoBehaviour {
 
 		GUI.SetNextControlName("ShivaButton");
 		if(GUI.Button(new Rect(0,Screen.height*23/64,buttonSize.x, buttonSize.y), "", p1Style)) {
-			characterButton("Shiva");
+			characterButton("SH1-V4");
 		}
 		GUI.Label(new Rect(Screen.width*1/32,Screen.height*29/64,nameSize.x, nameSize.y), ShivaLabel);
 
@@ -102,7 +102,6 @@ public class CharacterSelectOverlay : MonoBehaviour {
 	void characterButton(string name) {
 		if(selectAlt) { saveSelection.WriteCharacterSelection(name + " Alt"); }
 		else { saveSelection.WriteCharacterSelection(name); }
-		saveSelection.WriteCharacterSelection(name);
 		DontDestroyOnLoad(saveSelection.gameObject);
 		Application.LoadLevel("CharacterSelect_P2");
 	}
