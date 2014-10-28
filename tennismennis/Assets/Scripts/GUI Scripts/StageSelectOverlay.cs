@@ -15,6 +15,8 @@ public class StageSelectOverlay : MonoBehaviour {
 	void FixedUpdate () {
 		if (Input.GetKeyDown("d") || Input.GetKeyDown("a")) {left = !left;}
 		if (Input.GetKeyDown("w") || Input.GetKeyDown("s")) {top = !top;}
+
+		if (Input.GetKeyDown("backspace")) { Application.LoadLevel("CharacterSelect_P2"); }
 	}
 
 	void OnGUI () {

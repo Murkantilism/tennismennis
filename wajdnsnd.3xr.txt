@@ -1,0 +1,20 @@
+﻿adding alternate skin selections to character select
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch samDev
+# Your branch is ahead of 'origin/samDev' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   tennismennis/Assets/Scenes/CharacterSelect.unity
+#	modified:   tennismennis/Assets/Scenes/CharacterSelect_P2.unity
+#	modified:   tennismennis/Assets/Scripts/GUI Scripts/CharacterSelectOverlay.cs
+#	modified:   tennismennis/Assets/Scripts/GUI Scripts/CharacterSelectOverlay_P2.cs
+#
+# Changes not staged for commit:
+#	modified:   tennismennis/Assets/Scripts/GUI Scripts/CharacterSelectOverlay.cs
+#	modified:   tennismennis/Assets/Scripts/GUI Scripts/CharacterSelectOverlay_P2.cs
+#	modified:   tennismennis/Assets/Scripts/GUI Scripts/StageSelectOverlay.cs
+#
+

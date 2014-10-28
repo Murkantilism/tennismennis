@@ -41,6 +41,7 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 		if (Input.GetKeyDown("w") || Input.GetKeyDown("s")) {top = !top;}
 
 		if (Input.GetKeyDown("left shift")) {selectAlt = !selectAlt;}
+		if (Input.GetKeyDown("backspace")) { Application.LoadLevel("CharacterSelect"); }
 	}
 
 	void OnGUI () {

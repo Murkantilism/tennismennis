@@ -40,6 +40,7 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		if (Input.GetKeyDown("w") || Input.GetKeyDown("s")) {top = !top;}
 
 		if (Input.GetKeyDown("left shift")) {selectAlt = !selectAlt;}
+		if (Input.GetKeyDown("backspace")) { Application.LoadLevel("MainMenu"); }
 	}
 
 	void OnGUI () {
