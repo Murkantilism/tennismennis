@@ -115,18 +115,15 @@ public class EndOfRound : MonoBehaviour {
 	void RespawnBall(){
 		// Flip the value of the server_player bool to switch who serves next
 		serving_player = !serving_player;
-		
-		Vector3 racket_p1pos = racket_p1.transform.position;
-		Vector3 racket_p2pos = racket_p2.transform.position;
 
-		// Spawn ball above player 1's racket
+		// Spawn ball in relation to the player 1's position
 		if(serving_player == true){
-			ball.position = new Vector3(racket_p1pos.x, racket_p1pos.y, racket_p1pos.z);
+			ball.position = new Vector3(player1.transform.position.x + 1.0f, player1.transform.position.y, player1.transform.position.z);
 			// Reset the ball's velocity
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
-		// Spawn ball above player 2's racket
+		// Spawn ball in relation to the player 2's position
 		}else{
-			ball.position = new Vector3(racket_p2pos.x, racket_p2pos.y, racket_p2pos.z);
+			ball.position = new Vector3(player2.transform.position.x - 1.0f, player2.transform.position.y, player2.transform.position.z);
 			// Reset the ball's velocity
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
 		}
@@ -154,7 +151,7 @@ public class EndOfRound : MonoBehaviour {
 			Debug.Log(roundStartDelay);
 
 			// Decrement the timer until it is zero, then unpause
-			if (roundStartDelay > -2){ // Stop decrementing at -2
+			if (roundStartDelay > -2){ // Stop decrementing at -1
 				roundStartDelay -= 1; 
 			}
 			
