@@ -15,6 +15,8 @@ public class BallMovement : MonoBehaviour {
 	
 	public bool powerHitterEnabled_p1 = false;
 	public bool powerHitterEnabled_p2 = false;
+
+	public Texture2D ballTexture;
 	
 	// Use this for initialization
 	void Start () {
@@ -24,6 +26,7 @@ public class BallMovement : MonoBehaviour {
 		transform.position = racket1.transform.position;
 		ServeShot (new Vector2 (8, 7));
 		scoreKeeper = GameObject.Find("ScoreKeeper").GetComponent<ScoreKeeping>();
+		gameObject.renderer.material.mainTexture = ballTexture;
 	}
 	
 	// Update is called once per frame
