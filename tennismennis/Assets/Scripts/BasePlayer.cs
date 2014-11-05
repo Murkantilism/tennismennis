@@ -169,7 +169,9 @@ class Player1 : BasePlayer{
 		_up = _up || (Input.GetAxisRaw ( "P1_Vertical" ) > 0);
 		_right = (Input.GetAxisRaw ( "P1_Horizontal" ) > 0);
 		_left = (Input.GetAxisRaw ( "P1_Horizontal" ) < 0);
-		_playerChip = Input.GetKey (KeyCode.E);
+		_playerChip = (Input.GetAxisRaw ("P1_Swing") > 0);
+		
+		
 		
 		// If player 1 throws the racket at a high angle, throw it high
 		if (Input.GetAxisRaw ("P1_Throw_High") > 0) {
@@ -338,7 +340,7 @@ class Player2 : BasePlayer{
 		_up = _up || (Input.GetAxisRaw ( "P2_Vertical" ) > 0);
 		_right = (Input.GetAxisRaw ( "P2_Horizontal" ) > 0);
 		_left = (Input.GetAxisRaw ( "P2_Horizontal" ) < 0);
-		_playerChip = Input.GetKey (KeyCode.O);
+		_playerChip = (Input.GetAxisRaw ("P2_Swing") > 0);
 		
 		// If player 2 throws the racket at a high angle, throw it high
 		if (Input.GetAxisRaw ("P2_Throw_High") > 0) {
