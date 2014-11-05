@@ -4,6 +4,8 @@ using System.Collections;
 public class BallMovement : MonoBehaviour {
 	bool player1Hit;
 	bool player2Hit;
+	float playerPower1;
+	float playerPower2;
 	GameObject player1;
 	GameObject player2;
 	GameObject racket1;
@@ -28,6 +30,8 @@ public class BallMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		playerPower1 = player1.GetComponent<Player1> ().playerPower;
+		playerPower2 = player2.GetComponent<Player2> ().playerPower;
 		player1Hit = player1.GetComponent<Player1>().playerIsSwinging;
 		player2Hit = player2.GetComponent<Player2>().playerIsSwinging;
 	}
@@ -59,7 +63,8 @@ public class BallMovement : MonoBehaviour {
 			collisionVector = col.contacts[0].normal;
 			collisionVector.x = Mathf.Abs (collisionVector.x * 10);
 			collisionVector.y *= 5;
-			forceVector = idealVector + collisionVector;
+			if (collisionVector.y < 0) { collisionVector.y *= -1; }
+			forceVector = playerPower1 * (idealVector + collisionVector);
 			if(powerHitterEnabled_p1 == true){
 				forceVector = forceVector * 1.5f;
 			}
@@ -69,9 +74,10 @@ public class BallMovement : MonoBehaviour {
 		if (col.gameObject.name == "racket_p2" && player2Hit) {
 			idealVector = new Vector2(-5, 1);
 			collisionVector = col.contacts[0].normal;
-			collisionVector.x = -1 * Mathf.Abs (collisionVector.x * 10);
-			collisionVector.y *= 5;
-			forceVector = idealVector + collisionVector;
+			collisionVector.x = (collisionVector.x * 10) + idealVector.x;
+			collisionVector.y *= 5 + idealVector.y;
+			if (collisionVector.y < 0) { collisionVector.y *= -1; }
+			forceVector = playerPower2 * collisionVector;
 			if(powerHitterEnabled_p2 == true){
 				forceVector = forceVector * 1.5f;
 			}

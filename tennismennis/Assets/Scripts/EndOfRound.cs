@@ -49,7 +49,6 @@ public class EndOfRound : MonoBehaviour {
 		ballMovement = ball.GetComponent<BallMovement> ();
 
 
-
 		player1_spawn = GameObject.Find ("player1_spawn").transform.position;
 		player2_spawn = GameObject.Find ("player2_spawn").transform.position;
 
