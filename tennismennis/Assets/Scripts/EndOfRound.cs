@@ -85,7 +85,6 @@ public class EndOfRound : MonoBehaviour {
 		PauseGame ();
 		RespawnPlayers ();
 		RespawnBall ();
-		Serve ();
 		player_1 = player1.GetComponent<Player1> ();
 		player_2 = player2.GetComponent<Player2> ();
 		player_1.SendMessage ("ResetRound");
@@ -94,7 +93,8 @@ public class EndOfRound : MonoBehaviour {
 
 	// Pause the game while we reset for the next round
 	void PauseGame(){
-		Time.timeScale = 0.0f;
+		// Put win animation 
+		//Time.timeScale = 0.0f;
 		paused = true;
 		StartCoroutine ("DelayedRoundStart");
 	}
@@ -147,6 +147,8 @@ public class EndOfRound : MonoBehaviour {
 
 		// This is a workaround so we don't depend on WaitForSeconds while paused
 		while(paused == true){
+			Debug.Log("SERVING");
+			float i = 0f;
 			float pauseEndTime = Time.realtimeSinceStartup + 1f;
 			while (Time.realtimeSinceStartup < pauseEndTime){
 				yield return 0;
@@ -171,6 +173,23 @@ public class EndOfRound : MonoBehaviour {
 				start = true;
 			}else{
 				start = false;
+			}
+			if (i < roundStartDelay)
+			{
+				i += Time.deltaTime;
+				if(serving_player){
+					ball.position = racket_p1.transform.position;
+					ball.rigidbody2D.velocity = Vector2.zero;
+				} else {
+					ball.position = racket_p2.transform.position;
+					ball.rigidbody2D.velocity = Vector2.zero;
+				}
+
+				yield return 0;
+			}
+			if (i >= roundStartDelay){
+				paused = false;
+				Serve ();
 			}
 		}
 	}
