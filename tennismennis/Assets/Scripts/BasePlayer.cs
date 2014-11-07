@@ -198,7 +198,7 @@ class Player1 : BasePlayer{
 				racket.collider2D.enabled = true; // Enable the racket collider during toss
 				StartCoroutine (ThrowRacket (false));
 			}
-			// If player 1 throws the racket at a straight angle, throw it straight
+		// If player 1 throws the racket at a straight angle, throw it straight
 		}else if (Input.GetAxisRaw ("P1_Throw_Straight") > 0) {
 			Debug.Log("P1 THROW RACKET STRAIGHT");
 			racketBeingTossed = true;
@@ -211,7 +211,7 @@ class Player1 : BasePlayer{
 				racket.collider2D.enabled = true; // Enable the racket collider during toss
 				StartCoroutine (ThrowRacket (false));
 			}
-			// If player 1 throws the racket at a low angle, throw it low
+		// If player 1 throws the racket at a low angle, throw it low
 		}else if (Input.GetAxisRaw ("P1_Throw_Low") > 0) {
 			Debug.Log("P1 THROW RACKET LOW");
 			racketBeingTossed = true;
@@ -249,7 +249,7 @@ class Player1 : BasePlayer{
 				_animator.Play( Animator.StringToHash( "Run_forward" ) );
 			}
 			
-			// If the left movement is input, and the player isn't throwing his racket (frozen)
+		// If the left movement is input, and the player isn't throwing his racket (frozen)
 		}else if( _left && freezePlayerp == false){
 			normalizedHorizontalSpeed = -1;
 			
