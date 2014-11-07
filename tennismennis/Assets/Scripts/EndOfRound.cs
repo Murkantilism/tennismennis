@@ -83,6 +83,8 @@ public class EndOfRound : MonoBehaviour {
 	// Reset ALL THE THINGS!
 	void ResetRound(){
 		PauseGame ();
+		RespawnPlayers ();
+		RespawnBall ();
 		player_1 = player1.GetComponent<Player1> ();
 		player_2 = player2.GetComponent<Player2> ();
 		player_1.SendMessage ("ResetRound");
@@ -93,7 +95,7 @@ public class EndOfRound : MonoBehaviour {
 	void PauseGame(){
 		Time.timeScale = 0.0f;
 		paused = true;
-		StartCoroutine ("DelayedServe");
+		StartCoroutine ("DelayedRoundStart");
 	}
 
 	void SetBallPos(){
@@ -138,6 +140,8 @@ public class EndOfRound : MonoBehaviour {
 	}
 	
 	void Serve() {
+		ball.rigidbody2D.velocity = Vector2.zero;
+		ball.rigidbody2D.angularVelocity = 0;
 		if (serving_player) {
 			ballMovement.ServeShot(new Vector2 (8, 7));
 		} else {
@@ -152,6 +156,8 @@ public class EndOfRound : MonoBehaviour {
 				return true;
 			} else 
 			if (player_1._playerPowerRelease) {
+				ball.rigidbody2D.velocity = Vector2.zero;
+				ball.rigidbody2D.angularVelocity = 0;
 				Vector2 forceVector = new Vector2 (8 * player_1.playerPower, 7);
 				ballMovement.ServeShot (forceVector);
 				return true;
@@ -166,6 +172,8 @@ public class EndOfRound : MonoBehaviour {
 				return true;
 			} else 
 			if (player_2._playerPowerRelease) {
+				ball.rigidbody2D.velocity = Vector2.zero;
+				ball.rigidbody2D.angularVelocity = 0;
 				Vector2 forceVector = new Vector2 (-8 * player_1.playerPower, 7);
 				ballMovement.ServeShot (forceVector);
 				return true;
@@ -203,6 +211,7 @@ public class EndOfRound : MonoBehaviour {
 			}else if (roundStartDelay == 0) {
 				one = false;
 				start = true;
+				StartCoroutine("DelayedServe");
 			}else{
 				start = false;
 			}
@@ -210,15 +219,14 @@ public class EndOfRound : MonoBehaviour {
 	}
 
 	IEnumerator DelayedServe () {
-		RespawnPlayers ();
-		RespawnBall ();
-		yield return StartCoroutine ("DelayedRoundStart");
-		Debug.Log ("Serve");
+		ball.rigidbody2D.velocity = Vector2.zero;
+		ball.rigidbody2D.angularVelocity = 0;
 		float roundStart = Time.realtimeSinceStartup + 5f;
 		bool serve = false;
 		while ((Time.realtimeSinceStartup < roundStart) 
 		       && serve == false){
 			Debug.Log("SERVING");
+			SetBallPos();
 			if(serving_player){
 				serve = ServeCheck1();
 				if(serve){
@@ -230,9 +238,10 @@ public class EndOfRound : MonoBehaviour {
 					break;
 				}
 			}
-			SetBallPos();
 			yield return 0;
 		}
+		serve = true;
+		SetBallPos ();
 		Serve ();
 	}
 }
