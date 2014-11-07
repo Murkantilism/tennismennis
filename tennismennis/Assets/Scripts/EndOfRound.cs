@@ -125,7 +125,6 @@ public class EndOfRound : MonoBehaviour {
 	void RespawnBall(){
 		// Flip the value of the server_player bool to switch who serves next
 		serving_player = !serving_player;
-		
 		// Spawn ball in relation to the player 1's position
 		if(serving_player == true){
 			ball.position = new Vector3(player1.transform.position.x + 1.0f, player1.transform.position.y, player1.transform.position.z);
