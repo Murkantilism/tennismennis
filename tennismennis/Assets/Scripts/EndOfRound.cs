@@ -130,7 +130,7 @@ public class EndOfRound : MonoBehaviour {
 			ball.position = new Vector3(player1.transform.position.x + 1.0f, player1.transform.position.y, player1.transform.position.z);
 			// Reset the ball's velocity
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
-		// Spawn ball in relation to the player 2's position
+			// Spawn ball in relation to the player 2's position
 		}else{
 			ball.position = new Vector3(player2.transform.position.x - 1.0f, player2.transform.position.y, player2.transform.position.z);
 			// Reset the ball's velocity

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections;
 
 public class BallMovement : MonoBehaviour {
@@ -52,7 +52,7 @@ public class BallMovement : MonoBehaviour {
 			if(transform.position.x < 0.05f){
 				Debug.Log("Player 2 scores!");
 				scoreKeeper.PointScored("Player2");
-			// If the ball landed on the right side of the court, p1 scores	
+				// If the ball landed on the right side of the court, p1 scores	
 			}else if(transform.position.x > 0.05f){
 				Debug.Log("Player 1 scores!");
 				scoreKeeper.PointScored("Player1");
