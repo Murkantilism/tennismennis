@@ -155,6 +155,8 @@ public class EndOfRound : MonoBehaviour {
 				return true;
 			} else 
 			if (player_1._playerPowerRelease) {
+				ball.rigidbody2D.velocity = Vector2.zero;
+				ball.rigidbody2D.angularVelocity = 0;
 				Vector2 forceVector = new Vector2 (8 * player_1.playerPower, 7);
 				ballMovement.ServeShot (forceVector);
 				return true;
@@ -169,6 +171,8 @@ public class EndOfRound : MonoBehaviour {
 				return true;
 			} else 
 			if (player_2._playerPowerRelease) {
+				ball.rigidbody2D.velocity = Vector2.zero;
+				ball.rigidbody2D.angularVelocity = 0;
 				Vector2 forceVector = new Vector2 (-8 * player_1.playerPower, 7);
 				ballMovement.ServeShot (forceVector);
 				return true;
@@ -214,10 +218,13 @@ public class EndOfRound : MonoBehaviour {
 	}
 
 	IEnumerator DelayedServe () {
+		ball.rigidbody2D.velocity = Vector2.zero;
+		ball.rigidbody2D.angularVelocity = 0;
 		float roundStart = Time.realtimeSinceStartup + 5f;
 		bool serve = false;
 		while ((Time.realtimeSinceStartup < roundStart) 
 		       && serve == false){
+			Debug.Log("SERVING");
 			SetBallPos();
 			if(serving_player){
 				serve = ServeCheck1();
@@ -232,10 +239,8 @@ public class EndOfRound : MonoBehaviour {
 			}
 			yield return 0;
 		}
-		if (serve == false) {
-			serve = true;
-			SetBallPos ();
-			Serve ();
-		} 
+		serve = true;
+		SetBallPos ();
+		Serve ();
 	}
 }
