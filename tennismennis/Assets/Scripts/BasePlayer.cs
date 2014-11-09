@@ -101,6 +101,7 @@ public abstract class BasePlayer : MonoBehaviour{
 	
 	// Move the racket to the given position
 	public IEnumerator MoveRacketToPosition(Vector3 target){
+		Debug.Log(Time.time);
 		while(racket.transform.transform.position != target){
 			if(being_thrown == true){
 				racket.transform.position = Vector3.MoveTowards(racket.transform.position, target, tossSpeed * Time.deltaTime);
@@ -120,6 +121,7 @@ public abstract class BasePlayer : MonoBehaviour{
 			// move it there
 			racket.transform.position = originalRacketPosMarker.transform.position;
 		}
+		Debug.Log(Time.time);
 		// Once this method has run, cancel all invocation calls on this MonoBehaviour
 		CancelInvoke();
 	}
@@ -188,7 +190,7 @@ class Player1 : BasePlayer{
 			}
 		// If player 1 throws the racket at a straight angle, throw it straight
 		}else if (Input.GetAxisRaw ("P1_Throw_Straight") > 0) {
-			Debug.Log("P1 THROW RACKET STRAIGHT");
+			//Debug.Log("P1 THROW RACKET STRAIGHT");
 			racketBeingTossed = true;
 			_animator.Play( Animator.StringToHash("RacketToss_Straight"));
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
