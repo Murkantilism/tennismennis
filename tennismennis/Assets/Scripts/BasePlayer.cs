@@ -5,7 +5,7 @@ public abstract class BasePlayer : MonoBehaviour{
 	public GameObject playerObj;
 	public CharacterController2D _controller;
 	public Animator _animator;
-
+	
 	// Movement config
 	public float gravity = -25f;
 	public float runSpeed = 8f;
@@ -50,6 +50,16 @@ public abstract class BasePlayer : MonoBehaviour{
 	
 	public GameObject racket;
 	
+	public SaveSelections savedSelections;
+	
+	public AudioSource asrc;
+	
+	public AudioClip grunt0;
+	public AudioClip grunt1;
+	public AudioClip taunt;
+	public float timer;
+	public bool player_taunted = false;
+	
 	// Find & assign the player gameObject
 	public void GetPlayerObject() {
 		if (playerObj == null) {
@@ -63,7 +73,7 @@ public abstract class BasePlayer : MonoBehaviour{
 			_controller = playerObj.GetComponent<CharacterController2D>();
 		}
 	}
-		
+	
 	public void Jump(){
 		GetPlayerObject();
 		GetPlayerController();
@@ -126,6 +136,12 @@ public abstract class BasePlayer : MonoBehaviour{
 		CancelInvoke();
 	}
 	
+	void Awake(){
+		asrc = gameObject.GetComponentInChildren<AudioSource>();
+		
+		savedSelections = GameObject.Find("SaveSelections").GetComponent<SaveSelections>();
+	}
+	
 	// Abstract input method
 	abstract public void SetInput();
 	
@@ -135,11 +151,11 @@ public abstract class BasePlayer : MonoBehaviour{
 	// Abstract racket Swing method
 	public abstract void Swing();
 	
-
+	
 }
 
 class Player1 : BasePlayer{
-
+	
 	void Start(){
 		playerObj = gameObject;
 		_controller = playerObj.GetComponent<CharacterController2D>();
@@ -149,7 +165,7 @@ class Player1 : BasePlayer{
 		racket = GameObject.Find("racket_p1");
 		originalRacketPosMarker = transform.Find("originalRacketPos").gameObject;
 		endMarker = transform.Find("endMarker").gameObject;
-				
+		
 		// Save the racket's original position
 		originalRacketPosMarker.transform.position = racket.transform.position;
 		
@@ -164,16 +180,53 @@ class Player1 : BasePlayer{
 		path[1] = originalRacketPosMarker.transform.position;
 		
 		mennisMeter = GameObject.Find("MennisMeter_p1").GetComponent<MennisMeter>();
+		
+		// Load the grunt SFX for player 1
+		if(grunt0 == null){
+			if(savedSelections.selected_p1 == "S. Racks"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_grunt0", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "SH1-V4"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_grunt0", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "Colonel Topspin"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_grunt0", typeof(AudioClip)));
+			}else{
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_grunt0", typeof(AudioClip)));
+			}
+		}
+		if(grunt1 == null){
+			if(savedSelections.selected_p1 == "S. Racks"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_grunt1", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "SH1-V4"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_grunt1", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "Colonel Topspin"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_grunt1", typeof(AudioClip)));
+			}else{
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_grunt1", typeof(AudioClip)));
+			}
+		}
+		
+		// Load the taunt SFX for player 1
+		if(taunt == null){
+			if(savedSelections.selected_p1 == "S. Racks"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_Taunt", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "SH1-V4"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_Taunt", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "Colonel Topspin"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_Taunt", typeof(AudioClip)));
+			}else{
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_Taunt", typeof(AudioClip)));
+			}
+		}
+		// Player 1 taunts right away
+		asrc.PlayOneShot(taunt, 1.0f);
 	}
-
+	
 	// Override input method
 	public override void SetInput(){
 		_up = _up || (Input.GetAxisRaw ( "P1_Vertical" ) > 0);
 		_right = (Input.GetAxisRaw ( "P1_Horizontal" ) > 0);
 		_left = (Input.GetAxisRaw ( "P1_Horizontal" ) < 0);
 		_playerChip = (Input.GetAxisRaw ("P1_Swing") > 0);
-		
-		
 		
 		// If player 1 throws the racket at a high angle, throw it high
 		if (Input.GetAxisRaw ("P1_Throw_High") > 0) {
@@ -188,7 +241,7 @@ class Player1 : BasePlayer{
 				racket.collider2D.enabled = true; // Enable the racket collider during toss
 				StartCoroutine (ThrowRacket (false));
 			}
-		// If player 1 throws the racket at a straight angle, throw it straight
+			// If player 1 throws the racket at a straight angle, throw it straight
 		}else if (Input.GetAxisRaw ("P1_Throw_Straight") > 0) {
 			//Debug.Log("P1 THROW RACKET STRAIGHT");
 			racketBeingTossed = true;
@@ -201,7 +254,7 @@ class Player1 : BasePlayer{
 				racket.collider2D.enabled = true; // Enable the racket collider during toss
 				StartCoroutine (ThrowRacket (false));
 			}
-		// If player 1 throws the racket at a low angle, throw it low
+			// If player 1 throws the racket at a low angle, throw it low
 		}else if (Input.GetAxisRaw ("P1_Throw_Low") > 0) {
 			Debug.Log("P1 THROW RACKET LOW");
 			racketBeingTossed = true;
@@ -239,7 +292,7 @@ class Player1 : BasePlayer{
 				_animator.Play( Animator.StringToHash( "Run_forward" ) );
 			}
 			
-		// If the left movement is input, and the player isn't throwing his racket (frozen)
+			// If the left movement is input, and the player isn't throwing his racket (frozen)
 		}else if( _left && freezePlayerp == false){
 			normalizedHorizontalSpeed = -1;
 			
@@ -283,6 +336,7 @@ class Player1 : BasePlayer{
 			playerIsSwinging = true;
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
+			asrc.PlayOneShot(grunt0, 1.0f);
 			StartCoroutine(ToggleSwing());
 		}
 		
@@ -292,6 +346,7 @@ class Player1 : BasePlayer{
 			playerIsSwinging = true;
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketToss_Straight" ) );
+			asrc.PlayOneShot(grunt1, 1.0f);
 			StartCoroutine(ToggleSwing());
 		}
 	}
@@ -335,6 +390,54 @@ class Player2 : BasePlayer{
 		path[1] = originalRacketPosMarker.transform.position;
 		
 		mennisMeter = GameObject.Find("MennisMeter_p2").GetComponent<MennisMeter>();
+		
+		// Load the grunt SFX for player 2
+		if(grunt0 == null){
+			if(savedSelections.selected_p2 == "S. Racks"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_grunt0", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "SH1-V4"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_grunt0", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "Colonel Topspin"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_grunt0", typeof(AudioClip)));
+			}else{
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_grunt0", typeof(AudioClip)));
+			}
+		}
+		if(grunt1 == null){
+			if(savedSelections.selected_p2 == "S. Racks"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_grunt1", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "SH1-V4"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_grunt1", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "Colonel Topspin"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_grunt1", typeof(AudioClip)));
+			}else{
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_grunt1", typeof(AudioClip)));
+			}
+		}
+		
+		// Load the taunt SFX for player 2
+		if(taunt == null){
+			if(savedSelections.selected_p2 == "S. Racks"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_Taunt", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "SH1-V4"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_Taunt", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "Colonel Topspin"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_Taunt", typeof(AudioClip)));
+			}else{
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_Taunt", typeof(AudioClip)));
+			}
+		}
+
+		StartCoroutine(Player2Taunt());
+	}
+	
+	IEnumerator Player2Taunt(){
+		yield return new WaitForSeconds(0.01f);
+		if(player_taunted == false){
+			player_taunted = true;
+			asrc.PlayOneShot(taunt, 1.0f);
+		}
+		yield return 0;
 	}
 	
 	// Override input method
@@ -454,6 +557,7 @@ class Player2 : BasePlayer{
 			playerIsSwinging = true;
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
+			asrc.PlayOneShot(grunt0, 1.0f);
 			StartCoroutine(ToggleSwing());
 		}
 		
@@ -462,6 +566,7 @@ class Player2 : BasePlayer{
 			playerIsSwinging = true;
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketToss_Straight" ) );
+			asrc.PlayOneShot(grunt1, 1.0f);
 			StartCoroutine(ToggleSwing());
 		}
 	}
