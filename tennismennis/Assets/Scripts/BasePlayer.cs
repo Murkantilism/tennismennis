@@ -175,7 +175,7 @@ class Player1 : BasePlayer{
 		mennisMeter = GameObject.Find("MennisMeter_p1").GetComponent<MennisMeter>();
 	}
 	
-	// Override input method
+	 // Override input method
 	public override void SetInput(){
 		_up = _up || (Input.GetAxisRaw ( "P1_Vertical" ) > 0);
 		_right = (Input.GetAxisRaw ( "P1_Horizontal" ) > 0);

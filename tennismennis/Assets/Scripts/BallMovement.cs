@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class BallMovement : MonoBehaviour {
@@ -24,7 +24,6 @@ public class BallMovement : MonoBehaviour {
 		player2 = GameObject.Find("Player2");
 		racket1 = GameObject.Find ("racket_p1");
 		transform.position = racket1.transform.position;
-		ServeShot (new Vector2 (8, 7));
 		scoreKeeper = GameObject.Find("ScoreKeeper").GetComponent<ScoreKeeping>();
 	}
 	

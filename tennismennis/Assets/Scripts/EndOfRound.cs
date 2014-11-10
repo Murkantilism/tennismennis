@@ -45,14 +45,10 @@ public class EndOfRound : MonoBehaviour {
 		racket_p1 = GameObject.Find ("racket_p1");
 		racket_p2 = GameObject.Find ("racket_p2");
 		ball = GameObject.Find ("Ball").transform;
-		
 		ballMovement = ball.GetComponent<BallMovement> ();
-		
-		
-		
+		PauseGame ();
 		player1_spawn = GameObject.Find ("player1_spawn").transform.position;
 		player2_spawn = GameObject.Find ("player2_spawn").transform.position;
-		
 		player_1 = player1.GetComponent<Player1> ();
 		player_2 = player2.GetComponent<Player2> ();
 	}
@@ -92,19 +88,19 @@ public class EndOfRound : MonoBehaviour {
 	}
 	
 	// Pause the game while we reset for the next round
-	void PauseGame(){
+	public void PauseGame(){
 		Time.timeScale = 0.0f;
 		paused = true;
 		StartCoroutine ("DelayedRoundStart");
 	}
-
+	
 	void SetBallPos(){
 		Vector3 ballSpawn;
 		if (serving_player) {
-			ballSpawn = new Vector3 (player1.transform.position.x + 1.0f, player1.transform.position.y, player1.transform.position.z - 1);
+			ballSpawn = new Vector3 (player1.transform.position.x + 1.0f, player1.transform.position.y, player1.transform.position.z);
 			ball.transform.position = Vector3.MoveTowards (ball.transform.position, ballSpawn, 2f);
 		} else {
-			ballSpawn = new Vector3(player2.transform.position.x - 1.0f, player2.transform.position.y, player2.transform.position.z - 1);
+			ballSpawn = new Vector3(player2.transform.position.x - 2.0f, player2.transform.position.y, player2.transform.position.z);
 			ball.transform.position = Vector3.MoveTowards (ball.transform.position, ballSpawn, 2f);
 		}
 	}
@@ -132,7 +128,7 @@ public class EndOfRound : MonoBehaviour {
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
 			// Spawn ball in relation to the player 2's position
 		}else{
-			ball.position = new Vector3(player2.transform.position.x - 1.0f, player2.transform.position.y, player2.transform.position.z);
+			ball.position = new Vector3(player2.transform.position.x - 2.0f, player2.transform.position.y, player2.transform.position.z);
 			// Reset the ball's velocity
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
 		}
@@ -142,12 +138,12 @@ public class EndOfRound : MonoBehaviour {
 		ball.rigidbody2D.velocity = Vector2.zero;
 		ball.rigidbody2D.angularVelocity = 0;
 		if (serving_player) {
-			ballMovement.ServeShot(new Vector2 (8, 7));
+			ballMovement.ServeShot(new Vector2 (6, 7));
 		} else {
-			ballMovement.ServeShot(new Vector2(-8, 7));
+			ballMovement.ServeShot(new Vector2(-6, 7));
 		}
 	}
-
+	
 	bool ServeCheck1(){
 		if (player_1.playerIsSwinging) {
 			if (player_1._playerChip) {
@@ -155,31 +151,28 @@ public class EndOfRound : MonoBehaviour {
 				return true;
 			} else 
 			if (player_1._playerPowerRelease) {
-				ball.rigidbody2D.velocity = Vector2.zero;
-				ball.rigidbody2D.angularVelocity = 0;
-				Vector2 forceVector = new Vector2 (8 * player_1.playerPower, 7);
+				Vector2 forceVector = new Vector2 (6 * player_1.playerPower, 7);
 				ballMovement.ServeShot (forceVector);
 				return true;
 			} else return false;
 		} else return false;
 	}
-
+	
 	bool ServeCheck2() {
 		if (player_2.playerIsSwinging) {
 			if (player_2._playerChip) {
 				Serve ();
+				ball.rigidbody2D.collider2D.enabled = true;
 				return true;
 			} else 
 			if (player_2._playerPowerRelease) {
-				ball.rigidbody2D.velocity = Vector2.zero;
-				ball.rigidbody2D.angularVelocity = 0;
-				Vector2 forceVector = new Vector2 (-8 * player_1.playerPower, 7);
+				Vector2 forceVector = new Vector2 (-6 * player_1.playerPower, 7);
 				ballMovement.ServeShot (forceVector);
 				return true;
 			} else return false;
 		} else return false;
 	}
-		  
+	
 	
 	// Delay the start of the next round, then start it
 	IEnumerator DelayedRoundStart(){
@@ -216,31 +209,36 @@ public class EndOfRound : MonoBehaviour {
 			}
 		}
 	}
-
+	
 	IEnumerator DelayedServe () {
-		ball.rigidbody2D.velocity = Vector2.zero;
-		ball.rigidbody2D.angularVelocity = 0;
 		float roundStart = Time.realtimeSinceStartup + 5f;
 		bool serve = false;
 		while ((Time.realtimeSinceStartup < roundStart) 
 		       && serve == false){
-			Debug.Log("SERVING");
+			ball.rigidbody2D.collider2D.enabled = false;
 			SetBallPos();
 			if(serving_player){
 				serve = ServeCheck1();
 				if(serve){
+					yield return new WaitForSeconds(.5f);
+					ball.rigidbody2D.collider2D.enabled = true;
 					break;
 				}
 			}else {
 				serve = ServeCheck2();
 				if(serve){
+					yield return new WaitForSeconds(.5f);
+					ball.rigidbody2D.collider2D.enabled = true;
 					break;
 				}
 			}
 			yield return 0;
 		}
-		serve = true;
-		SetBallPos ();
-		Serve ();
+		if (serve == false) {
+			serve = true;
+			SetBallPos ();
+			Serve ();
+			ball.rigidbody2D.collider2D.enabled = true;
+		} 
 	}
 }
