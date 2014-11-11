@@ -17,7 +17,9 @@ public class BallMovement : MonoBehaviour {
 	
 	public bool powerHitterEnabled_p1 = false;
 	public bool powerHitterEnabled_p2 = false;
-	
+
+	public int numHits;
+
 	// Use this for initialization
 	void Start () {
 		player1 = GameObject.Find("Player1");
@@ -69,6 +71,7 @@ public class BallMovement : MonoBehaviour {
 			}
 			TennisForce(forceVector);
 			lastHit = true;
+			numHits += 1;
 		}
 		if (col.gameObject.name == "racket_p2" && player2Hit) {
 			idealVector = new Vector2(-5, 1);
@@ -81,8 +84,8 @@ public class BallMovement : MonoBehaviour {
 				forceVector = forceVector * 1.5f;
 			}
 			TennisForce(forceVector);
+			numHits += 1;
 			lastHit = false;
-			Debug.Log("Hit Player 2");
 		}
 	}
 }
