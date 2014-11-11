@@ -83,12 +83,6 @@ public abstract class BasePlayer : MonoBehaviour{
 	}
 
 	
-	void Awake(){
-		asrc = gameObject.GetComponentInChildren<AudioSource>();
-		
-		savedSelections = GameObject.Find("SaveSelections").GetComponent<SaveSelections>();
-	}
-	
 	// When a point is scored, reset all of the input vars, the normalized horizontal speed, and 
 	// the local scale. This prevents movement inputs from being carried over into the next round
 	public void ResetRound(){
@@ -128,6 +122,7 @@ public abstract class BasePlayer : MonoBehaviour{
 	
 	// Move the racket to the given position
 	public IEnumerator MoveRacketToPosition(Vector3 target){
+		Debug.Log(Time.time);
 		while(racket.transform.transform.position != target){
 			if(being_thrown == true){
 				racket.transform.position = Vector3.MoveTowards(racket.transform.position, target, tossSpeed * Time.deltaTime);
@@ -147,8 +142,15 @@ public abstract class BasePlayer : MonoBehaviour{
 			// move it there
 			racket.transform.position = originalRacketPosMarker.transform.position;
 		}
+		Debug.Log(Time.time);
 		// Once this method has run, cancel all invocation calls on this MonoBehaviour
 		CancelInvoke();
+	}
+	
+	void Awake(){
+		asrc = gameObject.GetComponentInChildren<AudioSource>();
+		
+		savedSelections = GameObject.Find("SaveSelections").GetComponent<SaveSelections>();
 	}
 	
 	// Abstract input method
@@ -190,7 +192,7 @@ class Player1 : BasePlayer{
 		path[1] = originalRacketPosMarker.transform.position;
 		
 		mennisMeter = GameObject.Find("MennisMeter_p1").GetComponent<MennisMeter>();
-
+		
 		// Load the grunt SFX for player 1
 		if(grunt0 == null){
 			if(savedSelections.selected_p1 == "S. Racks"){
@@ -230,16 +232,15 @@ class Player1 : BasePlayer{
 		// Player 1 taunts right away
 		asrc.PlayOneShot(taunt, 1.0f);
 	}
-	
-	 // Override input method
+
+	// Override input method
 	public override void SetInput(){
 		_up = _up || (Input.GetAxisRaw ( "P1_Vertical" ) > 0);
 		_right = (Input.GetAxisRaw ( "P1_Horizontal" ) > 0);
 		_left = (Input.GetAxisRaw ( "P1_Horizontal" ) < 0);
-		_playerChip = Input.GetKey (KeyCode.E);
 		_playerPowerShot = Input.GetKey (KeyCode.Q);
 		_playerPowerRelease = Input.GetKeyUp (KeyCode.Q);
-		
+		_playerChip = (Input.GetAxisRaw ("P1_Swing") > 0);
 		
 		// If player 1 throws the racket at a high angle, throw it high
 		if (Input.GetAxisRaw ("P1_Throw_High") > 0) {
@@ -256,7 +257,7 @@ class Player1 : BasePlayer{
 			}
 			// If player 1 throws the racket at a straight angle, throw it straight
 		}else if (Input.GetAxisRaw ("P1_Throw_Straight") > 0) {
-			Debug.Log("P1 THROW RACKET STRAIGHT");
+			//Debug.Log("P1 THROW RACKET STRAIGHT");
 			racketBeingTossed = true;
 			_animator.Play( Animator.StringToHash("RacketToss_Straight"));
 			// If the racket isn't already being thrown, kickoff the coroutine to throw & return it
@@ -368,6 +369,7 @@ class Player1 : BasePlayer{
 			playerIsSwinging = true;
 			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
 			StartCoroutine(ToggleSwing(racket));
+			asrc.PlayOneShot(grunt0, 1.0f);
 		}
 		
 		
@@ -377,6 +379,7 @@ class Player1 : BasePlayer{
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketToss_Straight" ) );
 			StartCoroutine(ToggleSwing(racket));
+			asrc.PlayOneShot(grunt1, 1.0f);
 		}
 	}
 	
@@ -456,6 +459,7 @@ class Player2 : BasePlayer{
 				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_Taunt", typeof(AudioClip)));
 			}
 		}
+
 		StartCoroutine(Player2Taunt());
 	}
 
@@ -607,6 +611,7 @@ class Player2 : BasePlayer{
 			playerIsSwinging = true;
 			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
 			StartCoroutine(ToggleSwing(racket));
+			asrc.PlayOneShot(grunt0, 1.0f);
 		}
 		
 		if(being_thrown && playerIsSwinging == false){
@@ -615,6 +620,7 @@ class Player2 : BasePlayer{
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketToss_Straight" ) );
 			StartCoroutine(ToggleSwing(racket));
+			asrc.PlayOneShot(grunt1, 1.0f);
 		}
 	}
 	

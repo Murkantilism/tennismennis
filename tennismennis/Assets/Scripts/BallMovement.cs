@@ -70,6 +70,7 @@ public class BallMovement : MonoBehaviour {
 				forceVector = forceVector * 1.5f;
 			}
 			TennisForce(forceVector);
+			numHits += 1;
 			lastHit = true;
 			numHits += 1;
 		}

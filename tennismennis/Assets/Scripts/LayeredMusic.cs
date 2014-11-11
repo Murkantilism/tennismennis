@@ -7,7 +7,7 @@ public class LayeredMusic : MonoBehaviour {
 	public AudioSource layer1src;
 	public AudioSource layer2src;
 	public AudioSource layer3src;
-	
+
 	// All of the audio layer clips (assigned via inspector)
 	public AudioClip layer0_80bpm;
 	public AudioClip layer0_100bpm;
@@ -26,7 +26,7 @@ public class LayeredMusic : MonoBehaviour {
 	public AudioClip layer3_120bpm;
 	
 	BallMovement ballMvnt;
-	
+
 	// Use this for initialization
 	void Start () {
 		ballMvnt = GameObject.Find("Ball").GetComponent<BallMovement>();
@@ -73,7 +73,8 @@ public class LayeredMusic : MonoBehaviour {
 				layer2src.PlayOneShot(layer2_120bpm, 1.0f);
 				layer3src.PlayOneShot(layer3_120bpm, 1.0f);
 			}
-			// If enough volleys haven't happened, keep playing base layer
+
+		// If enough volleys haven't happened, keep playing base layer
 		}else if(ballMvnt.numHits / 2 < 3){
 			if(layer0src.isPlaying == false){
 				layer0src.PlayOneShot(layer0_80bpm, 1.0f);
