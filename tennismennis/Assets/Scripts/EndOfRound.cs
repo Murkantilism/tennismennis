@@ -138,9 +138,9 @@ public class EndOfRound : MonoBehaviour {
 		ball.rigidbody2D.velocity = Vector2.zero;
 		ball.rigidbody2D.angularVelocity = 0;
 		if (serving_player) {
-			ballMovement.ServeShot(new Vector2 (6, 7));
+			ballMovement.ServeShot(new Vector2 (8, 7));
 		} else {
-			ballMovement.ServeShot(new Vector2(-6, 7));
+			ballMovement.ServeShot(new Vector2(-8, 7));
 		}
 	}
 	

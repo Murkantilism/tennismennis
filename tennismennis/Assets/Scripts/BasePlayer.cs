@@ -52,6 +52,16 @@ public abstract class BasePlayer : MonoBehaviour{
 	public MennisMeter mennisMeter;
 	
 	public GameObject racket;
+
+	public SaveSelections savedSelections;
+	
+	public AudioSource asrc;
+	
+	public AudioClip grunt0;
+	public AudioClip grunt1;
+	public AudioClip taunt;
+	public float timer;
+	public bool player_taunted = false;
 	
 	// Find & assign the player gameObject
 	public void GetPlayerObject() {
@@ -70,6 +80,13 @@ public abstract class BasePlayer : MonoBehaviour{
 	public void Jump(){
 		GetPlayerObject();
 		GetPlayerController();
+	}
+
+	
+	void Awake(){
+		asrc = gameObject.GetComponentInChildren<AudioSource>();
+		
+		savedSelections = GameObject.Find("SaveSelections").GetComponent<SaveSelections>();
 	}
 	
 	// When a point is scored, reset all of the input vars, the normalized horizontal speed, and 
@@ -173,6 +190,45 @@ class Player1 : BasePlayer{
 		path[1] = originalRacketPosMarker.transform.position;
 		
 		mennisMeter = GameObject.Find("MennisMeter_p1").GetComponent<MennisMeter>();
+
+		// Load the grunt SFX for player 1
+		if(grunt0 == null){
+			if(savedSelections.selected_p1 == "S. Racks"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_grunt0", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "SH1-V4"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_grunt0", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "Colonel Topspin"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_grunt0", typeof(AudioClip)));
+			}else{
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_grunt0", typeof(AudioClip)));
+			}
+		}
+		if(grunt1 == null){
+			if(savedSelections.selected_p1 == "S. Racks"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_grunt1", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "SH1-V4"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_grunt1", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "Colonel Topspin"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_grunt1", typeof(AudioClip)));
+			}else{
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_grunt1", typeof(AudioClip)));
+			}
+		}
+		
+		// Load the taunt SFX for player 1
+		if(taunt == null){
+			if(savedSelections.selected_p1 == "S. Racks"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_Taunt", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "SH1-V4"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_Taunt", typeof(AudioClip)));
+			}else if(savedSelections.selected_p1 == "Colonel Topspin"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_Taunt", typeof(AudioClip)));
+			}else{
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_Taunt", typeof(AudioClip)));
+			}
+		}
+		// Player 1 taunts right away
+		asrc.PlayOneShot(taunt, 1.0f);
 	}
 	
 	 // Override input method
@@ -363,7 +419,55 @@ class Player2 : BasePlayer{
 		path[1] = originalRacketPosMarker.transform.position;
 		
 		mennisMeter = GameObject.Find("MennisMeter_p2").GetComponent<MennisMeter>();
+
+		// Load the grunt SFX for player 2
+		if(grunt0 == null){
+			if(savedSelections.selected_p2 == "S. Racks"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_grunt0", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "SH1-V4"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_grunt0", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "Colonel Topspin"){
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_grunt0", typeof(AudioClip)));
+			}else{
+				grunt0 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_grunt0", typeof(AudioClip)));
+			}
+		}
+		if(grunt1 == null){
+			if(savedSelections.selected_p2 == "S. Racks"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_grunt1", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "SH1-V4"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_grunt1", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "Colonel Topspin"){
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_grunt1", typeof(AudioClip)));
+			}else{
+				grunt1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_grunt1", typeof(AudioClip)));
+			}
+		}
+		
+		// Load the taunt SFX for player 2
+		if(taunt == null){
+			if(savedSelections.selected_p2 == "S. Racks"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Swole/Swole_Taunt", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "SH1-V4"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Shiva/Female/ShivaF_Taunt", typeof(AudioClip)));
+			}else if(savedSelections.selected_p2 == "Colonel Topspin"){
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Topspin/Topspin_Taunt", typeof(AudioClip)));
+			}else{
+				taunt = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_Taunt", typeof(AudioClip)));
+			}
+		}
+		StartCoroutine(Player2Taunt());
 	}
+
+	IEnumerator Player2Taunt(){
+		yield return new WaitForSeconds(0.01f);
+		if(player_taunted == false){
+			player_taunted = true;
+			asrc.PlayOneShot(taunt, 1.0f);
+		}
+		yield return 0;
+	}
+
 	
 	// Override input method
 	public override void SetInput(){

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections;
 
 public class ScoreKeeping : MonoBehaviour {
@@ -22,7 +22,6 @@ public class ScoreKeeping : MonoBehaviour {
 	
 	public AudioClip p1_pointScored0;
 	public AudioClip p1_pointScored1;
-	
 	public AudioClip p2_pointScored0;
 	public AudioClip p2_pointScored1;
 	
@@ -64,7 +63,6 @@ public class ScoreKeeping : MonoBehaviour {
 			}
 		}
 		
-		
 		// Load the point scored FX for player 1
 		if(p1_pointScored0 == null){
 			if(savedSelections.selected_p1 == "S. Racks"){
@@ -88,7 +86,6 @@ public class ScoreKeeping : MonoBehaviour {
 				p1_pointScored1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_PointScored1", typeof(AudioClip)));
 			}
 		}
-		
 		
 		// Load the point scored FX for player 2
 		if(p2_pointScored0 == null){
