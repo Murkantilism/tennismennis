@@ -73,6 +73,7 @@ public class LayeredMusic : MonoBehaviour {
 				PlayClipOneTime(layer2src, layer2_120bpm, 1.0f);
 				PlayClipOneTime(layer3src, layer3_120bpm, 1.0f);
 			}
+
 		// If enough volleys haven't happened, keep playing base layer
 		}else if(ballMvnt.numHits / 2 < 3){
 		    Debug.Log("LAYER 0 80BPM");
@@ -81,7 +82,6 @@ public class LayeredMusic : MonoBehaviour {
 			}
 		}
 	}
-	
 	// Had to write my own version of AudioSource.PlayOneShot() because apparently that
 	// function doesn't affect the value of AudioSource.isPlaying(), which is really 
 	// fucking important. #ThanksObama

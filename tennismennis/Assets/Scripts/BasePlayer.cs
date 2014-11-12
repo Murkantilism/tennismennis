@@ -12,6 +12,8 @@ public abstract class BasePlayer : MonoBehaviour{
 	public float groundDamping = 20f; // how fast do we change direction? higher means faster
 	public float inAirDamping = 100f;
 	public float jumpHeight = 3f;
+	public float chargeRate = 1.0f;
+	public float playerPower;
 	
 	public float normalizedHorizontalSpeed = 0;
 	private RaycastHit2D _lastControllerColliderHit;
@@ -30,7 +32,8 @@ public abstract class BasePlayer : MonoBehaviour{
 	
 	// Player swing vars
 	public bool _playerChip;
-	private bool _playerPowerShot;
+	public bool _playerPowerShot;
+	public bool _playerPowerRelease;
 	public bool playerIsSwinging = false;
 	
 	public bool racketBeingTossed = false;
@@ -49,7 +52,7 @@ public abstract class BasePlayer : MonoBehaviour{
 	public MennisMeter mennisMeter;
 	
 	public GameObject racket;
-	
+
 	public SaveSelections savedSelections;
 	
 	public AudioSource asrc;
@@ -78,6 +81,7 @@ public abstract class BasePlayer : MonoBehaviour{
 		GetPlayerObject();
 		GetPlayerController();
 	}
+
 	
 	// When a point is scored, reset all of the input vars, the normalized horizontal speed, and 
 	// the local scale. This prevents movement inputs from being carried over into the next round
@@ -86,13 +90,20 @@ public abstract class BasePlayer : MonoBehaviour{
 		_right = false;
 		_left = false;
 		_playerChip = false;
+		_playerPowerShot = false;
+		_playerPowerRelease = false;
+		playerPower = 0.5f;
 		normalizedHorizontalSpeed = 0;
+		runSpeed = 8f;
 	}
 	
 	// ToggleSwing method
-	public IEnumerator ToggleSwing(){
+	public IEnumerator ToggleSwing(GameObject racket){
 		yield return new WaitForSeconds(0.5f);
+		racket.collider2D.enabled = false;
+		playerPower = 0.5f;
 		playerIsSwinging = false;
+		runSpeed = 8f;
 		//racket.collider2D.enabled = false;
 	}
 	
@@ -157,6 +168,7 @@ public abstract class BasePlayer : MonoBehaviour{
 class Player1 : BasePlayer{
 	
 	void Start(){
+		playerPower = 0.5f;
 		playerObj = gameObject;
 		_controller = playerObj.GetComponent<CharacterController2D>();
 		_animator = playerObj.GetComponent<Animator>();
@@ -220,12 +232,14 @@ class Player1 : BasePlayer{
 		// Player 1 taunts right away
 		asrc.PlayOneShot(taunt, 1.0f);
 	}
-	
+
 	// Override input method
 	public override void SetInput(){
 		_up = _up || (Input.GetAxisRaw ( "P1_Vertical" ) > 0);
 		_right = (Input.GetAxisRaw ( "P1_Horizontal" ) > 0);
 		_left = (Input.GetAxisRaw ( "P1_Horizontal" ) < 0);
+		_playerPowerShot = Input.GetKey (KeyCode.Q);
+		_playerPowerRelease = Input.GetKeyUp (KeyCode.Q);
 		_playerChip = (Input.GetAxisRaw ("P1_Swing") > 0);
 		
 		// If player 1 throws the racket at a high angle, throw it high
@@ -332,12 +346,30 @@ class Player1 : BasePlayer{
 		// -Enable the collider on the racket
 		// -Trigger a coroutine which will eventually reset the swinging bool and collider
 		if(_playerChip && playerIsSwinging == false) {
+			playerPower = 1.0f;
 			Debug.Log("Player 1 racket swung");
 			playerIsSwinging = true;
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
+			StartCoroutine(ToggleSwing(racket));
+		}
+		
+		if (_playerPowerShot && playerIsSwinging == false) {
+			Debug.Log("Player 1 racket Charge " + playerPower);
+			// play charge animation
+			runSpeed = 4f;
+			if (playerPower <= 1.5f){
+				playerPower += chargeRate * Time.deltaTime;
+			}
+		}
+		
+		if (_playerPowerRelease && playerIsSwinging == false) {
+			Debug.Log ("Player 1 racket release " + playerPower);
+			racket.collider2D.enabled = true;
+			playerIsSwinging = true;
+			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
+			StartCoroutine(ToggleSwing(racket));
 			asrc.PlayOneShot(grunt0, 1.0f);
-			StartCoroutine(ToggleSwing());
 		}
 		
 		
@@ -346,8 +378,8 @@ class Player1 : BasePlayer{
 			playerIsSwinging = true;
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketToss_Straight" ) );
+			StartCoroutine(ToggleSwing(racket));
 			asrc.PlayOneShot(grunt1, 1.0f);
-			StartCoroutine(ToggleSwing());
 		}
 	}
 	
@@ -390,7 +422,7 @@ class Player2 : BasePlayer{
 		path[1] = originalRacketPosMarker.transform.position;
 		
 		mennisMeter = GameObject.Find("MennisMeter_p2").GetComponent<MennisMeter>();
-		
+
 		// Load the grunt SFX for player 2
 		if(grunt0 == null){
 			if(savedSelections.selected_p2 == "S. Racks"){
@@ -430,7 +462,7 @@ class Player2 : BasePlayer{
 
 		StartCoroutine(Player2Taunt());
 	}
-	
+
 	IEnumerator Player2Taunt(){
 		yield return new WaitForSeconds(0.01f);
 		if(player_taunted == false){
@@ -439,13 +471,16 @@ class Player2 : BasePlayer{
 		}
 		yield return 0;
 	}
+
 	
 	// Override input method
 	public override void SetInput(){
 		_up = _up || (Input.GetAxisRaw ( "P2_Vertical" ) > 0);
 		_right = (Input.GetAxisRaw ( "P2_Horizontal" ) > 0);
 		_left = (Input.GetAxisRaw ( "P2_Horizontal" ) < 0);
-		_playerChip = (Input.GetAxisRaw ("P2_Swing") > 0);
+		_playerChip = Input.GetKey (KeyCode.O);
+		_playerPowerShot = Input.GetKey (KeyCode.LeftBracket);
+		_playerPowerRelease = Input.GetKeyUp (KeyCode.LeftBracket);
 		
 		// If player 2 throws the racket at a high angle, throw it high
 		if (Input.GetAxisRaw ("P2_Throw_High") > 0) {
@@ -553,12 +588,30 @@ class Player2 : BasePlayer{
 		// -Enable the collider on the racket
 		// -Trigger a coroutine which will eventually reset the swinging bool and collider
 		if(_playerChip && playerIsSwinging == false) {
+			playerPower = 1.0f;
 			Debug.Log("Player 2 racket swung");
 			playerIsSwinging = true;
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
+			StartCoroutine(ToggleSwing(racket));
+		}
+		
+		if (_playerPowerShot && playerIsSwinging == false) {
+			Debug.Log("Player 2 racket Charge " + playerPower);
+			// play charge animation
+			runSpeed = 4f;
+			if (playerPower <= 1.5f){
+				playerPower += chargeRate * Time.deltaTime;
+			}
+		}
+		
+		if (_playerPowerRelease && playerIsSwinging == false) {
+			Debug.Log ("Player 2 racket release " + playerPower);
+			racket.collider2D.enabled = true;
+			playerIsSwinging = true;
+			_animator.Play( Animator.StringToHash( "RacketSwing_Forward" ) );
+			StartCoroutine(ToggleSwing(racket));
 			asrc.PlayOneShot(grunt0, 1.0f);
-			StartCoroutine(ToggleSwing());
 		}
 		
 		if(being_thrown && playerIsSwinging == false){
@@ -566,8 +619,8 @@ class Player2 : BasePlayer{
 			playerIsSwinging = true;
 			racket.collider2D.enabled = true;
 			_animator.Play( Animator.StringToHash( "RacketToss_Straight" ) );
+			StartCoroutine(ToggleSwing(racket));
 			asrc.PlayOneShot(grunt1, 1.0f);
-			StartCoroutine(ToggleSwing());
 		}
 	}
 	

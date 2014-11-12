@@ -63,7 +63,6 @@ public class ScoreKeeping : MonoBehaviour {
 				player2_victory = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_Victory", typeof(AudioClip)));
 			}
 		}
-
 		
 		// Load the point scored FX for player 1
 		if(p1_pointScored0 == null){
@@ -88,7 +87,6 @@ public class ScoreKeeping : MonoBehaviour {
 				p1_pointScored1 = (AudioClip)AudioClip.Instantiate(Resources.Load("SFX/Dennis/Dennis_PointScored1", typeof(AudioClip)));
 			}
 		}
-		
 
 		// Load the point scored FX for player 2
 		if(p2_pointScored0 == null){
