@@ -6,7 +6,8 @@ using System;
 public class HUD : MonoBehaviour {
 	
 	public GUISkin guiSkin;
-	
+
+	SaveSelections savedSelections;
 	string p1Character;
 	string p2Character;
 	
@@ -30,7 +31,12 @@ public class HUD : MonoBehaviour {
 	public Texture2D fishTitle;
 	public Texture2D shivaTitle;
 	public Texture2D dennisTitle;
-	
+
+	public Texture2D p1Title;
+	public Texture2D p2Title;
+	public Texture2D p1Pic;
+	public Texture2D p2Pic;
+
 	public Texture2D swolePic;
 	public Texture2D fishPic;
 	public Texture2D shivaPic;
@@ -53,6 +59,9 @@ public class HUD : MonoBehaviour {
 
 		p1Powerup = ringOfPower;
 		p2Powerup = ringOfPower;
+
+		savedSelections = GameObject.Find("SaveSelections").GetComponent<SaveSelections>();
+		assignCharacters ();
 	}
 	
 	void OnGUI()
@@ -77,18 +86,18 @@ public class HUD : MonoBehaviour {
 		
 		//// Player 1 HUD
 		GUI.BeginGroup (new Rect (p1Pos.x, p1Pos.y, size.x, size.y));
-		GUI.DrawTexture(new Rect(0,0,Screen.width*3/32,Screen.height*5/32), swolePic);
+		GUI.DrawTexture(new Rect(0,0,Screen.width*3/32,Screen.height*5/32), p1Pic);
 		GUI.DrawTexture(new Rect(Screen.width*3/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), p1Powerup);
 		GUI.DrawTexture(new Rect(Screen.width*3/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), ringOfPower);
-		GUI.Label (new Rect(Screen.width*3/32,Screen.height*3/64,Screen.width*7/32,Screen.height*2/32), swolesaurusTitle);
+		GUI.Label (new Rect(Screen.width*3/32,Screen.height*1/32,Screen.width*7/32,Screen.height*2/32), p1Title);
 		GUI.EndGroup ();
 		
 		//// Player 2 HUD
 		GUI.BeginGroup (new Rect (p2Pos.x, p2Pos.y, size.x, size.y));
-		GUI.DrawTexture(new Rect(Screen.width*7/32,0,Screen.width*3/32,Screen.height*5/32), fishPic);
+		GUI.DrawTexture(new Rect(Screen.width*7/32,0,Screen.width*3/32,Screen.height*5/32), p2Pic);
 		GUI.DrawTexture(new Rect(Screen.width*6/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), p2Powerup);
 		GUI.DrawTexture(new Rect(Screen.width*6/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), ringOfPower);
-		GUI.Label (new Rect(0,Screen.height*3/64,Screen.width*7/32,Screen.height*2/32), swolesaurusTitle);
+		GUI.Label (new Rect(0,Screen.height*1/32,Screen.width*7/32,Screen.height*2/32), p2Title);
 		GUI.EndGroup ();
 	} 
 	
@@ -140,7 +149,35 @@ public class HUD : MonoBehaviour {
 			if (player) {p1Powerup = decoy;}
 			else{p2Powerup = decoy;}
 		}
-
 	}
 
+	void assignCharacters(){
+		if(savedSelections.selected_p1 == "S. Racks"){
+			p1Pic = swolePic;
+			p1Title = swolesaurusTitle;
+		}else if(savedSelections.selected_p1 == "SH1-V4"){
+			p1Pic = shivaPic;
+			p1Title = shivaTitle;
+		}else if(savedSelections.selected_p1 == "Colonel Topspin"){
+			p1Pic = fishPic;
+			p1Title = fishTitle;
+		}else{
+			p1Pic = dennisPic;
+			p1Title = dennisTitle;
+		}
+
+		if(savedSelections.selected_p2 == "S. Racks"){
+			p2Pic = swolePic;
+			p2Title = swolesaurusTitle;
+		}else if(savedSelections.selected_p2 == "SH1-V4"){
+			p2Pic = shivaPic;
+			p2Title = shivaTitle;
+		}else if(savedSelections.selected_p2 == "Colonel Topspin"){
+			p2Pic = fishPic;
+			p2Title = fishTitle;
+		}else{
+			p2Pic = dennisPic;
+			p2Title = dennisTitle;
+		}
+	}
 }
