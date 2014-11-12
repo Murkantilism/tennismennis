@@ -36,6 +36,8 @@ public class EndOfRound : MonoBehaviour {
 	bool two;
 	bool one;
 	bool start;
+	
+	AudioSource stinger_source;
 
 	// Use this for initialization
 	void Start () {
@@ -55,6 +57,8 @@ public class EndOfRound : MonoBehaviour {
 
 		player_1 = player1.GetComponent<Player1> ();
 		player_2 = player2.GetComponent<Player2> ();
+		
+		stinger_source = gameObject.GetComponentInChildren<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -90,6 +94,8 @@ public class EndOfRound : MonoBehaviour {
 		player_2 = player2.GetComponent<Player2> ();
 		player_1.SendMessage ("ResetRound");
 		player_2.SendMessage ("ResetRound");
+		ballMovement.numHits = 0; // Reset the number of volleys
+		stinger_source.Play(); // Play the end of round stinger
 	}
 
 	// Pause the game while we reset for the next round
@@ -115,18 +121,15 @@ public class EndOfRound : MonoBehaviour {
 	void RespawnBall(){
 		// Flip the value of the server_player bool to switch who serves next
 		serving_player = !serving_player;
-		
-		Vector3 racket_p1pos = racket_p1.transform.position;
-		Vector3 racket_p2pos = racket_p2.transform.position;
 
-		// Spawn ball above player 1's racket
+		// Spawn ball in relation to the player 1's position
 		if(serving_player == true){
-			ball.position = new Vector3(racket_p1pos.x, racket_p1pos.y, racket_p1pos.z);
+			ball.position = new Vector3(player1.transform.position.x + 1.0f, player1.transform.position.y, player1.transform.position.z);
 			// Reset the ball's velocity
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
-		// Spawn ball above player 2's racket
+		// Spawn ball in relation to the player 2's position
 		}else{
-			ball.position = new Vector3(racket_p2pos.x, racket_p2pos.y, racket_p2pos.z);
+			ball.position = new Vector3(player2.transform.position.x - 1.0f, player2.transform.position.y, player2.transform.position.z);
 			// Reset the ball's velocity
 			ball.rigidbody2D.velocity = new Vector2(0, 0);
 		}
@@ -154,7 +157,7 @@ public class EndOfRound : MonoBehaviour {
 			Debug.Log(roundStartDelay);
 
 			// Decrement the timer until it is zero, then unpause
-			if (roundStartDelay > -2){ // Stop decrementing at -2
+			if (roundStartDelay > -2){ // Stop decrementing at -1
 				roundStartDelay -= 1; 
 			}
 			

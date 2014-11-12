@@ -75,8 +75,8 @@ public class PowerupSystem : MonoBehaviour {
 		}else{
 			normalizedHorizontalSpeed = 1;
 		}
-		powerup_type = "powerhitter";
-		/*
+		//powerup_type = "powerhitter";
+		
 		int randy = Random.Range(1, 5); // Do I make you randy, baby?
 		if(randy == 1){
 			powerup_type = "powerhitter";
@@ -86,7 +86,7 @@ public class PowerupSystem : MonoBehaviour {
 			powerup_type = "spaceWalk";
 		}else if(randy == 4){
 			powerup_type = "decoy";
-		}*/
+		}
 	}
 	
 	// Move the power-up in a leaf-falling pattern
