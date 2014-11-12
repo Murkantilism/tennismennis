@@ -6,6 +6,8 @@ public class PowerupSystem : MonoBehaviour {
 	public GameObject prefab; //Assigned via the inspector
 	
 	public GameObject powerup;
+
+	public HUD hud;
 	
 	public bool spawned = false; // Has this power-up been spawned?
 	
@@ -123,7 +125,9 @@ public class PowerupSystem : MonoBehaviour {
 		}else{
 			player_go = GameObject.Find("Player2");
 		}
-		
+
+		// tell the UI to display the current active powerup 
+		hud.activePowerup(powerup_type, player);
 
 		// Invoke the power up class and pass the ball's last hit bool to it
 		if(powerup_type == "powerhitter"){

@@ -150,7 +150,7 @@ public class ScoreKeeping : MonoBehaviour {
 		
 		GUI.Label(new Rect (Screen.width * 12/32, Screen.height*7/64, 100, Screen.height*3/32), player1_score.ToString("D2"), scoreStyle);
 		
-		GUI.Label(new Rect (Screen.width * 30/32, Screen.height*7/64, 100, Screen.height*3/32), player2_score.ToString("D2"), scoreStyle);
+		GUI.Label(new Rect (Screen.width * 18/32, Screen.height*7/64, 100, Screen.height*3/32), player2_score.ToString("D2"), scoreStyle);
 		
 		if (point > 0){
 			GUI.Label (new Rect(Screen.width*12/32, Screen.height*10/32,Screen.width*8/32, Screen.height*6/32), pointLabel);

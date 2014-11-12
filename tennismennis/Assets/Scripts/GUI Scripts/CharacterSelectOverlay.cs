@@ -35,6 +35,17 @@ public class CharacterSelectOverlay : MonoBehaviour {
 
 	SaveSelections saveSelection;
 
+	AudioSource asrc;
+	public AudioClip intro;
+
+	void Awake(){
+		asrc = gameObject.GetComponent<AudioSource>();
+	}
+
+	void Start() {
+		asrc.PlayOneShot(intro, 1.0f);
+	}
+
 	void FixedUpdate () {
 		if (Input.GetKeyDown("d") || Input.GetKeyDown("a")) {left = !left;}
 		if (Input.GetKeyDown("w") || Input.GetKeyDown("s")) {top = !top;}
