@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class StageSelectOverlay : MonoBehaviour {
@@ -10,7 +10,23 @@ public class StageSelectOverlay : MonoBehaviour {
 	bool left = true;
 	bool top = true;
 
+	AudioSource asrc;
+	public AudioClip intro;
+	public AudioClip dennisOpen;
+	public AudioClip jurassicGym;
+	public AudioClip mainframe;
+	public AudioClip fishtank;
+
 	SaveSelections saveSelection;
+
+	void Awake(){
+		asrc = gameObject.GetComponent<AudioSource>();
+	}
+	
+	void Start() {
+		asrc.PlayOneShot(intro, 1.0f);
+	}
+
 
 	void FixedUpdate () {
 		if (Input.GetKeyDown("d") || Input.GetKeyDown("a")) {left = !left;}
@@ -38,21 +54,25 @@ public class StageSelectOverlay : MonoBehaviour {
 		GUI.SetNextControlName("DennisButton");
 		if(GUI.Button(new Rect(0,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "Dennis Open", DennisStyle)) {
 			DontDestroyOnLoad(saveSelection.gameObject);
+			asrc.PlayOneShot(dennisOpen, 1.0f);
 			Application.LoadLevel("Court1");
 		}
 		GUI.SetNextControlName("GymButton");
 		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "Jurassic Gym", GymStyle)) {
 			DontDestroyOnLoad(saveSelection.gameObject);
+			asrc.PlayOneShot(jurassicGym, 1.0f);
 			Application.LoadLevel("Court2");
 		}
 		GUI.SetNextControlName("ShivaButton");
 		if(GUI.Button(new Rect(0,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "5H1-V4 D0me", DomeStyle)) {
 			DontDestroyOnLoad(saveSelection.gameObject);
+			asrc.PlayOneShot(mainframe, 1.0f);
 			Application.LoadLevel("Court3");
 		}
 		GUI.SetNextControlName("TankButton");
 		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "The Other Tank", TankStyle)) {
 			DontDestroyOnLoad(saveSelection.gameObject);
+			asrc.PlayOneShot(fishtank, 1.0f);
 			Application.LoadLevel("Court4");
 		}
 

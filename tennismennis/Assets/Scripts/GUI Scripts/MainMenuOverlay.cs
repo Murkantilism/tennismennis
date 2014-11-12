@@ -5,8 +5,19 @@ public class MainMenuOverlay : MonoBehaviour {
 
 	public GUISkin customSkin;
 
+	AudioSource asrc;
+	public AudioClip intro;
+
 	int item = 0;
 	string[] buttons = new string[]{"QuickButton", "CustomButton", "QuitButton"};
+
+	void Awake(){
+		asrc = gameObject.GetComponent<AudioSource>();
+	}
+
+	void Start() {
+		asrc.PlayOneShot(intro, 1.0f);
+	}
 
 	void FixedUpdate () {
 		if (Input.GetKeyDown("s")) {
@@ -21,7 +32,6 @@ public class MainMenuOverlay : MonoBehaviour {
 
 	void OnGUI () {
 		GUI.skin = customSkin;
-
 
 		// Background box
 		GUI.BeginGroup (new Rect (Screen.width*8/32, Screen.height*6/32, Screen.width/2, Screen.height*20/32));
