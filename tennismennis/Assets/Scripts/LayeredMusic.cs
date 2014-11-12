@@ -73,6 +73,7 @@ public class LayeredMusic : MonoBehaviour {
 				layer2src.PlayOneShot(layer2_120bpm, 1.0f);
 				layer3src.PlayOneShot(layer3_120bpm, 1.0f);
 			}
+
 		// If enough volleys haven't happened, keep playing base layer
 		}else if(ballMvnt.numHits / 2 < 3){
 			if(layer0src.isPlaying == false){
