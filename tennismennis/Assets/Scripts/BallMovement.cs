@@ -32,6 +32,11 @@ public class BallMovement : MonoBehaviour {
 	void Update () {
 		player1Hit = player1.GetComponent<Player1>().playerIsSwinging;
 		player2Hit = player2.GetComponent<Player2>().playerIsSwinging;
+		
+		// TODO: REMOVE THIS LINE, FOR LAYEREDMUSIC DEBUGGING ONLY
+		if(Input.GetKeyUp(KeyCode.H)){
+			numHits += 1;
+		}
 	}
 	
 	public void TennisForce(Vector2 forceVector) {

@@ -49,35 +49,45 @@ public class LayeredMusic : MonoBehaviour {
 	
 	void Volleys(){
 		// After 3, 6, and 9 volleys play the layered clips
-		if(ballMvnt.numHits / 2 > 3){
+		if((ballMvnt.numHits / 2 > 3) && (ballMvnt.numHits / 2 < 6)){
 			// Wait until the first layer finishes, then play the next
 			if(layer0src.isPlaying == false){
 				Debug.Log("LAYER 1 80BPM");
-				layer0src.PlayOneShot(layer0_80bpm, 1.0f);
-				layer1src.PlayOneShot(layer1_80bpm, 1.0f);
+				PlayClipOneTime(layer0src, layer0_80bpm, 1.0f);
+				PlayClipOneTime(layer1src, layer1_80bpm, 1.0f);
 			}
-		}else if(ballMvnt.numHits / 2 > 6){
+		}else if((ballMvnt.numHits / 2 > 6) && (ballMvnt.numHits / 2 < 9)){
 			// Wait until the previous layer finishes, then play the next
 			if(layer1src.isPlaying == false){
 				Debug.Log("LAYER 2 100BPM");
-				layer0src.PlayOneShot(layer0_100bpm, 1.0f);
-				layer1src.PlayOneShot(layer1_100bpm, 1.0f);
-				layer2src.PlayOneShot(layer2_100bpm, 1.0f);
+				PlayClipOneTime(layer0src, layer0_100bpm, 1.0f);
+				PlayClipOneTime(layer1src, layer1_100bpm, 1.0f);
+				PlayClipOneTime(layer2src, layer2_100bpm, 1.0f);
 			}
 		}else if(ballMvnt.numHits / 2 > 9){
 			// Wait until the previous layer finishes, then play the next
 			if(layer2src.isPlaying == false){
 				Debug.Log("LAYER 3 120BPM");
-				layer0src.PlayOneShot(layer0_120bpm, 1.0f);
-				layer1src.PlayOneShot(layer1_120bpm, 1.0f);
-				layer2src.PlayOneShot(layer2_120bpm, 1.0f);
-				layer3src.PlayOneShot(layer3_120bpm, 1.0f);
+				PlayClipOneTime(layer0src, layer0_120bpm, 1.0f);
+				PlayClipOneTime(layer1src, layer1_120bpm, 1.0f);
+				PlayClipOneTime(layer2src, layer2_120bpm, 1.0f);
+				PlayClipOneTime(layer3src, layer3_120bpm, 1.0f);
 			}
 		// If enough volleys haven't happened, keep playing base layer
 		}else if(ballMvnt.numHits / 2 < 3){
+		    Debug.Log("LAYER 0 80BPM");
 			if(layer0src.isPlaying == false){
-				layer0src.PlayOneShot(layer0_80bpm, 1.0f);
+				PlayClipOneTime(layer0src, layer0_80bpm, 1.0f);
 			}
 		}
+	}
+	
+	// Had to write my own version of AudioSource.PlayOneShot() because apparently that
+	// function doesn't affect the value of AudioSource.isPlaying(), which is really 
+	// fucking important. #ThanksObama
+	void PlayClipOneTime(AudioSource asrc, AudioClip aclip, float volume){
+		asrc.clip = aclip;
+		asrc.volume = volume;
+		asrc.Play();
 	}
 }

@@ -7,7 +7,7 @@ public class ScoreKeeping : MonoBehaviour {
 	public Texture2D pointLabel;
 	public int player1_score = 0;
 	public int player2_score = 0;
-	int maxScore = 3;
+	int maxScore = 11;
 	
 	float point;
 	

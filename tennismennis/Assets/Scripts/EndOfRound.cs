@@ -36,6 +36,8 @@ public class EndOfRound : MonoBehaviour {
 	bool two;
 	bool one;
 	bool start;
+	
+	AudioSource stinger_source;
 
 	// Use this for initialization
 	void Start () {
@@ -55,6 +57,8 @@ public class EndOfRound : MonoBehaviour {
 
 		player_1 = player1.GetComponent<Player1> ();
 		player_2 = player2.GetComponent<Player2> ();
+		
+		stinger_source = gameObject.GetComponentInChildren<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -90,6 +94,8 @@ public class EndOfRound : MonoBehaviour {
 		player_2 = player2.GetComponent<Player2> ();
 		player_1.SendMessage ("ResetRound");
 		player_2.SendMessage ("ResetRound");
+		ballMovement.numHits = 0; // Reset the number of volleys
+		stinger_source.Play(); // Play the end of round stinger
 	}
 
 	// Pause the game while we reset for the next round
