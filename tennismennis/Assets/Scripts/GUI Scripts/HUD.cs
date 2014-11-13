@@ -32,11 +32,6 @@ public class HUD : MonoBehaviour {
 	public Texture2D shivaTitle;
 	public Texture2D dennisTitle;
 
-	public Texture2D p1Title;
-	public Texture2D p2Title;
-	public Texture2D p1Pic;
-	public Texture2D p2Pic;
-
 	public Texture2D swolePic;
 	public Texture2D fishPic;
 	public Texture2D shivaPic;
@@ -47,10 +42,15 @@ public class HUD : MonoBehaviour {
 	public Texture2D spaceWalk;
 	public Texture2D hugeRacket;
 	public Texture2D decoy;
+
+	Texture2D p1Title;
+	Texture2D p2Title;
+	Texture2D p1Pic;
+	Texture2D p2Pic;
 	Texture2D p1Powerup;
 	Texture2D p2Powerup;
 
-	
+
 	void Start()
 	{
 		p1Mennis = (float)(size.x * .4);
@@ -68,9 +68,7 @@ public class HUD : MonoBehaviour {
 	{
 		// Assign this GUI's skin to the skin assigned via inspector
 		GUI.skin = guiSkin;
-		// Create a GUI style for the score based on the skin's label
-		GUIStyle scoreStyle = GUI.skin.label;
-		
+
 		//// Game Messages
 		if (timeToStart == 3) {
 			GUI.Label (new Rect(Screen.width*15/32, Screen.height*10/32,Screen.width*2/32, Screen.height*6/32), threeLabel);
