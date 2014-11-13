@@ -165,7 +165,7 @@ public abstract class BasePlayer : MonoBehaviour{
 	
 }
 
-class Player1 : BasePlayer{
+public class Player1 : BasePlayer{
 	
 	void Start(){
 		playerPower = 0.5f;
@@ -394,7 +394,7 @@ class Player1 : BasePlayer{
 	}
 }
 
-class Player2 : BasePlayer{
+public class Player2 : BasePlayer{
 	void Start(){
 		transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 		GetPlayerObject();

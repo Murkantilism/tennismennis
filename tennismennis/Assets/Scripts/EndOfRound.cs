@@ -24,8 +24,8 @@ public class EndOfRound : MonoBehaviour {
 	
 	bool paused = false;
 	
-	Player1 player_1;
-	Player2 player_2;
+	public Player1 player_1;
+	public Player2 player_2;
 	
 	public Texture2D threeLabel;
 	public Texture2D twoLabel;
@@ -62,6 +62,14 @@ public class EndOfRound : MonoBehaviour {
 		// TODO: Eventually remove this input check, this is for development use only
 		if(Input.GetKeyUp(KeyCode.Escape)){
 			RespawnBall();
+		}
+		if(player_1 == null){
+			player1 = GameObject.Find ("Player1");
+			player_1 = player1.GetComponent<Player1> ();
+		}
+		if(player_2 == null){
+			player2 = GameObject.Find ("Player2");
+			player_2 = player2.GetComponent<Player2> ();
 		}
 	}
 	
