@@ -13,14 +13,14 @@ public class HUD : MonoBehaviour {
 	
 	Vector2 p1Pos = new Vector2(Screen.width/32,Screen.height*2/32);
 	Vector2 p2Pos = new Vector2(Screen.width*21/32, Screen.height*2/32);
-	Vector2 size = new Vector2(Screen.width*10/32,Screen.height*8/32);
+	Vector2 size = new Vector2(Screen.width*12/32,Screen.height*6/32);
 	
 	float p1Mennis = 0;
 	float p2Mennis = 0;
 	float timeToStart = 4.0f;
 	
 	bool paused = false;
-	
+
 	public Texture2D threeLabel;
 	public Texture2D twoLabel;
 	public Texture2D oneLabel;
@@ -85,16 +85,16 @@ public class HUD : MonoBehaviour {
 		//// Player 1 HUD
 		GUI.BeginGroup (new Rect (p1Pos.x, p1Pos.y, size.x, size.y));
 		GUI.DrawTexture(new Rect(0,0,Screen.width*3/32,Screen.height*5/32), p1Pic);
-		GUI.DrawTexture(new Rect(Screen.width*3/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), p1Powerup);
-		GUI.DrawTexture(new Rect(Screen.width*3/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), ringOfPower);
+	//	GUI.DrawTexture(new Rect(Screen.width*3/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), p1Powerup);
+	//	GUI.DrawTexture(new Rect(Screen.width*3/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), ringOfPower);
 		GUI.Label (new Rect(Screen.width*3/32,Screen.height*1/32,Screen.width*7/32,Screen.height*2/32), p1Title);
 		GUI.EndGroup ();
 		
 		//// Player 2 HUD
 		GUI.BeginGroup (new Rect (p2Pos.x, p2Pos.y, size.x, size.y));
 		GUI.DrawTexture(new Rect(Screen.width*7/32,0,Screen.width*3/32,Screen.height*5/32), p2Pic);
-		GUI.DrawTexture(new Rect(Screen.width*6/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), p2Powerup);
-		GUI.DrawTexture(new Rect(Screen.width*6/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), ringOfPower);
+	//	GUI.DrawTexture(new Rect(Screen.width*6/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), p2Powerup);
+	//	GUI.DrawTexture(new Rect(Screen.width*6/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), ringOfPower);
 		GUI.Label (new Rect(0,Screen.height*1/32,Screen.width*7/32,Screen.height*2/32), p2Title);
 		GUI.EndGroup ();
 	} 
