@@ -119,7 +119,7 @@ public class CharacterSelectOverlay : MonoBehaviour {
 
 	void assignSelection() {
 		if (top && left) {
-			GUI.FocusControl("DennisButton");
+//			GUI.FocusControl("DennisButton");
 			if (selectAlt) { idle = DennisAlt; } 
 			else { idle = DennisIdle; }
 
@@ -132,7 +132,7 @@ public class CharacterSelectOverlay : MonoBehaviour {
 				"house with his normal family and works a normal job. He plays tennis and enjoys vanilla ice cream.";
 		}
 		else if (top && !left) {
-			GUI.FocusControl("SwoleButton");
+//			GUI.FocusControl("SwoleButton");
 			if (selectAlt) { idle = SwoleAlt; } 
 			else { idle = SwoleIdle; }
 
@@ -144,7 +144,7 @@ public class CharacterSelectOverlay : MonoBehaviour {
 			bio = "He's mean. He's green. He's over 200 million years old. And he has never missed leg day. Not even once.";
 		}
 		else if (!top && left) {
-			GUI.FocusControl("ShivaButton");
+//			GUI.FocusControl("ShivaButton");
 			if (selectAlt) { idle = ShivaAlt; } 
 			else { idle = ShivaIdle; }
 
@@ -157,7 +157,7 @@ public class CharacterSelectOverlay : MonoBehaviour {
 				"each one has the strength of 100 arms. That's like, 12 billion arms.";
 		}
 		else if (!top && !left) {
-			GUI.FocusControl("FishButton");
+//			GUI.FocusControl("FishButton");
 			if (selectAlt) { idle = FishAlt; } 
 			else { idle = FishIdle; }
 
