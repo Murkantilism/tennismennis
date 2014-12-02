@@ -4,6 +4,7 @@ using System.Collections;
 public class StageSelectOverlay : MonoBehaviour {
 	
 	public GUISkin customSkin;
+<<<<<<< HEAD
 //	Rect backLayer;
 //	Rect mainLayer;
 
@@ -35,6 +36,13 @@ public class StageSelectOverlay : MonoBehaviour {
 		if (Input.GetKeyDown("backspace")) { Application.LoadLevel("CharacterSelect_P2"); }
 	}
 
+=======
+	Rect backLayer;
+	Rect mainLayer;
+	
+	SaveSelections saveSelection;
+	
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 	void OnGUI () {
 		GUI.skin = customSkin;
 		GUIStyle DennisStyle  =  GUI.skin.GetStyle("DennisOpenButton");
@@ -51,37 +59,35 @@ public class StageSelectOverlay : MonoBehaviour {
 		GUI.Label (new Rect(Screen.width*1/32,Screen.height*1/64,Screen.width*14/32,Screen.height*4/32), "Select Court");
 		
 		// Court Select buttons
-		GUI.SetNextControlName("DennisButton");
 		if(GUI.Button(new Rect(0,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "Dennis Open", DennisStyle)) {
 			DontDestroyOnLoad(saveSelection.gameObject);
 		//	asrc.PlayOneShot(dennisOpen, 1.0f);
 			Application.LoadLevel("Court1");
 		}
-		GUI.SetNextControlName("GymButton");
 		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "Jurassic Gym", GymStyle)) {
 			DontDestroyOnLoad(saveSelection.gameObject);
 		//	asrc.PlayOneShot(jurassicGym, 1.0f);
 			Application.LoadLevel("Court2");
 		}
-		GUI.SetNextControlName("ShivaButton");
 		if(GUI.Button(new Rect(0,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "5H1-V4 D0me", DomeStyle)) {
 			DontDestroyOnLoad(saveSelection.gameObject);
 		//	asrc.PlayOneShot(mainframe, 1.0f);
 			Application.LoadLevel("Court3");
 		}
-		GUI.SetNextControlName("TankButton");
 		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "The Other Tank", TankStyle)) {
 			DontDestroyOnLoad(saveSelection.gameObject);
 		//	asrc.PlayOneShot(fishtank, 1.0f);
 			Application.LoadLevel("Court4");
 		}
-
 		GUI.EndGroup();
+<<<<<<< HEAD
 		/*
 		if (top && left) {GUI.FocusControl("DennisButton");}
 		else if (top && !left) {GUI.FocusControl("GymButton");}
 		else if (!top && left) {GUI.FocusControl("ShivaButton");}
 		else if (!top && !left) {GUI.FocusControl("TankButton");}
 		*/
+=======
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 	}
 }

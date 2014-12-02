@@ -8,33 +8,11 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 	public Texture2D SwoleLabel;
 	public Texture2D ShivaLabel;
 	public Texture2D FishLabel;
-
-	public Texture2D DennisIdle;
-	public Texture2D SwoleIdle;
-	public Texture2D ShivaIdle;
-	public Texture2D FishIdle;
-
-	public Texture2D DennisAlt;
-	public Texture2D SwoleAlt;
-	public Texture2D ShivaAlt;
-	public Texture2D FishAlt;
-
-	Vector2 buttonSize = new Vector2(Screen.width*8/32,Screen.height*17/64);
-	Vector2 nameSize =   new Vector2(Screen.width*6/32,Screen.height*13/64);
-
-	bool selectAlt = false;
-	bool left = true;
-	bool top = true;
-	Texture2D selectedLabel;
-	Texture2D idle;
-
-	string tagline;
-	string height;
-	string weight;
-	string stat;
-	string bio;
+	Rect backLayer;
+	Rect mainLayer;
 	
 	SaveSelections saveSelection;
+<<<<<<< HEAD
 
 	AudioSource asrc;
 	public AudioClip intro;
@@ -55,45 +33,68 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 		if (Input.GetKeyDown("backspace")) { Application.LoadLevel("CharacterSelect"); }
 	}
 
+=======
+	
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 	void OnGUI () {
 		GUI.skin = customSkin;
-		GUIStyle p2Style = GUI.skin.GetStyle("P2Select");
-		GUIStyle p2Background = GUI.skin.GetStyle("P2Background");
-		GUIStyle bioStyle = GUI.skin.GetStyle("BioLabel");
 		
 		saveSelection = GameObject.Find("SaveSelections").GetComponent<SaveSelections>();
 		
 		// Main box
-		GUI.BeginGroup (new Rect (Screen.width*4/32, Screen.height*6/32, Screen.width/2, Screen.height*20/32));
-		GUI.Box (new Rect(0,0, Screen.width/2, Screen.height*3/32), "", p2Background);
+		GUI.BeginGroup (new Rect (Screen.width*8/32, Screen.height*6/32, Screen.width/2, Screen.height*20/32));
+		GUI.Box (new Rect(0,0, Screen.width/2, Screen.height*20/32), "");
 		GUI.Label (new Rect(Screen.width*1/32,Screen.height*1/64,Screen.width*14/32,Screen.height*4/32), "P2 Character");
 		
 		// Character Select buttons
-		GUI.SetNextControlName("DennisButton");
-		if(GUI.Button(new Rect(0,Screen.height*3/32,buttonSize.x, buttonSize.y), "", p2Style)) {
-			characterButton("Dennis");
+		if(GUI.Button(new Rect(0,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "")) {
+			saveSelection.WriteCharacterSelection_p2("Dennis");
+			DontDestroyOnLoad(saveSelection.gameObject);
+			Application.LoadLevel("StageSelect");
 		}
-		GUI.Label(new Rect(Screen.width*1/32,Screen.height*6/32,nameSize.x, nameSize.y), DennisLabel);
+		GUI.Label(new Rect(Screen.width*1/32,Screen.height*6/32,Screen.width*6/32,Screen.height*13/64), DennisLabel);
 
+<<<<<<< HEAD
 		GUI.SetNextControlName("SwoleButton");
 		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*3/32,buttonSize.x, buttonSize.y), "", p2Style)) {
 			characterButton("S. Racks");
+=======
+		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "")) {
+			saveSelection.WriteCharacterSelection_p2("S. Racks");
+			DontDestroyOnLoad(saveSelection.gameObject);
+			Application.LoadLevel("StageSelect");
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 		}
-		GUI.Label(new Rect(Screen.width*9/32,Screen.height*6/32,nameSize.x, nameSize.y), SwoleLabel);
+		GUI.Label(new Rect(Screen.width*9/32,Screen.height*6/32,Screen.width*6/32,Screen.height*13/64), SwoleLabel);
 
+<<<<<<< HEAD
 		GUI.SetNextControlName("ShivaButton");
 		if(GUI.Button(new Rect(0,Screen.height*23/64,buttonSize.x, buttonSize.y), "", p2Style)) {
 			characterButton("SH1-V4");
+=======
+		if(GUI.Button(new Rect(0,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "")) {
+			saveSelection.WriteCharacterSelection_p2("SH1-V4");
+			DontDestroyOnLoad(saveSelection.gameObject);
+			Application.LoadLevel("StageSelect");
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 		}
-		GUI.Label(new Rect(Screen.width*1/32,Screen.height*29/64,nameSize.x, nameSize.y), ShivaLabel);
+		GUI.Label(new Rect(Screen.width*1/32,Screen.height*29/64,Screen.width*6/32,Screen.height*13/64), ShivaLabel);
 
+<<<<<<< HEAD
 		GUI.SetNextControlName("FishButton");
 		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*23/64,buttonSize.x, buttonSize.y), "", p2Style)) {
 			characterButton("Colonel Topspin");
+=======
+		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "")) {
+			saveSelection.WriteCharacterSelection_p2("Colonel Topspin");
+			DontDestroyOnLoad(saveSelection.gameObject);
+			Application.LoadLevel("StageSelect");
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 		}
-		GUI.Label(new Rect(Screen.width*9/32,Screen.height*29/64,nameSize.x, nameSize.y), FishLabel);
+		GUI.Label(new Rect(Screen.width*9/32,Screen.height*29/64,Screen.width*6/32,Screen.height*13/64), FishLabel);
 
 		GUI.EndGroup();
+<<<<<<< HEAD
 
 		// Character preview window
 		assignSelection();
@@ -172,5 +173,7 @@ public class CharacterSelectOverlay_P2 : MonoBehaviour {
 				" on his Y chromosome that confined him to live in a T36 tank for the rest of his life. This made it clear to" +
 					"him from an early age that he was destined for tennis glory.";
 		}
+=======
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 	}
 }

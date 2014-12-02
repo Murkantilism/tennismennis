@@ -8,33 +8,10 @@ public class CharacterSelectOverlay : MonoBehaviour {
 	public Texture2D SwoleLabel;
 	public Texture2D ShivaLabel;
 	public Texture2D FishLabel;
-
-	public Texture2D DennisIdle;
-	public Texture2D SwoleIdle;
-	public Texture2D ShivaIdle;
-	public Texture2D FishIdle;
 	
-	public Texture2D DennisAlt;
-	public Texture2D SwoleAlt;
-	public Texture2D ShivaAlt;
-	public Texture2D FishAlt;
-
-	Vector2 buttonSize = new Vector2(Screen.width*8/32,Screen.height*17/64);
-	Vector2 nameSize =   new Vector2(Screen.width*6/32,Screen.height*13/64);
-
-	bool selectAlt = false;
-	bool left = true;
-	bool top = true;
-	Texture2D selectedLabel;
-	Texture2D idle;
-	string tagline;
-	string height;
-	string weight;
-	string stat;
-	string bio;
-
 	SaveSelections saveSelection;
 
+<<<<<<< HEAD
 	AudioSource asrc;
 	public AudioClip intro;
 
@@ -54,50 +31,41 @@ public class CharacterSelectOverlay : MonoBehaviour {
 		if (Input.GetKeyDown("backspace")) { Application.LoadLevel("MainMenu"); }
 	}
 
+=======
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 	void OnGUI () {
 		GUI.skin = customSkin;
-		GUIStyle p1Style = GUI.skin.GetStyle("P1Select");
-		GUIStyle bioStyle = GUI.skin.GetStyle("BioLabel");
 
 		saveSelection = GameObject.Find("SaveSelections").GetComponent<SaveSelections>();
 
 		// Main box
-		GUI.BeginGroup (new Rect (Screen.width*4/32, Screen.height*6/32, Screen.width/2, Screen.height*20/32));
-		GUI.Box (new Rect(0,0, Screen.width/2, Screen.height*3/32), "");
+		GUI.BeginGroup (new Rect (Screen.width*8/32, Screen.height*6/32, Screen.width/2, Screen.height*20/32));
+		GUI.Box (new Rect(0,0, Screen.width/2, Screen.height*20/32), "");
 		GUI.Label (new Rect(Screen.width*1/32,Screen.height*1/64,Screen.width*14/32,Screen.height*4/32), "P1 Character");
-		
-		// Character Select buttons
-		GUI.SetNextControlName("DennisButton");
-		if(GUI.Button(new Rect(0,Screen.height*3/32,buttonSize.x, buttonSize.y), "", p1Style)) {
-			characterButton("Dennis");
-		}
-		GUI.Label(new Rect(Screen.width*1/32,Screen.height*6/32,nameSize.x, nameSize.y), DennisLabel);
 
-		GUI.SetNextControlName("SwoleButton");
-		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*3/32,buttonSize.x, buttonSize.y), "", p1Style)) {
-			characterButton("S. Racks");
-		}
-		GUI.Label(new Rect(Screen.width*9/32,Screen.height*6/32,nameSize.x, nameSize.y), SwoleLabel);
 
+<<<<<<< HEAD
 		GUI.SetNextControlName("ShivaButton");
 		if(GUI.Button(new Rect(0,Screen.height*23/64,buttonSize.x, buttonSize.y), "", p1Style)) {
 			characterButton("SH1-V4");
+=======
+		// Character Select buttons
+		if(GUI.Button(new Rect(0,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "")) {
+			saveSelection.WriteCharacterSelection("Dennis");
+			DontDestroyOnLoad(saveSelection.gameObject);
+			Application.LoadLevel("CharacterSelect_P2");
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 		}
-		GUI.Label(new Rect(Screen.width*1/32,Screen.height*29/64,nameSize.x, nameSize.y), ShivaLabel);
+		GUI.Label(new Rect(Screen.width*1/32,Screen.height*6/32,Screen.width*6/32,Screen.height*13/64), DennisLabel);
 
-		GUI.SetNextControlName("FishButton");
-		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*23/64,buttonSize.x, buttonSize.y), "", p1Style)) {
-			characterButton("Colonel Topspin");
+		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*3/32,Screen.width*8/32,Screen.height*17/64), "")) {
+			saveSelection.WriteCharacterSelection("S. Racks");
+			DontDestroyOnLoad(saveSelection.gameObject);
+			Application.LoadLevel("CharacterSelect_P2");
 		}
-		GUI.Label(new Rect(Screen.width*9/32,Screen.height*29/64,nameSize.x, nameSize.y), FishLabel);
-		
-		GUI.EndGroup();
+		GUI.Label(new Rect(Screen.width*9/32,Screen.height*6/32,Screen.width*6/32,Screen.height*13/64), SwoleLabel);
 
-		// Character preview window
-		assignSelection();
-		GUI.BeginGroup (new Rect (Screen.width*21/32, Screen.height*3/32, Screen.width*10/32, Screen.height*26/32));
-		GUI.Box(new Rect(0,0,Screen.width*10/32,Screen.height*26/32), "");
-
+<<<<<<< HEAD
 		GUI.Label(new Rect(Screen.width *2/32, Screen.height*1/32, Screen.width*6/32, Screen.height*2/32), selectedLabel);
 		GUI.Label(new Rect(Screen.width *3/32, Screen.height*3/32, Screen.width*4/32, Screen.height*7/32), idle);
 
@@ -147,28 +115,29 @@ public class CharacterSelectOverlay : MonoBehaviour {
 //			GUI.FocusControl("ShivaButton");
 			if (selectAlt) { idle = ShivaAlt; } 
 			else { idle = ShivaIdle; }
-
-			selectedLabel = ShivaLabel;
-			tagline = "The many-armed god of Tennis Destruction";
-			height = "6ft 2in";
-			weight = "210lb";
-			stat = "<color=#f2be2c>Number of Arms:   </color>4.00";
-			bio = "Just exactly how and when 5H1-V4 came to be remains unknown. But we do know this: She has four arms. And " +
-				"each one has the strength of 100 arms. That's like, 12 billion arms.";
+=======
+		if(GUI.Button(new Rect(0,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "")) {
+			saveSelection.WriteCharacterSelection("SH1-V4");
+			DontDestroyOnLoad(saveSelection.gameObject);
+			Application.LoadLevel("CharacterSelect_P2");
 		}
+		GUI.Label(new Rect(Screen.width*1/32,Screen.height*29/64,Screen.width*6/32,Screen.height*13/64), ShivaLabel);
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
+
+		if(GUI.Button(new Rect(Screen.width*8/32,Screen.height*23/64,Screen.width*8/32,Screen.height*17/64), "")) {
+			saveSelection.WriteCharacterSelection("Colonel Topspin");
+			DontDestroyOnLoad(saveSelection.gameObject);
+			Application.LoadLevel("CharacterSelect_P2");
+		}
+<<<<<<< HEAD
 		else if (!top && !left) {
 //			GUI.FocusControl("FishButton");
 			if (selectAlt) { idle = FishAlt; } 
 			else { idle = FishIdle; }
+=======
+		GUI.Label(new Rect(Screen.width*9/32,Screen.height*29/64,Screen.width*6/32,Screen.height*13/64), FishLabel);
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 
-			selectedLabel = FishLabel;
-			tagline = "He's a goldfish in tank. Not that kind of tank.";
-			height = "2.7in";
-			weight = ".07lb";
-			stat = "<color=#f2be2c>Barrel Diameter:   </color>120mm";
-			bio = "Growing up, Colonel Topspin wasn't like all the other goldfish. He was born with a rare genetic defect" +
-				" on his Y chromosome that confined him to live in a T36 tank for the rest of his life. This made it clear to" +
-				"him from an early age that he was destined for tennis glory.";
-		}
+		GUI.EndGroup();
 	}
 }

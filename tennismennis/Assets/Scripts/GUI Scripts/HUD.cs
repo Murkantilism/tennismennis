@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System;
 
@@ -7,14 +6,23 @@ public class HUD : MonoBehaviour {
 	
 	public GUISkin guiSkin;
 
+<<<<<<< HEAD
 	SaveSelections savedSelections;
+=======
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 	string p1Character;
 	string p2Character;
-	
+
 	Vector2 p1Pos = new Vector2(Screen.width/32,Screen.height*2/32);
+<<<<<<< HEAD
 	Vector2 p2Pos = new Vector2(Screen.width*21/32, Screen.height*2/32);
 	Vector2 size = new Vector2(Screen.width*12/32,Screen.height*6/32);
 	
+=======
+	Vector2 p2Pos = new Vector2(Screen.width*19/32, Screen.height*2/32);
+	Vector2 size = new Vector2(Screen.width*10/32,Screen.height*5/32);
+
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 	float p1Mennis = 0;
 	float p2Mennis = 0;
 	float timeToStart = 4.0f;
@@ -32,6 +40,7 @@ public class HUD : MonoBehaviour {
 	public Texture2D shivaTitle;
 	public Texture2D dennisTitle;
 
+<<<<<<< HEAD
 	public Texture2D swolePic;
 	public Texture2D fishPic;
 	public Texture2D shivaPic;
@@ -50,6 +59,9 @@ public class HUD : MonoBehaviour {
 	Texture2D p1Powerup;
 	Texture2D p2Powerup;
 
+=======
+	public Texture2D swolesaurusPic;
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 
 	void Start()
 	{
@@ -63,7 +75,7 @@ public class HUD : MonoBehaviour {
 		savedSelections = GameObject.Find("SaveSelections").GetComponent<SaveSelections>();
 		assignCharacters ();
 	}
-	
+
 	void OnGUI()
 	{
 		// Assign this GUI's skin to the skin assigned via inspector
@@ -81,21 +93,43 @@ public class HUD : MonoBehaviour {
 			paused = false;
 			Time.timeScale = 1f;
 		}
-		
+
 		//// Player 1 HUD
 		GUI.BeginGroup (new Rect (p1Pos.x, p1Pos.y, size.x, size.y));
+<<<<<<< HEAD
 		GUI.DrawTexture(new Rect(0,0,Screen.width*3/32,Screen.height*5/32), p1Pic);
 	//	GUI.DrawTexture(new Rect(Screen.width*3/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), p1Powerup);
 	//	GUI.DrawTexture(new Rect(Screen.width*3/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), ringOfPower);
 		GUI.Label (new Rect(Screen.width*3/32,Screen.height*1/32,Screen.width*7/32,Screen.height*2/32), p1Title);
+=======
+		GUI.DrawTexture(new Rect(0,0,Screen.width*3/32,Screen.height*5/32), swolesaurusPic);
+		GUI.Label (new Rect(Screen.width*3/32,Screen.height*3/64,Screen.width*7/32,Screen.height*2/32), swolesaurusTitle);
+	
+		// mennis meter:
+		GUI.BeginGroup (new Rect (0,0,p1Mennis, size.y));
+		GUI.DrawTexture (new Rect (Screen.width*3/32,Screen.height*5/64, Screen.width*7/32, Screen.height*1/32),progressBarFull);
 		GUI.EndGroup ();
 		
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
+		GUI.EndGroup ();
+
 		//// Player 2 HUD
 		GUI.BeginGroup (new Rect (p2Pos.x, p2Pos.y, size.x, size.y));
+<<<<<<< HEAD
 		GUI.DrawTexture(new Rect(Screen.width*7/32,0,Screen.width*3/32,Screen.height*5/32), p2Pic);
 	//	GUI.DrawTexture(new Rect(Screen.width*6/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), p2Powerup);
 	//	GUI.DrawTexture(new Rect(Screen.width*6/32,Screen.width*3/64,Screen.width*1/32,Screen.width*1/32), ringOfPower);
 		GUI.Label (new Rect(0,Screen.height*1/32,Screen.width*7/32,Screen.height*2/32), p2Title);
+=======
+		GUI.DrawTexture(new Rect(0,0,Screen.width*3/32,Screen.height*5/32), swolesaurusPic);
+		GUI.Label (new Rect(Screen.width*3/32,Screen.height*3/64,Screen.width*7/32,Screen.height*2/32), swolesaurusTitle);
+
+		// mennis meter:
+		GUI.BeginGroup (new Rect (0,0,p2Mennis, size.y));
+		GUI.DrawTexture (new Rect (Screen.width*3/32,Screen.height*5/64, Screen.width*7/32, Screen.height*1/32),progressBarFull);
+		GUI.EndGroup ();
+		
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 		GUI.EndGroup ();
 	} 
 	
@@ -132,6 +166,7 @@ public class HUD : MonoBehaviour {
 			}
 		}
 	}
+<<<<<<< HEAD
 
 	public void activePowerup(string type, bool player) {
 		if (type == "powerhitter"){
@@ -179,3 +214,6 @@ public class HUD : MonoBehaviour {
 		}
 	}
 }
+=======
+}
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b

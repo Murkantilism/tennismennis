@@ -371,6 +371,7 @@ public class Player1 : BasePlayer{
 			StartCoroutine(ToggleSwing(racket));
 			asrc.PlayOneShot(grunt0, 1.0f);
 		}
+<<<<<<< HEAD
 		
 		
 		if(being_thrown && playerIsSwinging == false){
@@ -381,6 +382,8 @@ public class Player1 : BasePlayer{
 			StartCoroutine(ToggleSwing(racket));
 			asrc.PlayOneShot(grunt1, 1.0f);
 		}
+=======
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 	}
 	
 	void FixedUpdate(){
@@ -613,6 +616,7 @@ public class Player2 : BasePlayer{
 			StartCoroutine(ToggleSwing(racket));
 			asrc.PlayOneShot(grunt0, 1.0f);
 		}
+<<<<<<< HEAD
 		
 		if(being_thrown && playerIsSwinging == false){
 			Debug.Log("Player 2 racket toss");
@@ -622,6 +626,8 @@ public class Player2 : BasePlayer{
 			StartCoroutine(ToggleSwing(racket));
 			asrc.PlayOneShot(grunt1, 1.0f);
 		}
+=======
+>>>>>>> 35f23c4e4b1f9cdb76eff83d5d0ae3b1d997190b
 	}
 	
 	void FixedUpdate(){
